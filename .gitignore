@@ -31,4 +31,10 @@ pnpm-debug.log*
 
 # OS
 .DS_Store
-Thumbs.db
+Thumbs.dbbackend/target/
+backend/src/main/resources/application.properties
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings/
+*.class
