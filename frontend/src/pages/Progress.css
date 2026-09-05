@@ -1,0 +1,1612 @@
+/* =========================================================
+   AI MENTOR — PROFESSIONAL PROGRESS DASHBOARD
+   SCOPED ONLY TO .progress-page
+   ========================================================= */
+
+.progress-page {
+    width: 100%;
+    min-height: 100%;
+    padding: 34px 36px 50px;
+    background:
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(99, 102, 241, 0.045),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 96% 5%,
+            rgba(124, 58, 237, 0.035),
+            transparent 25%
+        ),
+        #f7f8fc;
+    color: #172033;
+    box-sizing: border-box;
+}
+
+.progress-page *,
+.progress-page *::before,
+.progress-page *::after {
+    box-sizing: border-box;
+}
+
+.progress-container {
+    width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 27px;
+}
+
+.progress-header-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-header-icon {
+    width: 53px;
+    height: 53px;
+    flex: 0 0 53px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: linear-gradient(
+        135deg,
+        #5146e5,
+        #7652e9
+    );
+    color: #ffffff;
+    font-size: 21px;
+    box-shadow:
+        0 10px 24px rgba(79, 70, 229, 0.20);
+}
+
+.progress-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #7268d9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.25px;
+}
+
+.progress-header h1 {
+    margin: 0;
+    color: #182033;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.75px;
+}
+
+.progress-header p {
+    margin: 7px 0 0;
+    color: #8791a2;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.progress-refresh-btn {
+    min-height: 39px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #dfe4ed;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #5d687a;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+    transition: 0.2s ease;
+}
+
+.progress-refresh-btn:hover:not(:disabled) {
+    color: #5046d8;
+    border-color: #d0d1f3;
+    background: #fafaff;
+    transform: translateY(-1px);
+}
+
+.progress-refresh-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.progress-spin {
+    animation: progressSpin 0.8s linear infinite;
+}
+
+
+/* =========================================================
+   STAT GRID
+   ========================================================= */
+
+.progress-stat-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.progress-stat-card {
+    position: relative;
+    min-width: 0;
+    padding: 17px 17px 15px;
+    border: 1px solid #e2e7ef;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.035);
+    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.progress-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: #d8dced;
+    box-shadow:
+        0 9px 25px rgba(15, 23, 42, 0.065);
+}
+
+.progress-stat-card::after {
+    content: "";
+    position: absolute;
+    right: -25px;
+    bottom: -38px;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.025);
+    pointer-events: none;
+}
+
+.progress-stat-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.progress-stat-icon {
+    width: 39px;
+    height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    font-size: 15px;
+}
+
+.progress-stat-icon.purple {
+    background: #f0efff;
+    color: #574cdc;
+}
+
+.progress-stat-icon.blue {
+    background: #edf5ff;
+    color: #3979ca;
+}
+
+.progress-stat-icon.green {
+    background: #ebf8f1;
+    color: #26966a;
+}
+
+.progress-stat-icon.orange {
+    background: #fff5e9;
+    color: #d58927;
+}
+
+.stat-trend,
+.stat-soft {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.65px;
+}
+
+.stat-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 7px;
+    border-radius: 6px;
+}
+
+.stat-trend.positive {
+    background: #edf9f3;
+    color: #26966a;
+}
+
+.stat-soft {
+    color: #a0a8b6;
+}
+
+.progress-stat-value {
+    position: relative;
+    z-index: 1;
+    margin-top: 13px;
+    color: #202a3d;
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.progress-stat-value small {
+    margin-left: 3px;
+    color: #98a1b0;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.progress-stat-label {
+    display: block;
+    margin-top: 6px;
+    color: #8e98a8;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.85px;
+}
+
+.progress-stat-card p {
+    margin: 8px 0 0;
+    color: #99a2b1;
+    font-size: 9px;
+    line-height: 1.45;
+}
+
+.mini-progress {
+    width: 100%;
+    height: 4px;
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #eeeef7;
+}
+
+.mini-progress span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        #5b50df,
+        #8064e8
+    );
+    transition: width 0.7s ease;
+}
+
+.mini-progress.blue {
+    background: #edf3fa;
+}
+
+.mini-progress.blue span {
+    background: linear-gradient(
+        90deg,
+        #4384d4,
+        #61a0e7
+    );
+}
+
+.mini-progress.green {
+    background: #edf7f2;
+}
+
+.mini-progress.green span {
+    background: linear-gradient(
+        90deg,
+        #32a776,
+        #58bd91
+    );
+}
+
+.skill-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 13px;
+}
+
+.skill-dots span {
+    width: 19px;
+    height: 4px;
+    border-radius: 10px;
+    background: #eeedf9;
+}
+
+.skill-dots span:nth-child(-n + 3) {
+    background: #7468df;
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.progress-main-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.55fr)
+        minmax(320px, 0.9fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.progress-panel {
+    min-width: 0;
+    border: 1px solid #e1e6ee;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+        0 5px 21px rgba(15, 23, 42, 0.04);
+}
+
+.roadmap-panel,
+.health-panel {
+    min-height: 360px;
+}
+
+.panel-header {
+    min-height: 83px;
+    padding: 19px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.panel-header.compact {
+    min-height: 70px;
+    padding-bottom: 15px;
+}
+
+.panel-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #9aa2b0;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    color: #263044;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.panel-header p {
+    max-width: 570px;
+    margin: 5px 0 0;
+    color: #929baa;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.panel-link {
+    flex-shrink: 0;
+    padding: 6px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    background: transparent;
+    color: #5a50d9;
+    font-size: 9px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.panel-link:hover {
+    color: #4238bf;
+}
+
+
+/* =========================================================
+   ROADMAP
+   ========================================================= */
+
+.roadmap-content {
+    min-height: 275px;
+    padding: 27px 24px;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.progress-ring-wrapper {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    flex: 0 0 190px;
+}
+
+.progress-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    overflow: visible;
+}
+
+.progress-ring-track {
+    fill: none;
+    stroke: #eeeff5;
+    stroke-width: 11;
+}
+
+.progress-ring-value {
+    fill: none;
+    stroke: url(#progressGradient);
+    stroke: #6357df;
+    stroke-width: 11;
+    stroke-linecap: round;
+    stroke-dasharray: 452.39;
+    transition: stroke-dashoffset 0.9s ease;
+}
+
+.progress-ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.progress-ring-center strong {
+    color: #222b3e;
+    font-size: 31px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.progress-ring-center span {
+    margin-top: 7px;
+    color: #929baa;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.roadmap-details {
+    min-width: 0;
+    flex: 1;
+}
+
+.roadmap-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border-radius: 7px;
+    background: #f3f2ff;
+    color: #6257d5;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #6257d5;
+    box-shadow:
+        0 0 0 4px rgba(98, 87, 213, 0.09);
+}
+
+.roadmap-details h3 {
+    max-width: 510px;
+    margin: 14px 0 20px;
+    color: #333d50;
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 700;
+}
+
+.roadmap-metrics {
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.roadmap-metrics > div {
+    padding: 11px;
+    border: 1px solid #e8ebf0;
+    border-radius: 10px;
+    background: #fafbfc;
+}
+
+.roadmap-metrics span {
+    display: block;
+    color: #9ba3b1;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.roadmap-metrics strong {
+    display: block;
+    margin-top: 5px;
+    color: #354055;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.roadmap-bar {
+    width: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #eeedf8;
+}
+
+.roadmap-bar div {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        #5549d5,
+        #8064e8
+    );
+    transition: width 0.8s ease;
+}
+
+
+/* =========================================================
+   HEALTH PANEL
+   ========================================================= */
+
+.health-header-icon {
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f2f1ff;
+    color: #6055d7;
+    font-size: 13px;
+}
+
+.health-list {
+    padding: 8px 20px 16px;
+}
+
+.health-row {
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.health-row:last-child {
+    border-bottom: 0;
+}
+
+.health-row-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.health-icon {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.health-icon.purple {
+    background: #f0efff;
+    color: #5b50d9;
+}
+
+.health-icon.green {
+    background: #edf8f2;
+    color: #29986c;
+}
+
+.health-icon.orange {
+    background: #fff5e9;
+    color: #d38b30;
+}
+
+.health-icon.blue {
+    background: #edf5ff;
+    color: #397bc9;
+}
+
+.health-row-left strong {
+    display: block;
+    color: #3a4559;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.health-row-left span {
+    display: block;
+    margin-top: 3px;
+    color: #9ba3b0;
+    font-size: 8px;
+}
+
+.health-value {
+    color: #354056;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   PERFORMANCE
+   ========================================================= */
+
+.performance-panel {
+    margin-bottom: 18px;
+}
+
+.analytics-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border: 1px solid #e2e8e4;
+    border-radius: 7px;
+    background: #f8fbf9;
+    color: #4b856d;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.analytics-live span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2ba875;
+    box-shadow:
+        0 0 0 4px rgba(43, 168, 117, 0.09);
+}
+
+.performance-grid {
+    padding: 21px;
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.performance-item {
+    padding: 16px;
+    border: 1px solid #e7eaf0;
+    border-radius: 12px;
+    background: #fbfcfd;
+}
+
+.performance-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.performance-title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.performance-icon {
+    width: 33px;
+    height: 33px;
+    flex: 0 0 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.performance-icon.purple {
+    background: #f0efff;
+    color: #5b50d9;
+}
+
+.performance-icon.blue {
+    background: #edf5ff;
+    color: #397bc9;
+}
+
+.performance-icon.green {
+    background: #edf8f2;
+    color: #29986c;
+}
+
+.performance-title strong {
+    display: block;
+    overflow: hidden;
+    color: #3b4659;
+    font-size: 9px;
+    font-weight: 800;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.performance-title span {
+    display: block;
+    margin-top: 3px;
+    color: #9aa3b1;
+    font-size: 8px;
+}
+
+.performance-number {
+    color: #364055;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.performance-bar {
+    width: 100%;
+    height: 5px;
+    margin-top: 16px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #eeedf8;
+}
+
+.performance-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #6458dc;
+    transition: width 0.8s ease;
+}
+
+.performance-bar.blue {
+    background: #edf3fa;
+}
+
+.performance-bar.blue span {
+    background: #4b89d2;
+}
+
+.performance-bar.green {
+    background: #edf7f2;
+}
+
+.performance-bar.green span {
+    background: #37a778;
+}
+
+
+/* =========================================================
+   KNOWLEDGE GRID
+   ========================================================= */
+
+.progress-knowledge-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(320px, 0.85fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.knowledge-panel,
+.actions-panel {
+    min-height: 245px;
+}
+
+.knowledge-cards {
+    padding: 20px;
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 11px;
+}
+
+.knowledge-card {
+    min-height: 115px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e6e9ef;
+    border-radius: 12px;
+    background: #fbfcfd;
+    transition: 0.2s ease;
+}
+
+.knowledge-card:hover {
+    border-color: #d9dcef;
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+.knowledge-card-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.knowledge-card-icon.purple {
+    background: #f0efff;
+    color: #5b50d9;
+}
+
+.knowledge-card-icon.blue {
+    background: #edf5ff;
+    color: #397bc9;
+}
+
+.knowledge-card-icon.orange {
+    background: #fff5e9;
+    color: #d38b30;
+}
+
+.knowledge-card span {
+    display: block;
+    color: #9ca4b1;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+.knowledge-card strong {
+    display: block;
+    margin-top: 3px;
+    color: #354055;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.actions-title-icon {
+    color: #6b5dde;
+    font-size: 14px;
+}
+
+.quick-actions {
+    padding: 8px 20px 16px;
+}
+
+.quick-actions button {
+    width: 100%;
+    min-height: 58px;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    border-bottom: 1px solid #f0f2f5;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.quick-actions button:last-child {
+    border-bottom: 0;
+}
+
+.quick-action-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.quick-action-icon.purple {
+    background: #f0efff;
+    color: #5b50d9;
+}
+
+.quick-action-icon.green {
+    background: #edf8f2;
+    color: #29986c;
+}
+
+.quick-action-icon.orange {
+    background: #fff5e9;
+    color: #d38b30;
+}
+
+.quick-actions button > span:nth-child(2) {
+    min-width: 0;
+    flex: 1;
+}
+
+.quick-actions strong {
+    display: block;
+    color: #3a4559;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.quick-actions small {
+    display: block;
+    margin-top: 3px;
+    color: #9aa3b0;
+    font-size: 8px;
+}
+
+.quick-actions button > i {
+    color: #a1a9b5;
+    font-size: 9px;
+    transition: transform 0.2s ease;
+}
+
+.quick-actions button:hover > i {
+    color: #5b50d9;
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   NEXT LEARNING
+   ========================================================= */
+
+.next-learning-card {
+    min-height: 105px;
+    padding: 19px 21px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 1px solid #dcdcf4;
+    border-radius: 15px;
+    background:
+        linear-gradient(
+            105deg,
+            #faf9ff 0%,
+            #ffffff 72%
+        );
+    box-shadow:
+        0 6px 23px rgba(79, 70, 229, 0.045);
+}
+
+.next-learning-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.next-learning-icon {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f0efff;
+    color: #5b50d9;
+    font-size: 16px;
+}
+
+.next-learning-left span {
+    display: block;
+    color: #8e88cf;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.9px;
+}
+
+.next-learning-left h3 {
+    margin: 4px 0 0;
+    color: #303a4e;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.next-learning-left p {
+    margin: 4px 0 0;
+    color: #939baa;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.next-learning-card > button {
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 0;
+    border-radius: 9px;
+    background: linear-gradient(
+        135deg,
+        #5146e5,
+        #7154e4
+    );
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow:
+        0 6px 15px rgba(79, 70, 229, 0.18);
+    transition: 0.2s ease;
+}
+
+.next-learning-card > button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 9px 20px rgba(79, 70, 229, 0.25);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.progress-error-card {
+    max-width: 580px;
+    margin: 100px auto;
+    padding: 40px;
+    text-align: center;
+    border: 1px solid #e2e6ed;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 15px 45px rgba(15, 23, 42, 0.07);
+}
+
+.progress-error-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #fff1f2;
+    color: #d24d5d;
+    font-size: 22px;
+}
+
+.progress-error-label {
+    color: #9aa2b0;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.progress-error-card h2 {
+    margin: 7px 0;
+    color: #283247;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.progress-error-card p {
+    margin: 0 auto;
+    max-width: 450px;
+    color: #8d97a7;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.progress-error-actions {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.progress-btn {
+    min-height: 38px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 9px;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.progress-btn.secondary {
+    border: 1px solid #dfe4ec;
+    background: #ffffff;
+    color: #626d7f;
+}
+
+.progress-btn.secondary:hover {
+    background: #f7f8fa;
+    border-color: #d2d7e0;
+}
+
+.progress-btn.primary {
+    border: 0;
+    background: linear-gradient(
+        135deg,
+        #5146e5,
+        #7053e5
+    );
+    color: #ffffff;
+    box-shadow:
+        0 6px 15px rgba(79, 70, 229, 0.18);
+}
+
+.progress-btn.primary:hover {
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LOADING SKELETON
+   ========================================================= */
+
+.progress-skeleton-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 27px;
+}
+
+.progress-skeleton-line,
+.skeleton-line {
+    border-radius: 7px;
+    background:
+        linear-gradient(
+            90deg,
+            #eceef3,
+            #f7f8fa,
+            #eceef3
+        );
+    background-size: 200% 100%;
+    animation: skeletonMove 1.3s infinite;
+}
+
+.progress-skeleton-line.title {
+    width: 220px;
+    height: 27px;
+}
+
+.progress-skeleton-line.subtitle {
+    width: 350px;
+    height: 11px;
+    margin-top: 9px;
+}
+
+.progress-skeleton-button {
+    width: 85px;
+    height: 38px;
+    border-radius: 9px;
+    background: #eceef3;
+}
+
+.progress-skeleton-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.progress-skeleton-card {
+    height: 150px;
+    padding: 17px;
+    display: flex;
+    gap: 12px;
+    border: 1px solid #e6e9ef;
+    border-radius: 15px;
+    background: #ffffff;
+}
+
+.skeleton-circle {
+    width: 39px;
+    height: 39px;
+    flex: 0 0 39px;
+    border-radius: 11px;
+    background: #eceef3;
+}
+
+.skeleton-content {
+    flex: 1;
+}
+
+.skeleton-line {
+    height: 9px;
+    margin-bottom: 9px;
+}
+
+.skeleton-line.small {
+    width: 60%;
+}
+
+.skeleton-line.medium {
+    width: 80%;
+    height: 24px;
+}
+
+.skeleton-line.large {
+    width: 100%;
+}
+
+.progress-skeleton-main {
+    display: grid;
+    grid-template-columns:
+        1.5fr 0.9fr;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.progress-skeleton-large {
+    height: 360px;
+    border: 1px solid #e6e9ef;
+    border-radius: 16px;
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #f8f9fb,
+            #ffffff
+        );
+    background-size: 200% 100%;
+    animation: skeletonMove 1.3s infinite;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.progress-page button:focus-visible {
+    outline: 2px solid rgba(79, 70, 229, 0.35);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   SCROLLBAR — ONLY PROGRESS AREA
+   ========================================================= */
+
+.progress-page::-webkit-scrollbar {
+    width: 7px;
+}
+
+.progress-page::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.progress-page::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #cdd3de;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes progressSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes skeletonMove {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+
+/* =========================================================
+   LARGE TABLET
+   ========================================================= */
+
+@media (max-width: 1150px) {
+
+    .progress-page {
+        padding: 28px 24px 40px;
+    }
+
+    .progress-stat-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .progress-main-grid,
+    .progress-knowledge-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-skeleton-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .progress-skeleton-main {
+        grid-template-columns: 1fr;
+    }
+
+    .performance-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .progress-page {
+        padding: 23px 18px 35px;
+    }
+
+    .progress-header h1 {
+        font-size: 27px;
+    }
+
+    .roadmap-content {
+        gap: 24px;
+    }
+
+    .progress-ring-wrapper {
+        width: 160px;
+        height: 160px;
+        flex-basis: 160px;
+    }
+
+    .progress-ring-center strong {
+        font-size: 26px;
+    }
+
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .knowledge-cards {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .progress-page {
+        padding: 18px 13px 30px;
+    }
+
+    .progress-header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 21px;
+    }
+
+    .progress-header-left {
+        align-items: flex-start;
+    }
+
+    .progress-header-icon {
+        width: 45px;
+        height: 45px;
+        flex-basis: 45px;
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+    .progress-header h1 {
+        font-size: 24px;
+    }
+
+    .progress-header p {
+        font-size: 10px;
+    }
+
+    .progress-refresh-btn {
+        width: 100%;
+    }
+
+    .progress-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-stat-card {
+        min-height: 145px;
+    }
+
+    .roadmap-content {
+        padding: 23px 17px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .roadmap-details {
+        width: 100%;
+    }
+
+    .roadmap-status {
+        justify-content: center;
+    }
+
+    .roadmap-details h3 {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .roadmap-metrics {
+        text-align: left;
+    }
+
+    .panel-header {
+        padding: 16px;
+    }
+
+    .panel-header p {
+        max-width: 100%;
+    }
+
+    .panel-link {
+        font-size: 8px;
+    }
+
+    .knowledge-cards {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .knowledge-card {
+        min-height: 90px;
+    }
+
+    .next-learning-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .next-learning-card > button {
+        width: 100%;
+    }
+
+    .progress-error-card {
+        margin: 50px auto;
+        padding: 28px 20px;
+    }
+
+    .progress-error-actions {
+        flex-direction: column;
+    }
+
+    .progress-btn {
+        width: 100%;
+    }
+
+    .progress-skeleton-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+
+    .progress-page {
+        padding: 14px 10px 25px;
+    }
+
+    .progress-header h1 {
+        font-size: 21px;
+    }
+
+    .progress-header p {
+        font-size: 9px;
+    }
+
+    .progress-stat-value {
+        font-size: 23px;
+    }
+
+    .panel-header h2 {
+        font-size: 15px;
+    }
+
+    .roadmap-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-ring-wrapper {
+        width: 150px;
+        height: 150px;
+        flex-basis: 150px;
+    }
+
+    .progress-ring-center strong {
+        font-size: 24px;
+    }
+
+    .analytics-live {
+        display: none;
+    }
+
+    .next-learning-left {
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .progress-page *,
+    .progress-page *::before,
+    .progress-page *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

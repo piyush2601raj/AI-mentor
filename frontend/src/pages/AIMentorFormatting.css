@@ -1,0 +1,389 @@
+/* =========================================================
+   AI MENTOR — RICH RESPONSE FORMATTING ADD-ON
+   ---------------------------------------------------------
+   This stylesheet is intentionally scoped to AI response
+   content. Existing AIMentor.css/layout remains untouched.
+   ========================================================= */
+
+.ai-message.assistant-message {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ai-message.assistant-message > * {
+    max-width: 100%;
+}
+
+.ai-response-paragraph {
+    margin: 0 0 14px;
+    line-height: 1.72;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ai-response-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.ai-response-heading {
+    margin: 24px 0 11px;
+    line-height: 1.25;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    overflow-wrap: anywhere;
+}
+
+.ai-response-heading:first-child {
+    margin-top: 0;
+}
+
+.ai-response-heading-1 {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.ai-response-heading-2 {
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+}
+
+.ai-response-heading-3 {
+    font-size: clamp(1.08rem, 1.6vw, 1.28rem);
+}
+
+.ai-response-heading-4,
+.ai-response-heading-5,
+.ai-response-heading-6 {
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+}
+
+.ai-response-bullet-list,
+.ai-response-number-list {
+    margin: 10px 0 18px;
+    padding-left: 1.65rem;
+    line-height: 1.7;
+}
+
+.ai-response-bullet-list li,
+.ai-response-number-list li {
+    padding-left: 5px;
+    margin: 7px 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ai-response-bullet-list li::marker {
+    font-size: 0.9em;
+}
+
+.ai-response-number-list li::marker {
+    font-weight: 700;
+}
+
+.ai-inline-code {
+    display: inline-block;
+    max-width: 100%;
+    padding: 0.12em 0.42em;
+    margin: 0 0.08em;
+    border-radius: 6px;
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.9em;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.ai-inline-bold {
+    font-weight: 750;
+}
+
+.ai-inline-italic {
+    font-style: italic;
+}
+
+.ai-response-divider {
+    border: 0;
+    border-top: 1px solid rgba(100, 116, 139, 0.18);
+    margin: 22px 0;
+}
+
+.ai-response-quote {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-left: 4px solid currentColor;
+    border-radius: 0 10px 10px 0;
+    background: rgba(99, 102, 241, 0.055);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.ai-response-topic-block {
+    margin: 18px 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.045);
+    border: 1px solid rgba(99, 102, 241, 0.10);
+}
+
+.ai-response-topic-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.ai-response-topic-icon {
+    flex: 0 0 auto;
+}
+
+.ai-response-topic-text {
+    margin: 0;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   RESPONSIVE TABLE
+   ========================================================= */
+
+.ai-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 18px 0 22px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    scrollbar-width: thin;
+}
+
+.ai-response-table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+.ai-response-table th,
+.ai-response-table td {
+    padding: 11px 13px;
+    text-align: left;
+    vertical-align: top;
+    border-right: 1px solid rgba(100, 116, 139, 0.12);
+    border-bottom: 1px solid rgba(100, 116, 139, 0.12);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ai-response-table th:last-child,
+.ai-response-table td:last-child {
+    border-right: 0;
+}
+
+.ai-response-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.ai-response-table th {
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   PROFESSIONAL CODE BLOCK
+   ========================================================= */
+
+.ai-code-block {
+    width: 100%;
+    max-width: 100%;
+    margin: 18px 0 22px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.22);
+    background: #0f172a;
+    color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+.ai-code-header {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 11px 8px 14px;
+    background: #111827;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ai-code-language {
+    min-width: 0;
+    color: #cbd5e1;
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ai-code-copy-button {
+    flex: 0 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 7px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 160ms ease, transform 160ms ease;
+}
+
+.ai-code-copy-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.ai-code-copy-button:active {
+    transform: translateY(1px);
+}
+
+.ai-code-pre {
+    max-width: 100%;
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: pre;
+    tab-size: 4;
+}
+
+.ai-code-pre code {
+    display: block;
+    width: max-content;
+    min-width: 100%;
+    color: inherit;
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.84rem;
+    line-height: 1.65;
+}
+
+/* =========================================================
+   LONG RESPONSE SAFETY
+   ========================================================= */
+
+.ai-messages {
+    min-width: 0;
+}
+
+.ai-message-row {
+    min-width: 0;
+}
+
+.ai-message-row .assistant-message {
+    min-width: 0;
+}
+
+/* Prevent a long URL/token from expanding the entire page. */
+.ai-message-row a,
+.ai-message-row code,
+.ai-message-row strong,
+.ai-message-row span,
+.ai-message-row p,
+.ai-message-row li,
+.ai-message-row td,
+.ai-message-row th {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .ai-response-paragraph {
+        margin-bottom: 12px;
+        line-height: 1.65;
+    }
+
+    .ai-response-heading {
+        margin-top: 20px;
+    }
+
+    .ai-response-bullet-list,
+    .ai-response-number-list {
+        padding-left: 1.35rem;
+        line-height: 1.62;
+    }
+
+    .ai-response-bullet-list li,
+    .ai-response-number-list li {
+        margin: 6px 0;
+        padding-left: 3px;
+    }
+
+    .ai-code-block {
+        border-radius: 10px;
+        margin: 14px 0 18px;
+    }
+
+    .ai-code-pre {
+        padding: 13px;
+    }
+
+    .ai-code-pre code {
+        font-size: 0.78rem;
+        line-height: 1.58;
+    }
+
+    .ai-table-wrapper {
+        margin: 14px 0 18px;
+        border-radius: 9px;
+    }
+
+    .ai-response-table {
+        min-width: 480px;
+        font-size: 0.84rem;
+    }
+
+    .ai-response-table th,
+    .ai-response-table td {
+        padding: 9px 10px;
+    }
+
+    .ai-response-topic-block {
+        padding: 12px 13px;
+        border-radius: 10px;
+    }
+
+    .ai-response-quote {
+        padding: 10px 12px;
+        margin: 14px 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .ai-response-table {
+        min-width: 430px;
+    }
+
+    .ai-code-header {
+        padding-left: 10px;
+        padding-right: 8px;
+    }
+
+    .ai-code-copy-button {
+        padding: 5px 8px;
+        font-size: 0.72rem;
+    }
+}

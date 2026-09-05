@@ -1,0 +1,388 @@
+.profile-setup-page {
+    min-height: 100vh;
+    padding: 35px 45px;
+    background: #f6f8fc;
+}
+
+.profile-setup-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.profile-header-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5b5ce2, #7c3aed);
+    color: white;
+    font-size: 25px;
+    box-shadow: 0 10px 25px rgba(91, 92, 226, 0.25);
+}
+
+.profile-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #6366f1;
+}
+
+.profile-header h1 {
+    margin: 5px 0;
+    font-size: 30px;
+    color: #171923;
+}
+
+.profile-header p {
+    margin: 0;
+    color: #72788b;
+}
+
+
+/* ================================
+   PROGRESS
+================================ */
+
+.setup-progress {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #969bad;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.progress-step span {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6e8ef;
+    color: #777d90;
+}
+
+.progress-step.active {
+    color: #5b5ce2;
+}
+
+.progress-step.active span {
+    background: #5b5ce2;
+    color: white;
+}
+
+.progress-line {
+    height: 1px;
+    flex: 1;
+    background: #dfe2ea;
+    margin: 0 12px;
+}
+
+
+/* ================================
+   FORM CARD
+================================ */
+
+.profile-form-card {
+    background: white;
+    border: 1px solid #e7e9f0;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(30, 35, 60, 0.06);
+    overflow: hidden;
+}
+
+.form-section {
+    padding: 30px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #202332;
+}
+
+.form-section-title span {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef0ff;
+    color: #5b5ce2;
+    font-size: 12px;
+}
+
+
+/* ================================
+   FORM GRID
+================================ */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 650;
+    color: #414657;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dfe2ea;
+    border-radius: 11px;
+    padding: 13px 14px;
+    font-size: 14px;
+    color: #252938;
+    background: #fbfcfe;
+    outline: none;
+    transition: 0.2s;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #6366f1;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+
+/* ================================
+   DOMAIN
+================================ */
+
+.domain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.domain-option {
+    border: 1px solid #e0e3eb;
+    background: #fbfcfe;
+    border-radius: 13px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    text-align: left;
+    cursor: pointer;
+    color: #414657;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.domain-option:hover {
+    border-color: #a5a7f5;
+    transform: translateY(-1px);
+}
+
+.domain-option.selected {
+    border-color: #6366f1;
+    background: #f1f1ff;
+    color: #4f46e5;
+}
+
+.domain-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eceeff;
+    color: #6366f1;
+}
+
+
+/* ================================
+   MESSAGES
+================================ */
+
+.form-error,
+.form-success {
+    margin: 20px 30px 0;
+    padding: 13px 15px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.form-error {
+    background: #fff1f2;
+    color: #be123c;
+}
+
+.form-success {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.form-footer {
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-footer strong {
+    display: block;
+    font-size: 13px;
+    color: #292d3a;
+}
+
+.form-footer p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #858b9d;
+}
+
+.save-profile-btn {
+    border: none;
+    border-radius: 11px;
+    padding: 13px 22px;
+    background: linear-gradient(135deg, #5b5ce2, #7c3aed);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(91, 92, 226, 0.2);
+}
+
+.save-profile-btn:hover {
+    transform: translateY(-1px);
+}
+
+.save-profile-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ================================
+   LOADING
+================================ */
+
+.profile-loading {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-loading h3 {
+    margin: 15px 0 5px;
+}
+
+.profile-loading p {
+    color: #858b9d;
+}
+
+.profile-spinner {
+    width: 38px;
+    height: 38px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: profileSpin 0.8s linear infinite;
+}
+
+@keyframes profileSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 800px) {
+
+    .profile-setup-page {
+        padding: 25px 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .domain-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .save-profile-btn {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .profile-header h1 {
+        font-size: 24px;
+    }
+
+    .setup-progress {
+        overflow-x: auto;
+    }
+
+    .domain-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -1,0 +1,801 @@
+* {
+    box-sizing: border-box;
+}
+
+.register-page {
+    min-height: 100vh;
+    background: #f5f7fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    font-family: Inter, Arial, sans-serif;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.register-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.circle-one {
+    width: 500px;
+    height: 500px;
+    background: #e9e5ff;
+    top: -220px;
+    right: -150px;
+}
+
+.circle-two {
+    width: 400px;
+    height: 400px;
+    background: #e6f0ff;
+    bottom: -220px;
+    left: -150px;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.register-container {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 680px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    background: #ffffff;
+
+    border-radius: 24px;
+    overflow: hidden;
+
+    box-shadow: 0 25px 70px rgba(31, 41, 55, 0.12);
+
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================================================
+   LEFT BRAND PANEL
+========================================================= */
+
+.register-brand {
+    background: linear-gradient(
+        145deg,
+        #111827 0%,
+        #17153b 50%,
+        #24156b 100%
+    );
+
+    color: #ffffff;
+
+    padding: 65px 55px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-logo {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #6d4aff,
+        #3b82f6
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    margin-bottom: 35px;
+
+    box-shadow:
+        0 12px 30px rgba(91, 76, 255, 0.35);
+}
+
+.register-brand h1 {
+    font-size: 43px;
+    line-height: 1.12;
+
+    margin: 0 0 22px;
+
+    letter-spacing: -1.5px;
+}
+
+.register-brand > p {
+    color: #b8b8d0;
+
+    font-size: 16px;
+    line-height: 1.7;
+
+    max-width: 430px;
+
+    margin-bottom: 42px;
+}
+
+.brand-features {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+.brand-feature {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.feature-icon {
+    width: 27px;
+    height: 27px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(124, 92, 255, 0.2);
+    border: 1px solid rgba(151, 133, 255, 0.3);
+
+    color: #a999ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.brand-feature strong {
+    display: block;
+
+    font-size: 14px;
+
+    margin-bottom: 4px;
+}
+
+.brand-feature span {
+    display: block;
+
+    color: #a9a8c0;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   RIGHT REGISTER CARD
+========================================================= */
+
+.register-card {
+    padding: 55px 65px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.register-header {
+    margin-bottom: 25px;
+}
+
+.register-header h2 {
+    margin: 0 0 8px;
+
+    font-size: 30px;
+
+    color: #111827;
+
+    letter-spacing: -0.6px;
+}
+
+.register-header p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+/* =========================================================
+   INPUT WRAPPER
+========================================================= */
+
+.input-wrapper {
+    position: relative !important;
+
+    width: 100% !important;
+
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================================
+   INPUT ICON
+   Completely separate colourful icon badge
+========================================================= */
+
+.input-icon {
+    position: absolute !important;
+
+    left: 14px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    width: 32px !important;
+    height: 32px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 9px !important;
+
+    z-index: 20 !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+
+    font-size: 0 !important;
+    line-height: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+.input-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+
+    display: block !important;
+
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   ICON COLOURS
+========================================================= */
+
+.input-icon.name-icon {
+    color: #6366f1 !important;
+    background: #eef2ff !important;
+}
+
+.input-icon.email-icon {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+}
+
+.input-icon.password-icon {
+    color: #7c3aed !important;
+    background: #f5f3ff !important;
+}
+
+.input-icon.confirm-icon {
+    color: #ec4899 !important;
+    background: #fdf2f8 !important;
+}
+
+/* =========================================================
+   INPUT FIELD
+========================================================= */
+
+.input-wrapper input {
+    width: 100% !important;
+    height: 48px !important;
+
+    /*
+       IMPORTANT:
+       Icon starts at 14px and is 32px wide.
+       Text starts at 76px.
+
+       Therefore there is a proper gap between
+       icon and the complete placeholder text.
+    */
+    padding-top: 0 !important;
+    padding-right: 15px !important;
+    padding-bottom: 0 !important;
+    padding-left: 76px !important;
+
+    text-indent: 0 !important;
+
+    border: 1px solid #dfe3eb !important;
+
+    border-radius: 10px !important;
+
+    outline: none !important;
+
+    font-family: Inter, Arial, sans-serif !important;
+
+    font-size: 14px !important;
+    font-weight: 400 !important;
+
+    line-height: normal !important;
+
+    color: #111827 !important;
+
+    background: #ffffff !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease !important;
+}
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.input-wrapper input::placeholder {
+    color: #9aa2b1 !important;
+
+    opacity: 1 !important;
+
+    font-family: Inter, Arial, sans-serif !important;
+
+    font-size: 14px !important;
+    font-weight: 400 !important;
+
+    white-space: nowrap !important;
+}
+
+/* =========================================================
+   INPUT HOVER
+========================================================= */
+
+.input-wrapper input:hover:not(:focus):not(:disabled) {
+    border-color: #cbd1dc !important;
+}
+
+/* =========================================================
+   INPUT FOCUS
+========================================================= */
+
+.input-wrapper input:focus {
+    border-color: #6d4aff !important;
+
+    box-shadow:
+        0 0 0 4px rgba(109, 74, 255, 0.10) !important;
+
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   ICON WHEN INPUT IS FOCUSED
+========================================================= */
+
+.input-wrapper:focus-within .name-icon {
+    background: #e0e7ff !important;
+}
+
+.input-wrapper:focus-within .email-icon {
+    background: #dbeafe !important;
+}
+
+.input-wrapper:focus-within .password-icon {
+    background: #ede9fe !important;
+}
+
+.input-wrapper:focus-within .confirm-icon {
+    background: #fce7f3 !important;
+}
+
+/* =========================================================
+   DISABLED INPUT
+========================================================= */
+
+.input-wrapper input:disabled {
+    background: #f5f6f8 !important;
+
+    cursor: not-allowed !important;
+}
+
+/* =========================================================
+   AUTOFILL
+========================================================= */
+
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover,
+.input-wrapper input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #111827 !important;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #ffffff inset !important;
+
+    transition:
+        background-color 5000s ease-in-out 0s !important;
+}
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+.register-button {
+    width: 100%;
+    height: 50px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #6848f5,
+        #4f46e5
+    );
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-top: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.20);
+}
+
+.register-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 12px 25px rgba(79, 70, 229, 0.28);
+}
+
+.register-button:active {
+    transform: translateY(0);
+}
+
+.register-button:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.12);
+}
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.spinner {
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid rgba(255, 255, 255, 0.4);
+
+    border-top-color: #ffffff;
+
+    border-radius: 50%;
+
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.auth-alert {
+    border-radius: 9px;
+
+    padding: 11px 13px;
+
+    margin-bottom: 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    font-size: 13px;
+}
+
+.auth-alert span {
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+.auth-error {
+    background: #fff1f2;
+
+    border: 1px solid #fecdd3;
+
+    color: #be123c;
+}
+
+.auth-error span {
+    background: #e11d48;
+
+    color: #ffffff;
+}
+
+.auth-success {
+    background: #ecfdf5;
+
+    border: 1px solid #a7f3d0;
+
+    color: #047857;
+}
+
+.auth-success span {
+    background: #10b981;
+
+    color: #ffffff;
+}
+
+/* =========================================================
+   LOGIN LINK
+========================================================= */
+
+.login-link {
+    text-align: center;
+
+    margin-top: 23px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.login-link button {
+    border: none;
+
+    background: transparent;
+
+    color: #5b45e6;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-left: 5px;
+
+    padding: 0;
+}
+
+.login-link button:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.register-footer {
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.register-footer span {
+    color: #6b5ce7;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .register-card {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+    .register-brand {
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+}
+
+/* =========================================================
+   MOBILE / SINGLE COLUMN
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .register-container {
+        grid-template-columns: 1fr;
+
+        max-width: 520px;
+
+        min-height: auto;
+    }
+
+    .register-brand {
+        display: none;
+    }
+
+    .register-card {
+        padding: 45px 35px;
+    }
+
+    .mobile-logo {
+        display: flex;
+
+        width: 45px;
+        height: 45px;
+
+        border-radius: 12px;
+
+        background: linear-gradient(
+            135deg,
+            #6d4aff,
+            #3b82f6
+        );
+
+        color: #ffffff;
+
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 800;
+
+        margin-bottom: 20px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .register-page {
+        padding: 15px;
+    }
+
+    .register-card {
+        padding: 35px 23px;
+    }
+
+    .register-header h2 {
+        font-size: 25px;
+    }
+
+    .register-header p {
+        font-size: 13px;
+    }
+
+    .input-wrapper input {
+        height: 46px !important;
+
+        /*
+           Still enough space for the icon.
+           Complete placeholder remains visible.
+        */
+        padding-left: 70px !important;
+    }
+
+    .input-icon {
+        left: 12px !important;
+
+        width: 30px !important;
+        height: 30px !important;
+
+        border-radius: 8px !important;
+    }
+
+    .input-icon svg {
+        width: 17px !important;
+        height: 17px !important;
+    }
+}
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .register-page {
+        padding: 10px;
+    }
+
+    .register-card {
+        padding: 30px 18px;
+    }
+
+    .register-header h2 {
+        font-size: 23px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .input-wrapper input {
+        padding-left: 66px !important;
+        font-size: 13px !important;
+    }
+
+    .input-wrapper input::placeholder {
+        font-size: 13px !important;
+    }
+}

@@ -1,0 +1,403 @@
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar-inner {
+    width: 100%;
+
+    min-height: 100vh;
+
+    padding: 22px 14px 24px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 74px;
+
+    padding: 0 8px 20px;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+.brand-logo {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: linear-gradient(
+        135deg,
+        #6847f5,
+        #5432e4
+    );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 10px 22px rgba(92, 61, 232, 0.20);
+}
+
+.brand-logo i {
+    font-size: 20px;
+}
+
+.brand-content {
+    min-width: 0;
+}
+
+.brand-content h5 {
+    margin: 0;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.brand-content span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    color: #8c94a8;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.sidebar-section {
+    margin-top: 22px;
+}
+
+.sidebar-section-title {
+    padding: 0 10px;
+
+    margin-bottom: 8px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    color: #9299aa;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+/* =========================================================
+   SIDEBAR LINK
+========================================================= */
+
+.sidebar-link {
+    width: 100%;
+    min-height: 41px;
+
+    padding: 0 11px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    color: #344054;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.sidebar-link:hover {
+    background: #f6f4ff;
+
+    color: #5b3df5;
+}
+
+.sidebar-link.active {
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #6345ed,
+        #5636dc
+    );
+
+    box-shadow:
+        0 8px 18px rgba(91, 61, 226, 0.18);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.sidebar-icon {
+    width: 20px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+
+    color: #65708a;
+}
+
+.sidebar-link.active .sidebar-icon {
+    color: #ffffff;
+}
+
+.sidebar-text {
+    flex: 1;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   AI BADGE
+========================================================= */
+
+.ai-badge {
+    min-width: 26px;
+
+    padding: 4px 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #eeeaff;
+
+    color: #6043e8;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.sidebar-link.active .ai-badge {
+    background: rgba(255, 255, 255, 0.20);
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   AI PLAN
+========================================================= */
+
+.ai-plan-card {
+    margin: 24px 0 4px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(116, 86, 255, 0.35),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            #21176e,
+            #321da0
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 25px rgba(51, 31, 155, 0.20);
+}
+
+.ai-plan-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    font-size: 13px;
+}
+
+.ai-plan-title {
+    font-size: 10px;
+
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+.ai-plan-name {
+    margin-top: 2px;
+
+    color: #ffd51f;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.ai-plan-valid {
+    margin-top: 10px;
+
+    font-size: 9px;
+
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.ai-plan-button {
+    width: 100%;
+
+    height: 32px;
+
+    margin-top: 12px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: #6245ed;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.ai-plan-button:hover {
+    background: #7358f3;
+}
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+.account-section {
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.sidebar-logout {
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-family: inherit;
+}
+
+.sidebar-logout:hover {
+    background: #fff1f1;
+
+    color: #dc2626;
+}
+
+.sidebar-logout:hover .sidebar-icon {
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   SMALL SCREEN
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .sidebar-inner {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .brand-content,
+    .sidebar-text,
+    .sidebar-section-title,
+    .ai-plan-card {
+        display: none;
+    }
+
+    .sidebar-brand {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .sidebar-link {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar-icon {
+        width: auto;
+    }
+
+    .ai-badge {
+        display: none;
+    }
+}
