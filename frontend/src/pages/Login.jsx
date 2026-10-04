@@ -21,7 +21,8 @@ const Login = () => {
   // =====================================================
   // Sends the browser to Spring Security. Google then shows
   // its real account-selection/login screen.
-  const OAUTH_BASE_URL = "http://localhost:8080";
+ const OAUTH_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8080";
 
   const handleGoogleLogin = () => {
     setError("");
@@ -74,8 +75,8 @@ const Login = () => {
       // BACKEND LOGIN ENDPOINT
       // =================================================
 
-      const response = await api.post(
-        "http://localhost:8080/api/auth/login",
+     const response = await api.post(
+    "/api/auth/login",
         {
           email: formData.email.trim(),
           password: formData.password,
