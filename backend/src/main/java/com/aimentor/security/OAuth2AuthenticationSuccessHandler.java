@@ -1,18 +1,5 @@
 package com.aimentor.security;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.aimentor.entity.CareerGoal;
 import com.aimentor.entity.Role;
 import com.aimentor.entity.StudentProfile;
@@ -25,6 +12,38 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.web.client.RestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 @Component
 public class OAuth2AuthenticationSuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
@@ -34,21 +53,27 @@ public class OAuth2AuthenticationSuccessHandler
                     OAuth2AuthenticationSuccessHandler.class
             );
 
+    private static final String FRONTEND_URL =
+            "https://ai-mentor-fawn.vercel.app";
+
     private final UserRepository userRepository;
     private final StudentProfileRepository studentProfileRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final OAuth2AuthorizedClientService authorizedClientService;
 
     public OAuth2AuthenticationSuccessHandler(
             UserRepository userRepository,
             StudentProfileRepository studentProfileRepository,
             JwtService jwtService,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            OAuth2AuthorizedClientService authorizedClientService
     ) {
         this.userRepository = userRepository;
         this.studentProfileRepository = studentProfileRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.authorizedClientService = authorizedClientService;
     }
 
     @Override
@@ -77,7 +102,8 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "https://ai-mentor-fawn.vercel.app/login?oauthError=principal"
+                        FRONTEND_URL +
+                        "/login?oauthError=principal"
                 );
 
                 return;
@@ -94,6 +120,29 @@ public class OAuth2AuthenticationSuccessHandler
             String email =
                     oauthUser.getAttribute("email");
 
+            /*
+             * GitHub may return email=null from /user when
+             * the email is private.
+             *
+             * Therefore fetch the authenticated user's
+             * email addresses from GitHub /user/emails.
+             */
+
+            if ((email == null || email.isBlank())
+                    && authentication instanceof OAuth2AuthenticationToken oauthToken
+                    && "github".equalsIgnoreCase(
+                            oauthToken.getAuthorizedClientRegistrationId()
+                    )) {
+
+                logger.info(
+                        "GitHub email not present in user profile. Fetching /user/emails..."
+                );
+
+                email = fetchGitHubEmail(
+                        oauthUser.getName()
+                );
+            }
+
             logger.info(
                     "OAuth email received: {}",
                     email
@@ -106,7 +155,8 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "https://ai-mentor-fawn.vercel.app/login?oauthError=email"
+                        FRONTEND_URL +
+                        "/login?oauthError=email"
                 );
 
                 return;
@@ -218,28 +268,13 @@ public class OAuth2AuthenticationSuccessHandler
 
                 profile.setStudent(user);
 
-                /*
-                 * Default career goal.
-                 *
-                 * User can change this later from
-                 * the application/profile flow.
-                 */
-
                 profile.setCareerGoal(
                         CareerGoal.SOFTWARE_DEVELOPER
                 );
 
-                /*
-                 * Default experience level.
-                 */
-
                 profile.setExperienceLevel(
                         "BEGINNER"
                 );
-
-                /*
-                 * Default daily study hours.
-                 */
 
                 profile.setLearningHoursPerDay(
                         2
@@ -283,7 +318,8 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "https://ai-mentor-fawn.vercel.app/login?oauthError=jwt"
+                        FRONTEND_URL +
+                        "/login?oauthError=jwt"
                 );
 
                 return;
@@ -298,21 +334,29 @@ public class OAuth2AuthenticationSuccessHandler
             // =====================================================
 
             String redirectUrl =
-                    "https://ai-mentor-fawn.vercel.app/oauth2/callback#token="
-                            + token;
+                    FRONTEND_URL +
+                    "/oauth2/callback#token=" +
+                    token;
 
             logger.info(
                     "Redirecting OAuth user to React callback"
             );
 
             logger.info(
-                    "OAuth2 login completed successfully for {}",
-                    email
+                    "OAuth2 login completed successfully"
             );
 
-            logger.info("========================================");
-            logger.info("OAUTH2 SUCCESS HANDLER FINISHED");
-            logger.info("========================================");
+            logger.info(
+                    "========================================"
+            );
+
+            logger.info(
+                    "OAUTH2 SUCCESS HANDLER FINISHED"
+            );
+
+            logger.info(
+                    "========================================"
+            );
 
             response.sendRedirect(
                     redirectUrl
@@ -350,9 +394,234 @@ public class OAuth2AuthenticationSuccessHandler
             if (!response.isCommitted()) {
 
                 response.sendRedirect(
-                        "https://ai-mentor-fawn.vercel.app/login?oauthError=success-handler"
+                        FRONTEND_URL +
+                        "/login?oauthError=success-handler"
                 );
             }
         }
+    }
+
+    // =========================================================
+    // GITHUB EMAIL FETCH
+    // =========================================================
+
+    private String fetchGitHubEmail(
+            String principalName
+    ) {
+
+        try {
+
+            OAuth2AuthorizedClient authorizedClient =
+                    authorizedClientService.loadAuthorizedClient(
+                            "github",
+                            principalName
+                    );
+
+            if (authorizedClient == null) {
+
+                logger.error(
+                        "GitHub authorized client not found"
+                );
+
+                return null;
+            }
+
+            if (authorizedClient.getAccessToken() == null) {
+
+                logger.error(
+                        "GitHub access token not found"
+                );
+
+                return null;
+            }
+
+            String accessToken =
+                    authorizedClient
+                            .getAccessToken()
+                            .getTokenValue();
+
+            HttpHeaders headers =
+                    new HttpHeaders();
+
+            headers.setBearerAuth(
+                    accessToken
+            );
+
+            headers.setAccept(
+                    List.of(
+                            MediaType.APPLICATION_JSON
+                    )
+            );
+
+            headers.set(
+                    "X-GitHub-Api-Version",
+                    "2026-03-10"
+            );
+
+            HttpEntity<Void> entity =
+                    new HttpEntity<>(headers);
+
+            RestTemplate restTemplate =
+                    new RestTemplate();
+
+            ResponseEntity<
+                    List<Map<String, Object>>
+                    > response =
+                    restTemplate.exchange(
+                            "https://api.github.com/user/emails",
+                            HttpMethod.GET,
+                            entity,
+                            new ParameterizedTypeReference<
+                                    List<Map<String, Object>>
+                                    >() {}
+                    );
+
+            List<Map<String, Object>> emails =
+                    response.getBody();
+
+            if (emails == null || emails.isEmpty()) {
+
+                logger.error(
+                        "GitHub returned no email addresses"
+                );
+
+                return null;
+            }
+
+            // =================================================
+            // FIRST PRIORITY:
+            // VERIFIED + PRIMARY
+            // =================================================
+
+            for (Map<String, Object> emailData : emails) {
+
+                boolean primary =
+                        Boolean.TRUE.equals(
+                                emailData.get("primary")
+                        );
+
+                boolean verified =
+                        Boolean.TRUE.equals(
+                                emailData.get("verified")
+                        );
+
+                Object emailObject =
+                        emailData.get("email");
+
+                if (primary
+                        && verified
+                        && emailObject != null) {
+
+                    String email =
+                            emailObject.toString();
+
+                    if (!email.isBlank()) {
+
+                        logger.info(
+                                "GitHub primary verified email found"
+                        );
+
+                        return email;
+                    }
+                }
+            }
+
+            // =================================================
+            // SECOND PRIORITY:
+            // ANY VERIFIED EMAIL
+            // =================================================
+
+            for (Map<String, Object> emailData : emails) {
+
+                boolean verified =
+                        Boolean.TRUE.equals(
+                                emailData.get("verified")
+                        );
+
+                Object emailObject =
+                        emailData.get("email");
+
+                if (verified && emailObject != null) {
+
+                    String email =
+                            emailObject.toString();
+
+                    if (!email.isBlank()) {
+
+                        logger.info(
+                                "GitHub verified email found"
+                        );
+
+                        return email;
+                    }
+                }
+            }
+
+            // =================================================
+            // THIRD PRIORITY:
+            // PRIMARY EMAIL
+            // =================================================
+
+            for (Map<String, Object> emailData : emails) {
+
+                boolean primary =
+                        Boolean.TRUE.equals(
+                                emailData.get("primary")
+                        );
+
+                Object emailObject =
+                        emailData.get("email");
+
+                if (primary && emailObject != null) {
+
+                    String email =
+                            emailObject.toString();
+
+                    if (!email.isBlank()) {
+
+                        logger.info(
+                                "GitHub primary email found"
+                        );
+
+                        return email;
+                    }
+                }
+            }
+
+            // =================================================
+            // LAST PRIORITY:
+            // FIRST AVAILABLE EMAIL
+            // =================================================
+
+            for (Map<String, Object> emailData : emails) {
+
+                Object emailObject =
+                        emailData.get("email");
+
+                if (emailObject != null) {
+
+                    String email =
+                            emailObject.toString();
+
+                    if (!email.isBlank()) {
+
+                        logger.info(
+                                "GitHub email found"
+                        );
+
+                        return email;
+                    }
+                }
+            }
+
+        } catch (Exception exception) {
+
+            logger.error(
+                    "Failed to fetch GitHub email",
+                    exception
+            );
+        }
+
+        return null;
     }
 }
