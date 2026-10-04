@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 import "./Progress.css";
 
 function Progress() {
@@ -99,38 +100,25 @@ function Progress() {
                     return;
                 }
 
-                const response = await fetch(
-                    `http://localhost:8080/api/dashboard/student/${studentId}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const response = await api.get(
+    `/api/dashboard/student/${studentId}`
+);
 
-                if (response.status === 401) {
-                    localStorage.removeItem("token");
+               if (response.status === 401) {
+    localStorage.removeItem("token");
 
-                    setError(
-                        "Your login session has expired. Please login again."
-                    );
+    setError(
+        "Your login session has expired. Please login again."
+    );
 
-                    return;
-                }
+    return;
+}
 
-                if (!response.ok) {
-                    throw new Error(
-                        `Server returned ${response.status}`
-                    );
-                }
+const data = response.data;
 
-                const data = await response.json();
+console.log("Dashboard data:", data);
 
-                console.log("Dashboard data:", data);
-
-                setDashboard(data);
+setDashboard(data);
             } catch (err) {
                 console.error("Progress loading error:", err);
 
