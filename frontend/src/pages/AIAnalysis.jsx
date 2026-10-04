@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import "./AIAnalysis.css";
+import "./AiAnlaysis.css";
 
 function AIAnalysis() {
 
