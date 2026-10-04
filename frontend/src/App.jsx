@@ -37,7 +37,7 @@ import ModuleDetails from "./pages/ModuleDetails";
 // AI
 // =====================================================
 
-import AIAnalysis from "./pages/AiAnalysis";
+import AIAnalysis from "./pages/AIAnalysis";
 import AIMentor from "./pages/AIMentor";
 
 // =====================================================
