@@ -1,5 +1,18 @@
 package com.aimentor.security;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.aimentor.entity.CareerGoal;
 import com.aimentor.entity.Role;
 import com.aimentor.entity.StudentProfile;
@@ -11,21 +24,6 @@ import com.aimentor.service.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler
@@ -79,7 +77,7 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "http://localhost:5173/login?oauthError=principal"
+                        "https://ai-mentor-fawn.vercel.app/login?oauthError=principal"
                 );
 
                 return;
@@ -108,7 +106,7 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "http://localhost:5173/login?oauthError=email"
+                        "https://ai-mentor-fawn.vercel.app/login?oauthError=email"
                 );
 
                 return;
@@ -168,6 +166,7 @@ public class OAuth2AuthenticationSuccessHandler
                  * User.password is non-null in the database,
                  * so generate a random BCrypt password.
                  */
+
                 newUser.setPassword(
                         passwordEncoder.encode(
                                 UUID.randomUUID().toString()
@@ -225,6 +224,7 @@ public class OAuth2AuthenticationSuccessHandler
                  * User can change this later from
                  * the application/profile flow.
                  */
+
                 profile.setCareerGoal(
                         CareerGoal.SOFTWARE_DEVELOPER
                 );
@@ -232,6 +232,7 @@ public class OAuth2AuthenticationSuccessHandler
                 /*
                  * Default experience level.
                  */
+
                 profile.setExperienceLevel(
                         "BEGINNER"
                 );
@@ -239,6 +240,7 @@ public class OAuth2AuthenticationSuccessHandler
                 /*
                  * Default daily study hours.
                  */
+
                 profile.setLearningHoursPerDay(
                         2
                 );
@@ -281,7 +283,7 @@ public class OAuth2AuthenticationSuccessHandler
                 );
 
                 response.sendRedirect(
-                        "http://localhost:5173/login?oauthError=jwt"
+                        "https://ai-mentor-fawn.vercel.app/login?oauthError=jwt"
                 );
 
                 return;
@@ -296,7 +298,7 @@ public class OAuth2AuthenticationSuccessHandler
             // =====================================================
 
             String redirectUrl =
-                    "http://localhost:5173/oauth2/callback#token="
+                    "https://ai-mentor-fawn.vercel.app/oauth2/callback#token="
                             + token;
 
             logger.info(
@@ -348,7 +350,7 @@ public class OAuth2AuthenticationSuccessHandler
             if (!response.isCommitted()) {
 
                 response.sendRedirect(
-                        "http://localhost:5173/login?oauthError=success-handler"
+                        "https://ai-mentor-fawn.vercel.app/login?oauthError=success-handler"
                 );
             }
         }
