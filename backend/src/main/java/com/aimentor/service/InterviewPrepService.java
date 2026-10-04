@@ -30,9 +30,25 @@ public class InterviewPrepService {
     private final ChatClient chatClient;
     private final ObjectMapper objectMapper;
 
+    // =========================================================
+    // AI CONFIGURATION
+    // =========================================================
+
     private static final int AI_QUESTION_COUNT = 20;
-    private static final int AI_BATCH_SIZE = 1;
-    private static final int AI_MAX_RETRIES = 3;
+
+    /*
+     * Previously 1.
+     * Now generate 5 questions per AI request.
+     * So 20 questions require only 4 AI requests instead of 20.
+     */
+    private static final int AI_BATCH_SIZE = 5;
+
+    /*
+     * Previously 3.
+     * Retrying immediately can consume even more tokens and
+     * repeatedly hit Groq's TPM limit.
+     */
+    private static final int AI_MAX_RETRIES = 1;
 
     public InterviewPrepService(
             InterviewQuestionRepository questionRepository,
@@ -93,6 +109,7 @@ public class InterviewPrepService {
                                 || normalizedTopic.equalsIgnoreCase("ALL")) {
                             return true;
                         }
+
                         return question.getTopic() != null
                                 && question.getTopic().trim()
                                 .equalsIgnoreCase(normalizedTopic);
@@ -102,6 +119,7 @@ public class InterviewPrepService {
                                 || normalizedDifficulty.equalsIgnoreCase("ALL")) {
                             return true;
                         }
+
                         return question.getDifficulty() != null
                                 && question.getDifficulty().trim()
                                 .equalsIgnoreCase(normalizedDifficulty);
@@ -110,8 +128,7 @@ public class InterviewPrepService {
 
             /*
              * If the selected topic/difficulty does not exist in the current
-             * theory pool, generate specifically for that selection instead of
-             * returning "No questions found".
+             * theory pool, generate specifically for that selection.
              */
             if (questionList.isEmpty()
                     && (!normalizedTopic.isEmpty()
@@ -137,6 +154,7 @@ public class InterviewPrepService {
                                     || normalizedDifficulty.equalsIgnoreCase("ALL")) {
                                 return true;
                             }
+
                             return normalizedDifficulty.equalsIgnoreCase(
                                     question.getDifficulty() == null
                                             ? ""
@@ -144,10 +162,11 @@ public class InterviewPrepService {
                         })
                         .toList();
             }
+
         } else {
+
             /*
-             * ALL-SKILLS mode also remains theory-only. This prevents old MCQs
-             * from appearing in the new professional interview flow.
+             * ALL-SKILLS mode remains theory-only.
              */
             if (!normalizedTopic.isEmpty()
                     && !normalizedTopic.equalsIgnoreCase("ALL")) {
@@ -164,6 +183,7 @@ public class InterviewPrepService {
 
                 if (!normalizedDifficulty.isEmpty()
                         && !normalizedDifficulty.equalsIgnoreCase("ALL")) {
+
                     questionList = questionList.stream()
                             .filter(question ->
                                     question.getDifficulty() != null
@@ -172,6 +192,7 @@ public class InterviewPrepService {
                                             .equalsIgnoreCase(normalizedDifficulty))
                             .toList();
                 }
+
             } else if (!normalizedDifficulty.isEmpty()
                     && !normalizedDifficulty.equalsIgnoreCase("ALL")) {
 
@@ -184,7 +205,9 @@ public class InterviewPrepService {
                                 .stream()
                                 .filter(this::isTheoryQuestion)
                                 .toList();
+
             } else {
+
                 questionList =
                         questionRepository
                                 .findByCareerGoalIgnoreCaseOrderByIdAsc(goal)
@@ -197,10 +220,12 @@ public class InterviewPrepService {
         Map<Long, InterviewProgress> progressMap = new HashMap<>();
 
         if (studentId != null) {
+
             List<InterviewProgress> progressList =
                     progressRepository.findByStudentId(studentId);
 
             for (InterviewProgress progress : progressList) {
+
                 if (progress.getQuestionId() != null) {
                     progressMap.put(progress.getQuestionId(), progress);
                 }
@@ -209,7 +234,9 @@ public class InterviewPrepService {
 
         return questionList.stream()
                 .map(question -> {
-                    InterviewProgress progress = progressMap.get(question.getId());
+
+                    InterviewProgress progress =
+                            progressMap.get(question.getId());
 
                     boolean attempted =
                             progress != null
@@ -271,12 +298,21 @@ public class InterviewPrepService {
         Set<String> generatedQuestionTexts = new HashSet<>();
 
         /*
-         * Generate one question per AI request. This keeps the JSON response very small
-         * and prevents model response truncation / Unexpected end-of-input errors.
+         * Generate 5 questions per AI request.
+         *
+         * Previously:
+         * 20 questions = 20 AI requests
+         *
+         * Now:
+         * 20 questions = 4 AI requests
          */
         while (savedQuestions.size() < AI_QUESTION_COUNT) {
-            int remaining = AI_QUESTION_COUNT - savedQuestions.size();
-            int batchSize = Math.min(AI_BATCH_SIZE, remaining);
+
+            int remaining =
+                    AI_QUESTION_COUNT - savedQuestions.size();
+
+            int batchSize =
+                    Math.min(AI_BATCH_SIZE, remaining);
 
             List<InterviewQuestion> batch =
                     generateTheoryBatchWithRetry(
@@ -293,11 +329,16 @@ public class InterviewPrepService {
             }
 
             for (InterviewQuestion question : batch) {
+
                 if (savedQuestions.size() >= AI_QUESTION_COUNT) {
                     break;
                 }
 
-                String key = normalizeQuestionText(question.getQuestion());
+                String key =
+                        normalizeQuestionText(
+                                question.getQuestion()
+                        );
+
                 if (generatedQuestionTexts.add(key)) {
                     savedQuestions.add(question);
                 }
@@ -305,14 +346,20 @@ public class InterviewPrepService {
         }
 
         if (savedQuestions.size() < 15) {
+
             throw new RuntimeException(
-                    "AI generated only " + savedQuestions.size()
+                    "AI generated only "
+                            + savedQuestions.size()
                             + " valid theory questions. Please retry."
             );
         }
 
         return questionRepository.saveAll(savedQuestions);
     }
+
+    // =========================================================
+    // AI THEORY BATCH GENERATION
+    // =========================================================
 
     private List<InterviewQuestion> generateTheoryBatchWithRetry(
             String careerGoal,
@@ -324,63 +371,96 @@ public class InterviewPrepService {
 
         RuntimeException lastError = null;
 
-        for (int attempt = 1; attempt <= AI_MAX_RETRIES; attempt++) {
+        /*
+         * Only ONE attempt now.
+         *
+         * Retrying immediately after a 429 can make the TPM
+         * problem worse.
+         */
+        for (int attempt = 1;
+             attempt <= AI_MAX_RETRIES;
+             attempt++) {
+
             try {
-                String prompt = buildTheoryPrompt(
-                        careerGoal,
-                        skill,
-                        topic,
-                        difficulty,
-                        batchSize,
-                        existingQuestions
-                );
 
-                String aiResponse = chatClient
-                        .prompt()
-                        .user(prompt)
-                        .call()
-                        .content();
+                String prompt =
+                        buildTheoryPrompt(
+                                careerGoal,
+                                skill,
+                                topic,
+                                difficulty,
+                                batchSize,
+                                existingQuestions
+                        );
 
-                if (aiResponse == null || aiResponse.isBlank()) {
-                    throw new RuntimeException("AI returned an empty response");
+                String aiResponse =
+                        chatClient
+                                .prompt()
+                                .user(prompt)
+                                .call()
+                                .content();
+
+                if (aiResponse == null
+                        || aiResponse.isBlank()) {
+
+                    throw new RuntimeException(
+                            "AI returned an empty response"
+                    );
                 }
 
-                String cleanJson = cleanAIJson(aiResponse);
-                JsonNode root = objectMapper.readTree(cleanJson);
-                JsonNode questionsNode = root.get("questions");
+                String cleanJson =
+                        cleanAIJson(aiResponse);
 
-                if (questionsNode == null || !questionsNode.isArray()) {
+                JsonNode root =
+                        objectMapper.readTree(cleanJson);
+
+                JsonNode questionsNode =
+                        root.get("questions");
+
+                if (questionsNode == null
+                        || !questionsNode.isArray()) {
+
                     throw new RuntimeException(
                             "Invalid AI response: questions array missing"
                     );
                 }
 
-                List<InterviewQuestion> batch = new ArrayList<>();
+                List<InterviewQuestion> batch =
+                        new ArrayList<>();
 
                 for (JsonNode node : questionsNode) {
+
                     if (batch.size() >= batchSize) {
                         break;
                     }
 
-                    String questionText = text(node, "question");
-                    String generatedTopic = text(node, "topic");
-                    String generatedDifficulty = text(node, "difficulty");
-                    String explanation = text(node, "explanation");
+                    String questionText =
+                            text(node, "question");
 
-                    /*
-                     * "answer" is the preferred AI model-answer field.
-                     * "modelAnswer" is accepted as a fallback.
-                     */
-                    String modelAnswer = text(node, "answer");
+                    String generatedTopic =
+                            text(node, "topic");
+
+                    String generatedDifficulty =
+                            text(node, "difficulty");
+
+                    String explanation =
+                            text(node, "explanation");
+
+                    String modelAnswer =
+                            text(node, "answer");
+
                     if (modelAnswer.isBlank()) {
-                        modelAnswer = text(node, "modelAnswer");
+                        modelAnswer =
+                                text(node, "modelAnswer");
                     }
 
-                    if (questionText.isBlank() || modelAnswer.isBlank()) {
+                    if (questionText.isBlank()
+                            || modelAnswer.isBlank()) {
                         continue;
                     }
 
                     if (generatedTopic.isBlank()) {
+
                         generatedTopic =
                                 topic.equalsIgnoreCase(
                                         "Cover the most important interview topics automatically")
@@ -389,27 +469,41 @@ public class InterviewPrepService {
                     }
 
                     if (generatedDifficulty.isBlank()) {
+
                         generatedDifficulty =
-                                difficulty.equalsIgnoreCase("MIX EASY, MEDIUM AND HARD")
+                                difficulty.equalsIgnoreCase(
+                                        "MIX EASY, MEDIUM AND HARD")
                                         ? "MEDIUM"
                                         : difficulty;
                     }
 
                     generatedDifficulty =
-                            normalizeDifficulty(generatedDifficulty);
+                            normalizeDifficulty(
+                                    generatedDifficulty
+                            );
 
-                    /*
-                     * Theory questions must never have MCQ options.
-                     * Store the model answer in explanation because the current
-                     * entity already has that field.
-                     */
-                    InterviewQuestion question = new InterviewQuestion();
+                    InterviewQuestion question =
+                            new InterviewQuestion();
 
-                    question.setCareerGoal(careerGoal);
-                    question.setSkill(skill);
-                    question.setTopic(generatedTopic.trim());
-                    question.setDifficulty(generatedDifficulty);
-                    question.setQuestion(questionText.trim());
+                    question.setCareerGoal(
+                            careerGoal
+                    );
+
+                    question.setSkill(
+                            skill
+                    );
+
+                    question.setTopic(
+                            generatedTopic.trim()
+                    );
+
+                    question.setDifficulty(
+                            generatedDifficulty
+                    );
+
+                    question.setQuestion(
+                            questionText.trim()
+                    );
 
                     question.setOptionA("");
                     question.setOptionB("");
@@ -421,24 +515,33 @@ public class InterviewPrepService {
                             modelAnswer.trim();
 
                     if (!explanation.isBlank()
-                            && !explanation.equalsIgnoreCase(modelAnswer.trim())) {
+                            && !explanation.equalsIgnoreCase(
+                            modelAnswer.trim())) {
+
                         fullExplanation =
                                 modelAnswer.trim()
                                         + "\n\nAI Interview Explanation:\n"
                                         + explanation.trim();
                     }
 
-                    question.setExplanation(fullExplanation);
+                    question.setExplanation(
+                            fullExplanation
+                    );
 
                     String normalizedQuestion =
-                            normalizeQuestionText(questionText);
+                            normalizeQuestionText(
+                                    questionText
+                            );
 
-                    if (!existingQuestions.contains(normalizedQuestion)) {
+                    if (!existingQuestions.contains(
+                            normalizedQuestion)) {
+
                         batch.add(question);
                     }
                 }
 
                 if (batch.isEmpty()) {
+
                     throw new RuntimeException(
                             "AI returned no valid theory questions"
                     );
@@ -447,18 +550,28 @@ public class InterviewPrepService {
                 return batch;
 
             } catch (Exception e) {
-                lastError = new RuntimeException(
-                        "Theory question generation attempt "
-                                + attempt + " failed: " + e.getMessage(),
-                        e
-                );
+
+                lastError =
+                        new RuntimeException(
+                                "Theory question generation attempt "
+                                        + attempt
+                                        + " failed: "
+                                        + e.getMessage(),
+                                e
+                        );
             }
         }
 
         throw lastError != null
                 ? lastError
-                : new RuntimeException("Unable to generate theory questions");
+                : new RuntimeException(
+                "Unable to generate theory questions"
+        );
     }
+
+    // =========================================================
+    // AI THEORY PROMPT
+    // =========================================================
 
     private String buildTheoryPrompt(
             String careerGoal,
@@ -468,7 +581,8 @@ public class InterviewPrepService {
             int count,
             Set<String> existingQuestions) {
 
-        StringBuilder prompt = new StringBuilder();
+        StringBuilder prompt =
+                new StringBuilder();
 
         prompt.append("""
                 You are a senior technical interviewer.
@@ -485,8 +599,8 @@ public class InterviewPrepService {
                 - NO options.
                 - NO correctOption.
                 - Each question must be different.
-                - Keep each answer short: maximum 3 sentences.
-                - Keep each explanation short: maximum 2 sentences.
+                - Keep each answer extremely short: maximum 2 sentences.
+                - Keep each explanation extremely short: maximum 1 sentence.
                 - Focus only on the selected skill.
                 - Return ONLY valid JSON.
                 - No markdown or code fences.
@@ -505,19 +619,32 @@ public class InterviewPrepService {
                   ]
                 }
                 """.formatted(
-                count,
-                careerGoal,
-                skill,
-                topic,
-                difficulty
-        ));
+                        count,
+                        careerGoal,
+                        skill,
+                        topic,
+                        difficulty
+                ));
 
+        /*
+         * Previously 10 existing questions were added to the prompt.
+         * Now only 3 are included to reduce input token usage.
+         */
         if (!existingQuestions.isEmpty()) {
-            prompt.append("\nDo NOT repeat these questions:\n");
+
+            prompt.append(
+                    "\nDo NOT repeat these questions:\n"
+            );
+
             int shown = 0;
+
             for (String existing : existingQuestions) {
-                prompt.append("- ").append(existing).append("\n");
-                if (++shown >= 10) {
+
+                prompt.append("- ")
+                        .append(existing)
+                        .append("\n");
+
+                if (++shown >= 3) {
                     break;
                 }
             }
@@ -587,38 +714,57 @@ public class InterviewPrepService {
 
         RuntimeException lastError = null;
 
-        for (int attempt = 1; attempt <= AI_MAX_RETRIES; attempt++) {
-            try {
-                String response = chatClient
-                        .prompt()
-                        .user(prompt)
-                        .call()
-                        .content();
+        for (int attempt = 1;
+             attempt <= AI_MAX_RETRIES;
+             attempt++) {
 
-                if (response == null || response.isBlank()) {
-                    throw new RuntimeException("AI returned empty evaluation");
+            try {
+
+                String response =
+                        chatClient
+                                .prompt()
+                                .user(prompt)
+                                .call()
+                                .content();
+
+                if (response == null
+                        || response.isBlank()) {
+
+                    throw new RuntimeException(
+                            "AI returned empty evaluation"
+                    );
                 }
 
                 JsonNode root =
-                        objectMapper.readTree(cleanAIJson(response));
+                        objectMapper.readTree(
+                                cleanAIJson(response)
+                        );
 
                 boolean correct =
-                        root.path("correct").asBoolean(false);
+                        root.path("correct")
+                                .asBoolean(false);
 
                 int score =
                         Math.max(
                                 0,
                                 Math.min(
                                         100,
-                                        root.path("score").asInt(correct ? 75 : 30)
+                                        root.path("score")
+                                                .asInt(
+                                                        correct
+                                                                ? 75
+                                                                : 30
+                                                )
                                 )
                         );
 
                 String feedback =
-                        root.path("feedback").asText("");
+                        root.path("feedback")
+                                .asText("");
 
                 String aiModelAnswer =
-                        root.path("modelAnswer").asText("");
+                        root.path("modelAnswer")
+                                .asText("");
 
                 if (aiModelAnswer.isBlank()) {
                     aiModelAnswer = modelAnswer;
@@ -632,16 +778,18 @@ public class InterviewPrepService {
                 );
 
             } catch (Exception e) {
-                lastError = new RuntimeException(
-                        "Theory answer evaluation failed: " + e.getMessage(),
-                        e
-                );
+
+                lastError =
+                        new RuntimeException(
+                                "Theory answer evaluation failed: "
+                                        + e.getMessage(),
+                                e
+                        );
             }
         }
 
         /*
          * If AI evaluation fails, do not destroy the attempt flow.
-         * Return a safe evaluation using the stored model answer.
          */
         return new TheoryEvaluation(
                 false,
@@ -659,7 +807,8 @@ public class InterviewPrepService {
             String careerGoal,
             Long studentId) {
 
-        String goal = normalizeGoal(careerGoal);
+        String goal =
+                normalizeGoal(careerGoal);
 
         List<InterviewQuestion> questions =
                 questionRepository
@@ -669,6 +818,7 @@ public class InterviewPrepService {
                         .toList();
 
         if (studentId == null) {
+
             return new InterviewSummaryResponse(
                     questions.size(),
                     0,
@@ -681,11 +831,15 @@ public class InterviewPrepService {
         List<InterviewProgress> progressList =
                 progressRepository.findByStudentId(studentId);
 
-        Set<Long> questionIds = new HashSet<>();
+        Set<Long> questionIds =
+                new HashSet<>();
 
         for (InterviewQuestion question : questions) {
+
             if (question.getId() != null) {
-                questionIds.add(question.getId());
+                questionIds.add(
+                        question.getId()
+                );
             }
         }
 
@@ -693,7 +847,8 @@ public class InterviewPrepService {
                 progressList.stream()
                         .filter(progress ->
                                 progress.getQuestionId() != null
-                                        && questionIds.contains(progress.getQuestionId()))
+                                        && questionIds.contains(
+                                        progress.getQuestionId()))
                         .toList();
 
         int attempted =
@@ -725,18 +880,22 @@ public class InterviewPrepService {
         int accuracy = 0;
 
         if (totalAttempts > 0) {
+
             accuracy =
                     Math.round(
-                            totalCorrect * 100f / totalAttempts
+                            totalCorrect * 100f
+                                    / totalAttempts
                     );
         }
 
         int mastery = 0;
 
         if (!questions.isEmpty()) {
+
             mastery =
                     Math.round(
-                            mastered * 100f / questions.size()
+                            mastered * 100f
+                                    / questions.size()
                     );
         }
 
@@ -758,22 +917,30 @@ public class InterviewPrepService {
             InterviewAttemptRequest request) {
 
         if (request == null) {
-            throw new IllegalArgumentException("Request is required");
+            throw new IllegalArgumentException(
+                    "Request is required"
+            );
         }
 
         if (request.getStudentId() == null) {
-            throw new IllegalArgumentException("Student ID is required");
+            throw new IllegalArgumentException(
+                    "Student ID is required"
+            );
         }
 
         if (request.getQuestionId() == null) {
-            throw new IllegalArgumentException("Question ID is required");
+            throw new IllegalArgumentException(
+                    "Question ID is required"
+            );
         }
 
         InterviewQuestion question =
                 questionRepository
                         .findById(request.getQuestionId())
                         .orElseThrow(() ->
-                                new IllegalArgumentException("Question not found"));
+                                new IllegalArgumentException(
+                                        "Question not found"
+                                ));
 
         String answer =
                 request.getAnswer() == null
@@ -781,40 +948,55 @@ public class InterviewPrepService {
                         : request.getAnswer().trim();
 
         if (answer.isBlank()) {
-            throw new IllegalArgumentException("Answer is required");
+            throw new IllegalArgumentException(
+                    "Answer is required"
+            );
         }
 
-        boolean theoryQuestion = isTheoryQuestion(question);
+        boolean theoryQuestion =
+                isTheoryQuestion(question);
 
         boolean correct;
         String responseExplanation;
 
         if (theoryQuestion) {
-            TheoryEvaluation evaluation =
-                    evaluateTheoryAnswer(question, answer);
 
-            correct = evaluation.correct();
+            TheoryEvaluation evaluation =
+                    evaluateTheoryAnswer(
+                            question,
+                            answer
+                    );
+
+            correct =
+                    evaluation.correct();
 
             responseExplanation =
-                    "Score: " + evaluation.score() + "/100\n\n"
+                    "Score: "
+                            + evaluation.score()
+                            + "/100\n\n"
                             + "AI Feedback:\n"
                             + evaluation.feedback()
                             + "\n\nModel Answer:\n"
                             + evaluation.modelAnswer();
 
         } else {
+
             /*
-             * Backward-compatible MCQ support for legacy records.
-             * The new UI never generates these.
+             * Backward-compatible MCQ support.
              */
-            String normalizedAnswer = answer.toUpperCase();
-            String correctOption = question.getCorrectOption();
+            String normalizedAnswer =
+                    answer.toUpperCase();
+
+            String correctOption =
+                    question.getCorrectOption();
 
             correct =
                     correctOption != null
                             && !correctOption.isBlank()
                             && correctOption.trim()
-                            .equalsIgnoreCase(normalizedAnswer);
+                            .equalsIgnoreCase(
+                                    normalizedAnswer
+                            );
 
             responseExplanation =
                     question.getExplanation() == null
@@ -829,15 +1011,18 @@ public class InterviewPrepService {
                                 question.getId()
                         )
                         .orElseGet(() -> {
+
                             InterviewProgress newProgress =
                                     new InterviewProgress();
 
                             newProgress.setStudentId(
                                     request.getStudentId()
                             );
+
                             newProgress.setQuestionId(
                                     question.getId()
                             );
+
                             newProgress.setAttempts(0);
                             newProgress.setCorrectAttempts(0);
                             newProgress.setMastered(false);
@@ -856,25 +1041,25 @@ public class InterviewPrepService {
                         : progress.getCorrectAttempts();
 
         attempts++;
+
         progress.setAttempts(attempts);
 
         if (correct) {
             correctAttempts++;
         }
 
-        progress.setCorrectAttempts(correctAttempts);
-        progress.setLastAnswer(answer);
-        progress.setLastAttemptAt(LocalDateTime.now());
+        progress.setCorrectAttempts(
+                correctAttempts
+        );
 
-        /*
-         * Theory mastery:
-         * - first strong/correct answer can master
-         * - otherwise 2 correct attempts master the question
-         *
-         * This preserves the existing mastery behavior while making it work
-         * for AI-evaluated theory answers.
-         */
-        if (correctAttempts >= 2 || (correct && attempts == 1)) {
+        progress.setLastAnswer(answer);
+        progress.setLastAttemptAt(
+                LocalDateTime.now()
+        );
+
+        if (correctAttempts >= 2
+                || (correct && attempts == 1)) {
+
             progress.setMastered(true);
         }
 
@@ -883,19 +1068,20 @@ public class InterviewPrepService {
         int mastery;
 
         if (progress.isMastered()) {
+
             mastery = 100;
+
         } else {
+
             mastery =
                     Math.min(
                             100,
-                            Math.round(correctAttempts * 50f)
+                            Math.round(
+                                    correctAttempts * 50f
+                            )
                     );
         }
 
-        /*
-         * For theory questions there is no correct MCQ option.
-         * Therefore the last response field is deliberately blank.
-         */
         return new InterviewAttemptResponse(
                 correct,
                 progress.isMastered(),
@@ -903,7 +1089,9 @@ public class InterviewPrepService {
                 correctAttempts,
                 mastery,
                 responseExplanation,
-                theoryQuestion ? "" : question.getCorrectOption()
+                theoryQuestion
+                        ? ""
+                        : question.getCorrectOption()
         );
     }
 
@@ -911,15 +1099,13 @@ public class InterviewPrepService {
     // THEORY QUESTION DETECTION
     // =========================================================
 
-    private boolean isTheoryQuestion(InterviewQuestion question) {
+    private boolean isTheoryQuestion(
+            InterviewQuestion question) {
+
         if (question == null) {
             return false;
         }
 
-        /*
-         * New AI theory questions have no MCQ option and no correct option.
-         * This is also useful for filtering old MCQs out of the new UI.
-         */
         boolean noOptions =
                 isBlank(question.getOptionA())
                         && isBlank(question.getOptionB())
@@ -933,25 +1119,37 @@ public class InterviewPrepService {
     }
 
     private boolean isBlank(String value) {
-        return value == null || value.trim().isEmpty();
+
+        return value == null
+                || value.trim().isEmpty();
     }
 
     // =========================================================
     // CLEAN AI RESPONSE
     // =========================================================
 
-    private String cleanAIJson(String response) {
-        String cleaned = response.trim();
+    private String cleanAIJson(
+            String response) {
+
+        String cleaned =
+                response.trim();
 
         if (cleaned.startsWith("```json")) {
-            cleaned = cleaned.substring(7).trim();
+
+            cleaned =
+                    cleaned.substring(7)
+                            .trim();
         }
 
         if (cleaned.startsWith("```")) {
-            cleaned = cleaned.substring(3).trim();
+
+            cleaned =
+                    cleaned.substring(3)
+                            .trim();
         }
 
         if (cleaned.endsWith("```")) {
+
             cleaned =
                     cleaned.substring(
                             0,
@@ -959,10 +1157,15 @@ public class InterviewPrepService {
                     ).trim();
         }
 
-        int firstBrace = cleaned.indexOf('{');
-        int lastBrace = cleaned.lastIndexOf('}');
+        int firstBrace =
+                cleaned.indexOf('{');
 
-        if (firstBrace >= 0 && lastBrace > firstBrace) {
+        int lastBrace =
+                cleaned.lastIndexOf('}');
+
+        if (firstBrace >= 0
+                && lastBrace > firstBrace) {
+
             cleaned =
                     cleaned.substring(
                             firstBrace,
@@ -981,16 +1184,21 @@ public class InterviewPrepService {
             JsonNode node,
             String field) {
 
-        JsonNode value = node.get(field);
+        JsonNode value =
+                node.get(field);
 
-        if (value == null || value.isNull()) {
+        if (value == null
+                || value.isNull()) {
+
             return "";
         }
 
         return value.asText("");
     }
 
-    private String normalizeQuestionText(String value) {
+    private String normalizeQuestionText(
+            String value) {
+
         if (value == null) {
             return "";
         }
@@ -1001,8 +1209,12 @@ public class InterviewPrepService {
                 .replaceAll("\\s+", " ");
     }
 
-    private String normalizeDifficulty(String value) {
-        if (value == null || value.isBlank()) {
+    private String normalizeDifficulty(
+            String value) {
+
+        if (value == null
+                || value.isBlank()) {
+
             return "MEDIUM";
         }
 
@@ -1036,9 +1248,12 @@ public class InterviewPrepService {
     // NORMALIZE CAREER GOAL
     // =========================================================
 
-    public String normalizeGoal(String goal) {
+    public String normalizeGoal(
+            String goal) {
 
-        if (goal == null || goal.trim().isEmpty()) {
+        if (goal == null
+                || goal.trim().isEmpty()) {
+
             return "SOFTWARE_DEVELOPER";
         }
 
@@ -1052,23 +1267,27 @@ public class InterviewPrepService {
                 || normalized.contains("FULL STACK")
                 || normalized.contains("FULLSTACK")
                 || normalized.contains("SOFTWARE")) {
+
             return "SOFTWARE_DEVELOPER";
         }
 
         if (normalized.contains("DATA")
                 && normalized.contains("SCIENT")) {
+
             return "DATA_SCIENTIST";
         }
 
         if (normalized.contains("FRONTEND")
                 || normalized.contains("FRONT_END")
                 || normalized.contains("FRONT END")) {
+
             return "FRONTEND_DEVELOPER";
         }
 
         if (normalized.contains("BACKEND")
                 || normalized.contains("BACK_END")
                 || normalized.contains("BACK END")) {
+
             return "BACKEND_DEVELOPER";
         }
 
@@ -1082,6 +1301,7 @@ public class InterviewPrepService {
 
         if (normalized.contains("CYBER")
                 || normalized.contains("SECURITY")) {
+
             return "CYBERSECURITY";
         }
 
