@@ -282,8 +282,8 @@ public class SecurityConfig {
                                             exception.printStackTrace();
 
                                             response.sendRedirect(
-                                                    "http://localhost:5173/login?oauthError=oauth"
-                                            );
+    "https://ai-mentor-fawn.vercel.app/login?oauthError=oauth"
+);
                                         }
                                 )
                 );
