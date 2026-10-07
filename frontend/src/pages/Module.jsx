@@ -1,6 +1,7 @@
 import React, {
     useEffect,
     useMemo,
+    useRef,
     useState
 } from "react";
 
@@ -287,6 +288,113 @@ function Module() {
         contentError,
         setContentError
     ] = useState("");
+
+    /* =====================================================
+       STUDY TIME TRACKER
+       -----------------------------------------------------
+       Counts only the time while this module page is visible.
+       Total seconds are stored locally so the Dashboard can
+       display the accumulated study time.
+       ===================================================== */
+
+    const studyStartRef = useRef(null);
+
+    const saveStudyTime = () => {
+
+        if (!studyStartRef.current) {
+            return;
+        }
+
+        const elapsedSeconds =
+            Math.floor(
+                (Date.now() -
+                    studyStartRef.current) / 1000
+            );
+
+        if (elapsedSeconds <= 0) {
+            return;
+        }
+
+        const previousSeconds =
+            Number(
+                window.localStorage.getItem(
+                    "aiMentorStudySeconds"
+                ) || 0
+            );
+
+        window.localStorage.setItem(
+            "aiMentorStudySeconds",
+            String(
+                previousSeconds +
+                elapsedSeconds
+            )
+        );
+
+        studyStartRef.current =
+            Date.now();
+
+        window.dispatchEvent(
+            new Event(
+                "study-time-updated"
+            )
+        );
+    };
+
+    useEffect(() => {
+
+        if (!moduleId) {
+            return;
+        }
+
+        studyStartRef.current =
+            Date.now();
+
+        const timer =
+            window.setInterval(
+                saveStudyTime,
+                15000
+            );
+
+        const handleVisibilityChange =
+            () => {
+
+                if (document.hidden) {
+
+                    saveStudyTime();
+
+                    studyStartRef.current =
+                        null;
+
+                } else {
+
+                    studyStartRef.current =
+                        Date.now();
+
+                }
+            };
+
+        document.addEventListener(
+            "visibilitychange",
+            handleVisibilityChange
+        );
+
+        return () => {
+
+            window.clearInterval(timer);
+
+            saveStudyTime();
+
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibilityChange
+            );
+
+            studyStartRef.current =
+                null;
+        };
+
+    }, [moduleId]);
+
 
 
     /* =====================================================
@@ -2010,13 +2118,36 @@ function Module() {
 
                             <div className="hero-stats">
 
-                                <div className="hero-stat">
+                                <div
+                                    className="hero-stat"
+                                    style={{
+                                        minWidth: "105px",
+                                        padding: "12px 16px",
+                                        borderRadius: "14px",
+                                        background: "rgba(255, 255, 255, 0.13)",
+                                        border: "1px solid rgba(255, 255, 255, 0.22)",
+                                        boxSizing: "border-box"
+                                    }}
+                                >
 
-                                    <span>
+                                    <span style={{
+                                        display: "block",
+                                        color: "rgba(255, 255, 255, 0.72)",
+                                        fontSize: "9px",
+                                        fontWeight: 800,
+                                        letterSpacing: "1px",
+                                        marginBottom: "5px"
+                                    }}>
                                         LESSONS
                                     </span>
 
-                                    <strong>
+                                    <strong style={{
+                                        display: "block",
+                                        color: "#ffffff",
+                                        fontSize: "20px",
+                                        fontWeight: 900,
+                                        lineHeight: 1.15
+                                    }}>
                                         {
                                             learningContents.length
                                         }
@@ -2025,13 +2156,36 @@ function Module() {
                                 </div>
 
 
-                                <div className="hero-stat">
+                                <div
+                                    className="hero-stat"
+                                    style={{
+                                        minWidth: "105px",
+                                        padding: "12px 16px",
+                                        borderRadius: "14px",
+                                        background: "rgba(255, 255, 255, 0.13)",
+                                        border: "1px solid rgba(255, 255, 255, 0.22)",
+                                        boxSizing: "border-box"
+                                    }}
+                                >
 
-                                    <span>
+                                    <span style={{
+                                        display: "block",
+                                        color: "rgba(255, 255, 255, 0.72)",
+                                        fontSize: "9px",
+                                        fontWeight: 800,
+                                        letterSpacing: "1px",
+                                        marginBottom: "5px"
+                                    }}>
                                         TOPICS
                                     </span>
 
-                                    <strong>
+                                    <strong style={{
+                                        display: "block",
+                                        color: "#ffffff",
+                                        fontSize: "20px",
+                                        fontWeight: 900,
+                                        lineHeight: 1.15
+                                    }}>
                                         {
                                             topicArray.length
                                         }
@@ -2040,13 +2194,36 @@ function Module() {
                                 </div>
 
 
-                                <div className="hero-stat">
+                                <div
+                                    className="hero-stat"
+                                    style={{
+                                        minWidth: "105px",
+                                        padding: "12px 16px",
+                                        borderRadius: "14px",
+                                        background: "rgba(255, 255, 255, 0.13)",
+                                        border: "1px solid rgba(255, 255, 255, 0.22)",
+                                        boxSizing: "border-box"
+                                    }}
+                                >
 
-                                    <span>
+                                    <span style={{
+                                        display: "block",
+                                        color: "rgba(255, 255, 255, 0.72)",
+                                        fontSize: "9px",
+                                        fontWeight: 800,
+                                        letterSpacing: "1px",
+                                        marginBottom: "5px"
+                                    }}>
                                         PROGRESS
                                     </span>
 
-                                    <strong>
+                                    <strong style={{
+                                        display: "block",
+                                        color: "#ffffff",
+                                        fontSize: "20px",
+                                        fontWeight: 900,
+                                        lineHeight: 1.15
+                                    }}>
                                         {progressValue}%
                                     </strong>
 

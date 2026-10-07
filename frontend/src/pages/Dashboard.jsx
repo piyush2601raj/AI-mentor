@@ -1704,6 +1704,59 @@ const streakDays = [
     }, []);
 
 
+    /* =====================================================
+       TOTAL STUDY TIME SYNC
+    ===================================================== */
+
+    useEffect(() => {
+
+        const updateStudyTime = () => {
+
+            const totalSeconds = Number(
+                localStorage.getItem(
+                    "aiMentorStudySeconds"
+                ) || 0
+            );
+
+            const totalMinutes = Math.floor(
+                totalSeconds / 60
+            );
+
+            setDashboard(previous => ({
+                ...previous,
+                totalStudyMinutes: totalMinutes
+            }));
+        };
+
+        updateStudyTime();
+
+        window.addEventListener(
+            "study-time-updated",
+            updateStudyTime
+        );
+
+        window.addEventListener(
+            "storage",
+            updateStudyTime
+        );
+
+        return () => {
+
+            window.removeEventListener(
+                "study-time-updated",
+                updateStudyTime
+            );
+
+            window.removeEventListener(
+                "storage",
+                updateStudyTime
+            );
+
+        };
+
+    }, []);
+
+
         /* =====================================================
        HELPERS
     ===================================================== */
