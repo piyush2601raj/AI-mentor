@@ -2696,3 +2696,65 @@
         align-self: flex-start;
     }
 }
+
+/* =========================================================
+   FINAL FIX — REMOVE UNWANTED PAGE-CENTER VERTICAL LINE
+   Keeps the professional roadmap UI intact.
+========================================================= */
+
+/* Disable any page-level pseudo-element that could render a
+   vertical divider through the center of the roadmap. */
+.professional-roadmap::before,
+.professional-roadmap::after,
+.professional-roadmap-content::before,
+.professional-roadmap-content::after,
+.roadmap-hero::before,
+.roadmap-hero::after,
+.roadmap-main-grid::before,
+.roadmap-main-grid::after,
+.roadmap-left-column::before,
+.roadmap-left-column::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Remove all timeline/connector lines from the professional
+   roadmap view. */
+.professional-roadmap .timeline-line,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    border: 0 !important;
+    background: none !important;
+}
+
+/* Ensure the main professional containers cannot create a
+   vertical divider through a left/right border. */
+.professional-roadmap,
+.professional-roadmap-content,
+.roadmap-main-grid,
+.roadmap-left-column,
+.roadmap-panel,
+.learning-path-panel,
+.roadmap-hero,
+.roadmap-hero-side {
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+/* Keep the hero and learning cards visually clean after the
+   divider removal. */
+.roadmap-hero-side {
+    border-left: 0 !important;
+}
+
+.learning-step-side {
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
