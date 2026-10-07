@@ -3921,10 +3921,3 @@ return (
 }
 
 export default Module;
-
-/* =====================================================
-REAL-TIME PROGRESS INTEGRATION NOTE
-Existing module UI, lesson flow, virtual sections,
-content handling and styling structure are preserved.
-Only the module-completion transition is changed so
-progress is synchronized before returning to Roadmap.
