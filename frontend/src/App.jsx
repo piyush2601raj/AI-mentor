@@ -402,7 +402,16 @@ function App() {
                     }
                 />
 
-                <Route path="/settings" element={<Settings />} />
+                <Route
+                    path="/settings"
+                    element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <Settings />
+                            </Layout>
+                        </ProtectedRoute>
+                    }
+                />
 
 
                 {/* =================================================
