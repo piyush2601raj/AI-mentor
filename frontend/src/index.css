@@ -1,10 +1,24 @@
 /* =========================================================
-   GLOBAL RESET
+   AI MENTOR - GLOBAL INDEX CSS
+   Global reset only
+   Layout-specific styles are handled by Layout.css
 ========================================================= */
 
-* {
+
+/* =========================================================
+   GLOBAL BOX SIZING
+========================================================= */
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
+
+
+/* =========================================================
+   HTML / BODY / ROOT
+========================================================= */
 
 html,
 body,
@@ -12,364 +26,152 @@ body,
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    min-width: 0;
+    min-height: 100%;
 }
 
+
+/* =========================================================
+   HTML
+========================================================= */
+
+html {
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
 body {
+    margin: 0;
+
     font-family:
         Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-    background: #f6f7fb;
+
+    background: #f5f6fb;
     color: #111827;
-}
 
-
-/* =========================================================
-   MAIN APPLICATION LAYOUT
-========================================================= */
-
-.app-layout {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
     overflow: hidden;
-    background: #f6f7fb;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    text-rendering: optimizeLegibility;
 }
 
 
 /* =========================================================
-   RIGHT MAIN AREA
+   FORM ELEMENTS
 ========================================================= */
 
-.main-area {
-    flex: 1;
-    min-width: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: #f6f7fb;
+button,
+input,
+select,
+textarea {
+    font: inherit;
 }
 
 
 /* =========================================================
-   TOPBAR
+   BUTTON RESET
 ========================================================= */
 
-.topbar {
-    height: 72px;
-    min-height: 72px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    background: #ffffff;
-    border-bottom: 1px solid #e8eaf0;
-    position: relative;
-    z-index: 10;
-}
-
-
-/* =========================================================
-   TOPBAR TITLE
-========================================================= */
-
-.topbar-title {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.topbar-title h2 {
+button {
     margin: 0;
-    font-size: 18px;
-    font-weight: 700;
+}
+
+
+/* =========================================================
+   IMAGES
+========================================================= */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* =========================================================
+   SVG
+========================================================= */
+
+svg {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+a {
+    color: inherit;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+    outline: 2px solid #7657f6;
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+    background: rgba(118, 87, 246, 0.16);
     color: #111827;
 }
 
-.topbar-title p {
-    margin: 0;
-    font-size: 13px;
-    color: #8a92a6;
-}
-
 
 /* =========================================================
-   TOPBAR ACTIONS
+   SCROLLBAR - GLOBAL FALLBACK
 ========================================================= */
 
-.topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.search-box {
-    width: 235px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    background: #f8f9fc;
-    border: 1px solid #edf0f5;
-    border-radius: 10px;
-    transition: all 0.2s ease;
-}
-
-.search-box:focus-within {
-    background: #ffffff;
-    border-color: #635bff;
-    box-shadow:
-        0 0 0 3px rgba(99, 91, 255, 0.08);
-}
-
-.search-icon {
-    font-size: 19px;
-    color: #9aa1b2;
-    margin-right: 8px;
-}
-
-.search-box input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 13px;
-    color: #1f2937;
-}
-
-.search-box input::placeholder {
-    color: #a0a7b5;
-}
-
-.search-shortcut {
-    padding: 3px 6px;
-    font-size: 10px;
-    color: #9ca3af;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 5px;
-}
-
-
-/* =========================================================
-   NOTIFICATION
-========================================================= */
-
-.notification-btn {
-    position: relative;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #edf0f5;
-    background: #ffffff;
-    border-radius: 10px;
-    color: #4b5563;
-    cursor: pointer;
-    font-size: 19px;
-    transition: all 0.2s ease;
-}
-
-.notification-btn:hover {
-    background: #f5f3ff;
-    border-color: #ddd8ff;
-    color: #635bff;
-}
-
-.notification-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 17px;
-    height: 17px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #ef4444;
-    color: white;
-    font-size: 9px;
-    font-weight: 700;
-    border: 2px solid white;
-}
-
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile-mini {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px 8px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: background 0.2s ease;
-}
-
-.profile-mini:hover {
-    background: #f7f7fb;
-}
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background:
-        linear-gradient(
-            135deg,
-            #7657ff,
-            #5738dc
-        );
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.profile-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.2;
-}
-
-.profile-info strong {
-    max-width: 130px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 13px;
-    color: #111827;
-}
-
-.profile-info span {
-    margin-top: 3px;
-    font-size: 9px;
-    letter-spacing: 0.7px;
-    color: #9ca3af;
-}
-
-.profile-arrow {
-    margin-left: 2px;
-    color: #9ca3af;
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   PAGE CONTENT
-========================================================= */
-
-.page-content {
-    flex: 1;
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 28px 32px 40px;
-    background: #f6f7fb;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-.page-content::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
 }
 
-.page-content::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.page-content::-webkit-scrollbar-thumb {
-    background: #d7d9e2;
-    border-radius: 10px;
+::-webkit-scrollbar-thumb {
+    background: #cfd3e1;
+    border-radius: 20px;
 }
 
-.page-content::-webkit-scrollbar-thumb:hover {
-    background: #bfc2ce;
+::-webkit-scrollbar-thumb:hover {
+    background: #b8bdd0;
 }
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1100px) {
-    .topbar {
-        padding: 0 22px;
-    }
-
-    .page-content {
-        padding: 24px;
-    }
-
-    .search-box {
-        width: 190px;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .topbar {
-        height: 64px;
-        min-height: 64px;
-        padding: 0 16px;
-    }
-
-    .topbar-title h2 {
-        font-size: 16px;
-    }
-
-    .topbar-title p {
-        display: none;
-    }
-
-    .search-box {
-        width: 42px;
-        padding: 0;
-        justify-content: center;
-    }
-
-    .search-box input,
-    .search-shortcut {
-        display: none;
-    }
-
-    .search-icon {
-        margin: 0;
-    }
-
-    .profile-info,
-    .profile-arrow {
-        display: none;
-    }
-
-    .page-content {
-        padding: 20px 16px 30px;
-    }
-}
-
-
