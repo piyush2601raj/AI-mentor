@@ -3269,3 +3269,204 @@
         padding: 14px !important;
     }
 }
+
+/* =========================================================
+   GENERATED ROADMAP VIEW — COMPACT + HIGH-CONTRAST POLISH
+   Keeps existing JSX, API and roadmap logic unchanged.
+   ========================================================= */
+
+.professional-roadmap {
+    background: #f5f7fb !important;
+    color: #172033 !important;
+}
+
+.professional-roadmap .professional-roadmap-content {
+    max-width: 1380px !important;
+    padding: 24px 28px 40px !important;
+}
+
+/* Keep the first viewport useful after Generate AI Roadmap. */
+.professional-roadmap .roadmap-hero {
+    min-height: 190px !important;
+    padding: 28px 32px !important;
+    margin-bottom: 18px !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%) !important;
+}
+
+.professional-roadmap .roadmap-hero h1,
+.professional-roadmap .roadmap-hero-title {
+    font-size: clamp(28px, 2.7vw, 40px) !important;
+    margin-bottom: 10px !important;
+}
+
+.professional-roadmap .roadmap-hero p,
+.professional-roadmap .roadmap-hero-description {
+    color: #5f6b7a !important;
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+}
+
+/* Career card: compact, readable and clearly separated. */
+.professional-roadmap .career-card,
+.professional-roadmap .roadmap-career-card {
+    min-height: 0 !important;
+    padding: 20px 24px !important;
+    margin-bottom: 18px !important;
+    background: #ffffff !important;
+    border: 1px solid #e1e6ee !important;
+    border-radius: 14px !important;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.045) !important;
+}
+
+.professional-roadmap .career-card h2,
+.professional-roadmap .roadmap-career-card h2 {
+    color: #111827 !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    margin: 4px 0 6px !important;
+}
+
+.professional-roadmap .career-card p,
+.professional-roadmap .roadmap-career-card p {
+    color: #667085 !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Strengths / gaps: reduce empty space. */
+.professional-roadmap .analysis-grid,
+.professional-roadmap .strengths-gaps-grid,
+.professional-roadmap .overview-grid {
+    gap: 18px !important;
+}
+
+.professional-roadmap .info-card,
+.professional-roadmap .strengths-card,
+.professional-roadmap .skill-gaps-card {
+    padding: 20px !important;
+    background: #ffffff !important;
+    border: 1px solid #e1e6ee !important;
+    border-radius: 14px !important;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04) !important;
+}
+
+.professional-roadmap .info-card h3,
+.professional-roadmap .strengths-card h3,
+.professional-roadmap .skill-gaps-card h3 {
+    color: #172033 !important;
+    font-weight: 800 !important;
+}
+
+.professional-roadmap .info-card p,
+.professional-roadmap .info-card li,
+.professional-roadmap .strengths-card li,
+.professional-roadmap .skill-gaps-card li {
+    color: #596579 !important;
+}
+
+/* Make the learning path visually dominant. */
+.professional-roadmap .learning-path-panel {
+    margin-top: 0 !important;
+    border-color: #dfe4ec !important;
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.055) !important;
+}
+
+.professional-roadmap .learning-path-panel .panel-heading {
+    padding: 17px 22px !important;
+}
+
+.professional-roadmap .learning-path-panel .panel-heading h2,
+.professional-roadmap .learning-path-panel .panel-heading h3 {
+    font-size: 18px !important;
+    color: #111827 !important;
+}
+
+.professional-roadmap .learning-timeline {
+    padding: 18px !important;
+}
+
+.professional-roadmap .learning-step {
+    padding-bottom: 12px !important;
+}
+
+.professional-roadmap .learning-module-card {
+    padding: 17px 18px !important;
+}
+
+.professional-roadmap .learning-module-content p {
+    color: #596579 !important;
+}
+
+/* Stronger status contrast. */
+.professional-roadmap .learning-status {
+    padding: 5px 9px !important;
+}
+
+.professional-roadmap .learning-step.is-completed .learning-status,
+.professional-roadmap .learning-step.completed .learning-status {
+    background: #ecfdf3 !important;
+    color: #15803d !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
+.professional-roadmap .learning-step.is-locked .learning-status,
+.professional-roadmap .learning-step.locked .learning-status {
+    background: #f2f4f7 !important;
+    color: #667085 !important;
+    border: 1px solid #e4e7ec !important;
+}
+
+/* Never show the unwanted connector. */
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after,
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after,
+.professional-roadmap .timeline-line {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: 0 !important;
+    background: none !important;
+}
+
+/* Desktop: use the available width efficiently. */
+@media (min-width: 1101px) {
+    .professional-roadmap .roadmap-main-grid {
+        gap: 20px !important;
+    }
+
+    .professional-roadmap .roadmap-left-column {
+        gap: 18px !important;
+    }
+}
+
+/* Tablet / mobile */
+@media (max-width: 760px) {
+    .professional-roadmap .professional-roadmap-content {
+        padding: 16px !important;
+    }
+
+    .professional-roadmap .roadmap-hero {
+        min-height: 0 !important;
+        padding: 22px !important;
+    }
+
+    .professional-roadmap .career-card,
+    .professional-roadmap .roadmap-career-card {
+        padding: 17px !important;
+    }
+
+    .professional-roadmap .info-card,
+    .professional-roadmap .strengths-card,
+    .professional-roadmap .skill-gaps-card {
+        padding: 17px !important;
+    }
+}
