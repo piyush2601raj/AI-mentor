@@ -1616,3 +1616,56 @@
         justify-content: center;
     }
 }
+
+/* =========================================================
+   INTERACTIVE DASHBOARD TOPBAR
+   Supports Search Anything + Student Profile dropdown.
+   No existing dashboard UI dimensions/colors are changed.
+========================================================= */
+
+.dashboard-topbar-search-wrap {
+    position: relative;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.dashboard-topbar-search-input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.dashboard-topbar-search-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.dashboard-topbar-search-input::placeholder {
+    color: #929bad;
+    opacity: 1;
+}
+
+.dashboard-profile-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.dashboard-topbar-search-wrap button,
+.dashboard-profile-wrap button {
+    font-family: inherit;
+}
+
+.dashboard-topbar-search-wrap button:focus-visible,
+.dashboard-profile-wrap button:focus-visible {
+    outline: 2px solid rgba(99, 71, 223, 0.28);
+    outline-offset: 2px;
+}
+
+/* Search dropdown / profile dropdown stay above dashboard cards. */
+.dashboard-topbar-search-wrap > div[style*="position: absolute"],
+.dashboard-profile-wrap > div[role="menu"] {
+    isolation: isolate;
+}

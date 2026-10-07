@@ -7,6 +7,165 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
+
+    /* =====================================================
+       HEADER INTERACTION STATE
+       Added without changing existing dashboard functionality.
+    ===================================================== */
+
+    const [profileOpen, setProfileOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchOpen, setSearchOpen] = useState(false);
+
+    const searchItems = [
+        {
+            title: "Dashboard",
+            description: "Your learning dashboard",
+            icon: "▦",
+            route: "/dashboard"
+        },
+        {
+            title: "Roadmap",
+            description: "View your personalized learning roadmap",
+            icon: "◇",
+            route: "/roadmap"
+        },
+        {
+            title: "AI Mentor",
+            description: "Ask your AI Mentor anything",
+            icon: "✦",
+            route: "/ai-mentor"
+        },
+        {
+            title: "Assessments",
+            description: "Check your skill assessments",
+            icon: "▣",
+            route: "/assessments"
+        },
+        {
+            title: "Quiz",
+            description: "Practice with AI quizzes",
+            icon: "?",
+            route: "/quiz"
+        },
+        {
+            title: "DSA Practice",
+            description: "Practice coding and DSA",
+            icon: "⌘",
+            route: "/dsa-practice"
+        },
+        {
+            title: "Interview Prep",
+            description: "Prepare for technical interviews",
+            icon: "▤",
+            route: "/interview-prep"
+        },
+        {
+            title: "Progress",
+            description: "Track your learning progress",
+            icon: "⌁",
+            route: "/progress"
+        },
+        {
+            title: "Projects",
+            description: "Build and manage your projects",
+            icon: "▣",
+            route: "/projects"
+        },
+        {
+            title: "Resources",
+            description: "Explore your learning resources",
+            icon: "▤",
+            route: "/resources"
+        },
+        {
+            title: "Profile",
+            description: "View and manage your profile",
+            icon: "♙",
+            route: "/profile"
+        },
+        {
+            title: "Settings",
+            description: "Manage your account settings",
+            icon: "⚙",
+            route: "/settings"
+        }
+    ];
+
+    const filteredSearchItems = searchItems.filter((item) =>
+        `${item.title} ${item.description}`
+            .toLowerCase()
+            .includes(searchQuery.trim().toLowerCase())
+    );
+
+    const handleSearchChange = (event) => {
+        const value = event.target.value;
+
+        setSearchQuery(value);
+        setSearchOpen(value.trim().length > 0);
+        setProfileOpen(false);
+    };
+
+    const handleSearchSelect = (route) => {
+        setSearchQuery("");
+        setSearchOpen(false);
+        setProfileOpen(false);
+        navigate(route);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("studentId");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("id");
+        navigate("/login");
+    };
+
+    useEffect(() => {
+        const handleGlobalShortcut = (event) => {
+            if (
+                (event.ctrlKey || event.metaKey) &&
+                event.key.toLowerCase() === "k"
+            ) {
+                event.preventDefault();
+
+                const input = document.querySelector(
+                    ".dashboard-topbar-search-input"
+                );
+
+                if (input) {
+                    input.focus();
+                }
+
+                setSearchOpen(true);
+                setProfileOpen(false);
+            }
+
+            if (event.key === "Escape") {
+                setSearchOpen(false);
+                setProfileOpen(false);
+            }
+        };
+
+        const handleOutsideClick = (event) => {
+            if (!event.target.closest(".dashboard-topbar-search-wrap")) {
+                setSearchOpen(false);
+            }
+
+            if (!event.target.closest(".dashboard-profile-wrap")) {
+                setProfileOpen(false);
+            }
+        };
+
+        document.addEventListener("keydown", handleGlobalShortcut);
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("keydown", handleGlobalShortcut);
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
+
     /* =====================================================
        BACKEND DATA
     ===================================================== */
@@ -1753,6 +1912,743 @@ function Dashboard() {
             {/* =================================================
                 HEADER / GREETING
             ================================================= */}
+
+
+            {/* =================================================
+                INTERACTIVE TOP BAR
+                Search + Student profile
+            ================================================= */}
+
+            <div
+                style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1000,
+                    minHeight: "74px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    gap: "14px",
+                    padding: "12px 28px",
+                    background: "rgba(255,255,255,0.96)",
+                    backdropFilter: "blur(14px)",
+                    borderBottom: "1px solid #e9eaf0"
+                }}
+            >
+
+                {/* SEARCH */}
+                <div
+                    className="dashboard-topbar-search-wrap"
+                    style={{
+                        position: "relative",
+                        width: "min(360px, 38vw)"
+                    }}
+                >
+
+                    <div
+                        style={{
+                            height: "44px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "9px",
+                            padding: "0 10px 0 14px",
+                            background: "#f8f9fc",
+                            border: searchOpen
+                                ? "1px solid #7566e8"
+                                : "1px solid #e4e7ef",
+                            borderRadius: "12px",
+                            boxShadow: searchOpen
+                                ? "0 0 0 3px rgba(108,99,255,0.10)"
+                                : "none",
+                            transition: "all 0.2s ease"
+                        }}
+                    >
+
+                        <span
+                            style={{
+                                color: "#7d8798",
+                                fontSize: "18px",
+                                lineHeight: 1
+                            }}
+                        >
+                            ⌕
+                        </span>
+
+                        <input
+                            className="dashboard-topbar-search-input"
+                            type="text"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            onFocus={() => {
+                                setProfileOpen(false);
+
+                                if (searchQuery.trim()) {
+                                    setSearchOpen(true);
+                                }
+                            }}
+                            onKeyDown={(event) => {
+                                if (
+                                    event.key === "Enter" &&
+                                    filteredSearchItems.length > 0
+                                ) {
+                                    handleSearchSelect(
+                                        filteredSearchItems[0].route
+                                    );
+                                }
+                            }}
+                            placeholder="Search anything..."
+                            aria-label="Search anything"
+                            style={{
+                                flex: 1,
+                                minWidth: 0,
+                                height: "100%",
+                                border: "none",
+                                outline: "none",
+                                background: "transparent",
+                                color: "#202638",
+                                fontSize: "13px"
+                            }}
+                        />
+
+                        {searchQuery && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearchQuery("");
+                                    setSearchOpen(false);
+                                }}
+                                aria-label="Clear search"
+                                style={{
+                                    width: "24px",
+                                    height: "24px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    border: "none",
+                                    borderRadius: "50%",
+                                    background: "#e9ebf1",
+                                    color: "#687386",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    padding: 0
+                                }}
+                            >
+                                ×
+                            </button>
+                        )}
+
+                        <kbd
+                            style={{
+                                flexShrink: 0,
+                                padding: "4px 7px",
+                                border: "1px solid #dfe3eb",
+                                borderRadius: "6px",
+                                background: "#ffffff",
+                                color: "#8b94a5",
+                                fontSize: "10px",
+                                fontWeight: 600
+                            }}
+                        >
+                            Ctrl K
+                        </kbd>
+
+                    </div>
+
+
+                    {searchOpen && (
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: "calc(100% + 9px)",
+                                left: 0,
+                                width: "100%",
+                                maxHeight: "430px",
+                                overflowY: "auto",
+                                padding: "8px",
+                                boxSizing: "border-box",
+                                background: "#ffffff",
+                                border: "1px solid #e4e7ef",
+                                borderRadius: "15px",
+                                boxShadow:
+                                    "0 20px 45px rgba(25,31,56,0.14)",
+                                zIndex: 1200
+                            }}
+                        >
+
+                            {filteredSearchItems.length > 0 ? (
+                                <>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            padding: "7px 9px 8px"
+                                        }}
+                                    >
+                                        <span
+                                            style={{
+                                                color: "#9099aa",
+                                                fontSize: "9px",
+                                                fontWeight: 800,
+                                                letterSpacing: "0.9px"
+                                            }}
+                                        >
+                                            QUICK SEARCH
+                                        </span>
+
+                                        <span
+                                            style={{
+                                                color: "#a1a9b8",
+                                                fontSize: "9px"
+                                            }}
+                                        >
+                                            {filteredSearchItems.length} results
+                                        </span>
+                                    </div>
+
+                                    {filteredSearchItems
+                                        .slice(0, 8)
+                                        .map((item) => (
+                                            <button
+                                                type="button"
+                                                key={item.title}
+                                                onClick={() =>
+                                                    handleSearchSelect(
+                                                        item.route
+                                                    )
+                                                }
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "11px",
+                                                    padding: "10px",
+                                                    border: "none",
+                                                    borderRadius: "11px",
+                                                    background: "transparent",
+                                                    cursor: "pointer",
+                                                    textAlign: "left"
+                                                }}
+                                                onMouseEnter={(event) => {
+                                                    event.currentTarget.style.background =
+                                                        "#f6f4ff";
+                                                }}
+                                                onMouseLeave={(event) => {
+                                                    event.currentTarget.style.background =
+                                                        "transparent";
+                                                }}
+                                            >
+
+                                                <span
+                                                    style={{
+                                                        width: "36px",
+                                                        height: "36px",
+                                                        flexShrink: 0,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        borderRadius: "10px",
+                                                        background: "#f0edff",
+                                                        color: "#6347df",
+                                                        fontSize: "15px"
+                                                    }}
+                                                >
+                                                    {item.icon}
+                                                </span>
+
+                                                <span
+                                                    style={{
+                                                        flex: 1,
+                                                        minWidth: 0,
+                                                        display: "flex",
+                                                        flexDirection: "column"
+                                                    }}
+                                                >
+                                                    <strong
+                                                        style={{
+                                                            color: "#20283a",
+                                                            fontSize: "12px"
+                                                        }}
+                                                    >
+                                                        {item.title}
+                                                    </strong>
+
+                                                    <span
+                                                        style={{
+                                                            marginTop: "3px",
+                                                            overflow: "hidden",
+                                                            color: "#929bad",
+                                                            fontSize: "10px",
+                                                            whiteSpace: "nowrap",
+                                                            textOverflow: "ellipsis"
+                                                        }}
+                                                    >
+                                                        {item.description}
+                                                    </span>
+                                                </span>
+
+                                                <span
+                                                    style={{
+                                                        color: "#a0a8b7",
+                                                        fontSize: "15px"
+                                                    }}
+                                                >
+                                                    →
+                                                </span>
+
+                                            </button>
+                                        ))}
+                                </>
+                            ) : (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        textAlign: "center",
+                                        padding: "28px 18px"
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: "44px",
+                                            height: "44px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            marginBottom: "10px",
+                                            borderRadius: "50%",
+                                            background: "#f1efff",
+                                            color: "#6548df",
+                                            fontSize: "20px"
+                                        }}
+                                    >
+                                        ⌕
+                                    </div>
+
+                                    <strong
+                                        style={{
+                                            color: "#252d3d",
+                                            fontSize: "13px"
+                                        }}
+                                    >
+                                        No results found
+                                    </strong>
+
+                                    <span
+                                        style={{
+                                            marginTop: "5px",
+                                            color: "#949dae",
+                                            fontSize: "10px",
+                                            lineHeight: 1.5
+                                        }}
+                                    >
+                                        Try roadmap, AI mentor, quiz, projects
+                                        or profile.
+                                    </span>
+                                </div>
+                            )}
+
+                        </div>
+                    )}
+
+                </div>
+
+
+                {/* STUDENT PROFILE */}
+                <div
+                    className="dashboard-profile-wrap"
+                    style={{
+                        position: "relative"
+                    }}
+                >
+
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setProfileOpen((previous) => !previous);
+                            setSearchOpen(false);
+                        }}
+                        aria-expanded={profileOpen}
+                        aria-haspopup="menu"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            minWidth: "170px",
+                            padding: "6px 9px",
+                            border: profileOpen
+                                ? "1px solid #ded9fb"
+                                : "1px solid transparent",
+                            borderRadius: "13px",
+                            background: profileOpen
+                                ? "#f8f6ff"
+                                : "transparent",
+                            cursor: "pointer",
+                            textAlign: "left"
+                        }}
+                    >
+
+                        <span
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                flexShrink: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: "50%",
+                                background:
+                                    "linear-gradient(135deg,#6845e8,#4d68ed)",
+                                color: "#ffffff",
+                                fontSize: "14px",
+                                fontWeight: 800
+                            }}
+                        >
+                            {(dashboard.userName || "Student")
+                                .charAt(0)
+                                .toUpperCase()}
+                        </span>
+
+                        <span
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                minWidth: 0
+                            }}
+                        >
+                            <strong
+                                style={{
+                                    color: "#1c2537",
+                                    fontSize: "12px",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    maxWidth: "100px"
+                                }}
+                            >
+                                {dashboard.userName || "Student"}
+                            </strong>
+
+                            <span
+                                style={{
+                                    marginTop: "2px",
+                                    color: "#8993a6",
+                                    fontSize: "9px",
+                                    fontWeight: 700,
+                                    letterSpacing: "0.7px"
+                                }}
+                            >
+                                STUDENT
+                            </span>
+                        </span>
+
+                        <span
+                            style={{
+                                marginLeft: "auto",
+                                color: "#7c8799",
+                                fontSize: "15px",
+                                transition: "transform 0.2s ease",
+                                transform: profileOpen
+                                    ? "rotate(180deg)"
+                                    : "rotate(0deg)"
+                            }}
+                        >
+                            ⌄
+                        </span>
+
+                    </button>
+
+
+                    {profileOpen && (
+                        <div
+                            role="menu"
+                            style={{
+                                position: "absolute",
+                                top: "calc(100% + 9px)",
+                                right: 0,
+                                width: "290px",
+                                padding: "10px",
+                                background: "#ffffff",
+                                border: "1px solid #e5e8ef",
+                                borderRadius: "17px",
+                                boxShadow:
+                                    "0 20px 50px rgba(31,25,74,0.15)",
+                                zIndex: 1300
+                            }}
+                        >
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "11px",
+                                    padding: "10px"
+                                }}
+                            >
+
+                                <div
+                                    style={{
+                                        width: "42px",
+                                        height: "42px",
+                                        flexShrink: 0,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        borderRadius: "50%",
+                                        background:
+                                            "linear-gradient(135deg,#6845e8,#4d68ed)",
+                                        color: "#ffffff",
+                                        fontWeight: 800
+                                    }}
+                                >
+                                    {(dashboard.userName || "Student")
+                                        .charAt(0)
+                                        .toUpperCase()}
+                                </div>
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        minWidth: 0
+                                    }}
+                                >
+                                    <strong
+                                        style={{
+                                            color: "#20283a",
+                                            fontSize: "13px"
+                                        }}
+                                    >
+                                        {dashboard.userName || "Student"}
+                                    </strong>
+
+                                    <span
+                                        style={{
+                                            marginTop: "3px",
+                                            color: "#929bae",
+                                            fontSize: "10px"
+                                        }}
+                                    >
+                                        Student Account
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                style={{
+                                    height: "1px",
+                                    margin: "6px 2px",
+                                    background: "#edf0f5"
+                                }}
+                            />
+
+
+                            <button
+                                type="button"
+                                role="menuitem"
+                                onClick={() => {
+                                    setProfileOpen(false);
+                                    navigate("/profile");
+                                }}
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "11px",
+                                    padding: "10px",
+                                    border: "none",
+                                    borderRadius: "11px",
+                                    background: "transparent",
+                                    cursor: "pointer",
+                                    textAlign: "left"
+                                }}
+                                onMouseEnter={(event) => {
+                                    event.currentTarget.style.background =
+                                        "#f6f4ff";
+                                }}
+                                onMouseLeave={(event) => {
+                                    event.currentTarget.style.background =
+                                        "transparent";
+                                }}
+                            >
+
+                                <span
+                                    style={{
+                                        width: "36px",
+                                        height: "36px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        borderRadius: "10px",
+                                        background: "#f0edff",
+                                        color: "#6347df"
+                                    }}
+                                >
+                                    ♙
+                                </span>
+
+                                <span
+                                    style={{
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}
+                                >
+                                    <strong
+                                        style={{
+                                            color: "#20283a",
+                                            fontSize: "12px"
+                                        }}
+                                    >
+                                        My Profile
+                                    </strong>
+
+                                    <small
+                                        style={{
+                                            marginTop: "3px",
+                                            color: "#929bad",
+                                            fontSize: "10px"
+                                        }}
+                                    >
+                                        View and edit your profile
+                                    </small>
+                                </span>
+
+                                <span style={{ color: "#a0a8b7" }}>
+                                    →
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                role="menuitem"
+                                onClick={() => {
+                                    setProfileOpen(false);
+                                    navigate("/settings");
+                                }}
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "11px",
+                                    padding: "10px",
+                                    border: "none",
+                                    borderRadius: "11px",
+                                    background: "transparent",
+                                    cursor: "pointer",
+                                    textAlign: "left"
+                                }}
+                                onMouseEnter={(event) => {
+                                    event.currentTarget.style.background =
+                                        "#f6f4ff";
+                                }}
+                                onMouseLeave={(event) => {
+                                    event.currentTarget.style.background =
+                                        "transparent";
+                                }}
+                            >
+
+                                <span
+                                    style={{
+                                        width: "36px",
+                                        height: "36px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        borderRadius: "10px",
+                                        background: "#f0edff",
+                                        color: "#6347df"
+                                    }}
+                                >
+                                    ⚙
+                                </span>
+
+                                <span
+                                    style={{
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}
+                                >
+                                    <strong
+                                        style={{
+                                            color: "#20283a",
+                                            fontSize: "12px"
+                                        }}
+                                    >
+                                        Settings
+                                    </strong>
+
+                                    <small
+                                        style={{
+                                            marginTop: "3px",
+                                            color: "#929bad",
+                                            fontSize: "10px"
+                                        }}
+                                    >
+                                        Manage your account
+                                    </small>
+                                </span>
+
+                                <span style={{ color: "#a0a8b7" }}>
+                                    →
+                                </span>
+
+                            </button>
+
+
+                            <div
+                                style={{
+                                    height: "1px",
+                                    margin: "6px 2px",
+                                    background: "#edf0f5"
+                                }}
+                            />
+
+
+                            <button
+                                type="button"
+                                role="menuitem"
+                                onClick={handleLogout}
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    padding: "11px",
+                                    border: "none",
+                                    borderRadius: "11px",
+                                    background: "transparent",
+                                    color: "#ef4444",
+                                    fontSize: "12px",
+                                    fontWeight: 700,
+                                    cursor: "pointer",
+                                    textAlign: "left"
+                                }}
+                                onMouseEnter={(event) => {
+                                    event.currentTarget.style.background =
+                                        "#fff1f2";
+                                }}
+                                onMouseLeave={(event) => {
+                                    event.currentTarget.style.background =
+                                        "transparent";
+                                }}
+                            >
+                                <span>↪</span>
+                                Logout
+                            </button>
+
+                        </div>
+                    )}
+
+                </div>
+
+            </div>
 
             <section className="dashboard-header">
 
