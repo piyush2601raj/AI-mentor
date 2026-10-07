@@ -42,12 +42,11 @@
 
     border-radius: 13px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #7657f6 0%,
-            #5835df 100%
-        );
+    background: linear-gradient(
+        135deg,
+        #7657f6 0%,
+        #5835df 100%
+    );
 
     color: #ffffff;
 
@@ -66,7 +65,6 @@
 
     font-size: 16px;
     font-weight: 750;
-
     line-height: 1.2;
 }
 
@@ -158,18 +156,18 @@
 
 .ai-sidebar-link:hover {
     background: #f6f4ff;
+
     color: #6043e8;
 
     transform: translateX(2px);
 }
 
 .ai-sidebar-link.active {
-    background:
-        linear-gradient(
-            135deg,
-            #6848f2 0%,
-            #5837df 100%
-        );
+    background: linear-gradient(
+        135deg,
+        #6848f2 0%,
+        #5837df 100%
+    );
 
     color: #ffffff;
 
@@ -232,7 +230,6 @@
 
 .ai-sidebar-label {
     flex: 1;
-
     min-width: 0;
 
     overflow: hidden;
@@ -263,6 +260,7 @@
 .ai-sidebar-link:hover .ai-sidebar-arrow,
 .ai-sidebar-link.active .ai-sidebar-arrow {
     opacity: 0.65;
+
     transform: translateX(0);
 }
 
@@ -294,6 +292,7 @@
 
 .ai-sidebar-link.active .ai-sidebar-badge {
     background: rgba(255, 255, 255, 0.18);
+
     color: #ffffff;
 }
 
@@ -416,6 +415,7 @@
     padding: 0 10px;
 
     border: 1px solid rgba(255, 255, 255, 0.10);
+
     border-radius: 8px;
 
     background: rgba(255, 255, 255, 0.10);
@@ -458,11 +458,23 @@
 
 .ai-sidebar-logout:hover {
     background: #fff2f2;
+
     color: #dc2626;
 }
 
 .ai-sidebar-logout:hover .ai-sidebar-icon {
     color: #dc2626;
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+.ai-sidebar-link:focus-visible,
+.ai-sidebar-plan-button:focus-visible {
+    outline: 2px solid #7657f6;
+    outline-offset: 2px;
 }
 
 
@@ -552,5 +564,20 @@
 
         height: 22px;
         top: 8px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ai-sidebar-inner *,
+    .ai-sidebar-inner *::before,
+    .ai-sidebar-inner *::after {
+        transition: none !important;
+        animation: none !important;
     }
 }
