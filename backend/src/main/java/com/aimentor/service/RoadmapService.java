@@ -12,7 +12,13 @@ import com.aimentor.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Service
 public class RoadmapService {
@@ -56,26 +62,27 @@ public class RoadmapService {
 
         return roadmapRepository.save(roadmap);
     }
- // =====================================================
- // GET ROADMAP MODULES
- // =====================================================
 
- @Transactional(readOnly = true)
- public List<RoadmapModule> getRoadmapModules(
-         Long roadmapId,
-         Long studentId) {
+    // =====================================================
+    // GET ROADMAP MODULES
+    // =====================================================
 
-     // Check roadmap exists and belongs to student
-     getRoadmapForStudent(
-             roadmapId,
-             studentId
-     );
+    @Transactional(readOnly = true)
+    public List<RoadmapModule> getRoadmapModules(
+            Long roadmapId,
+            Long studentId) {
 
-     return roadmapModuleRepository
-             .findByRoadmapIdOrderByWeekNumberAsc(
-                     roadmapId
-             );
- }
+        // Check roadmap exists and belongs to student
+        getRoadmapForStudent(
+                roadmapId,
+                studentId
+        );
+
+        return roadmapModuleRepository
+                .findByRoadmapIdOrderByWeekNumberAsc(
+                        roadmapId
+                );
+    }
 
     // =====================================================
     // SAVE AI GENERATED ROADMAP
@@ -252,13 +259,145 @@ public class RoadmapService {
                                         / totalModules) * 10000
                         ) / 100.0;
 
+        // =================================================
+        // CALCULATE LEARNING STREAK
+        // =================================================
+
+        /*
+         * Only modules having a completion date are used.
+         *
+         * Multiple modules completed on the same day count
+         * as ONE active learning day.
+         */
+
+        Set<LocalDate> activityDateSet = modules.stream()
+                .filter(module -> module.getCompletedAt() != null)
+                .map(module ->
+                        module.getCompletedAt().toLocalDate()
+                )
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        List<LocalDate> activityDates =
+                new ArrayList<>(activityDateSet);
+
+        Collections.sort(activityDates);
+
+        int currentStreak =
+                calculateCurrentStreak(activityDateSet);
+
+        int bestStreak =
+                calculateBestStreak(activityDateSet);
+
+        // =================================================
+        // RETURN PROGRESS + STREAK
+        // =================================================
+
         return new RoadmapProgressResponse(
                 roadmapId,
                 totalModules,
                 completedModules,
                 remainingModules,
-                progressPercentage
+                progressPercentage,
+                currentStreak,
+                bestStreak,
+                activityDates
         );
+    }
+
+    // =====================================================
+    // CALCULATE CURRENT STREAK
+    // =====================================================
+
+    private int calculateCurrentStreak(
+            Set<LocalDate> activityDates) {
+
+        if (activityDates == null ||
+                activityDates.isEmpty()) {
+
+            return 0;
+        }
+
+        LocalDate today = LocalDate.now();
+
+        /*
+         * If user studied today, streak starts from today.
+         *
+         * If user hasn't studied today but studied yesterday,
+         * yesterday is still considered part of the current
+         * ongoing streak.
+         *
+         * If the last activity was older than yesterday,
+         * current streak is 0.
+         */
+
+        LocalDate lastActivity =
+                activityDates.contains(today)
+                        ? today
+                        : today.minusDays(1);
+
+        if (!activityDates.contains(lastActivity)) {
+            return 0;
+        }
+
+        int streak = 0;
+
+        LocalDate currentDate = lastActivity;
+
+        while (activityDates.contains(currentDate)) {
+
+            streak++;
+
+            currentDate =
+                    currentDate.minusDays(1);
+        }
+
+        return streak;
+    }
+
+    // =====================================================
+    // CALCULATE BEST STREAK
+    // =====================================================
+
+    private int calculateBestStreak(
+            Set<LocalDate> activityDates) {
+
+        if (activityDates == null ||
+                activityDates.isEmpty()) {
+
+            return 0;
+        }
+
+        int bestStreak = 0;
+        int currentSequence = 0;
+
+        LocalDate previousDate = null;
+
+        for (LocalDate date : activityDates) {
+
+            if (previousDate == null) {
+
+                currentSequence = 1;
+
+            } else if (date.equals(
+                    previousDate.plusDays(1))) {
+
+                currentSequence++;
+
+            } else {
+
+                currentSequence = 1;
+            }
+
+            bestStreak =
+                    Math.max(
+                            bestStreak,
+                            currentSequence
+                    );
+
+            previousDate = date;
+        }
+
+        return bestStreak;
     }
 
     // =====================================================

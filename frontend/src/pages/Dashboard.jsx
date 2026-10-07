@@ -931,17 +931,107 @@ function Dashboard() {
             )
         );
 
-        const activeCount = Math.min(
-            7,
-            currentStreak
-        );
+       /*
+ * -----------------------------------------------------
+ * STREAK DAYS
+ * -----------------------------------------------------
+ * Backend returns activityDates.
+ *
+ * The existing M T W T F S S UI is kept unchanged.
+ * Only the active state is calculated from actual
+ * learning activity dates.
+ */
+const activityDates = Array.isArray(
+    progressData?.activityDates
+)
+    ? progressData.activityDates
+    : [];
 
-        const streakDays = [
-            "M", "T", "W", "T", "F", "S", "S"
-        ].map(
-            (_, index) =>
-                index >= 7 - activeCount
-        );
+const parseActivityDate = (value) => {
+
+    if (!value) {
+        return null;
+    }
+
+    const parts = String(value).split("-");
+
+    if (parts.length !== 3) {
+        return null;
+    }
+
+    const year = Number(parts[0]);
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
+
+    if (
+        !Number.isInteger(year) ||
+        !Number.isInteger(month) ||
+        !Number.isInteger(day)
+    ) {
+        return null;
+    }
+
+    return new Date(
+        year,
+        month - 1,
+        day
+    );
+};
+
+const today = new Date();
+
+/*
+ * JavaScript:
+ * Sunday = 0
+ * Monday = 1
+ * ...
+ *
+ * Convert it so Monday becomes index 0.
+ */
+const todayDayIndex =
+    (today.getDay() + 6) % 7;
+
+const monday = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() - todayDayIndex
+);
+
+const activityDateSet =
+    new Set(
+        activityDates
+            .map(parseActivityDate)
+            .filter(Boolean)
+            .map(date =>
+                `${date.getFullYear()}-${String(
+                    date.getMonth() + 1
+                ).padStart(2, "0")}-${String(
+                    date.getDate()
+                ).padStart(2, "0")}`
+            )
+    );
+
+const streakDays = [
+    "M", "T", "W", "T", "F", "S", "S"
+].map((_, index) => {
+
+    const date = new Date(
+        monday.getFullYear(),
+        monday.getMonth(),
+        monday.getDate() + index
+    );
+
+    const dateKey =
+        `${date.getFullYear()}-${String(
+            date.getMonth() + 1
+        ).padStart(2, "0")}-${String(
+            date.getDate()
+        ).padStart(2, "0")}`;
+
+    return activityDateSet.has(
+        dateKey
+    );
+});
 
         return {
             performance,

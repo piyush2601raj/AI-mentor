@@ -1,19 +1,30 @@
 package com.aimentor.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.aimentor.dto.InterviewAttemptRequest;
 import com.aimentor.dto.InterviewAttemptResponse;
 import com.aimentor.dto.InterviewQuestionResponse;
 import com.aimentor.dto.InterviewSummaryResponse;
 import com.aimentor.service.InterviewPrepService;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/interview")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(
+        origins = {
+                "http://localhost:5173",
+                "https://ai-mentor-fawn.vercel.app"
+        }
+)
 public class InterviewPrepController {
 
     private final InterviewPrepService interviewPrepService;

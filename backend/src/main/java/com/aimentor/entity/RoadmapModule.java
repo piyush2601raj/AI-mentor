@@ -3,6 +3,7 @@ package com.aimentor.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,13 @@ public class RoadmapModule {
     private ModuleStatus status;
 
     // =====================================================
+    // COMPLETION DATE - STREAK
+    // =====================================================
+
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
+    // =====================================================
     // LEARNING CONTENT
     // =====================================================
 
@@ -54,6 +62,7 @@ public class RoadmapModule {
 
     public RoadmapModule() {
         this.status = ModuleStatus.NOT_STARTED;
+        this.completedAt = null;
     }
 
     // =====================================================
@@ -71,6 +80,7 @@ public class RoadmapModule {
         this.description = description;
         this.weekNumber = weekNumber;
         this.status = ModuleStatus.NOT_STARTED;
+        this.completedAt = null;
     }
 
     // =====================================================
@@ -89,6 +99,7 @@ public class RoadmapModule {
         this.description = description;
         this.weekNumber = weekNumber;
         this.status = ModuleStatus.NOT_STARTED;
+        this.completedAt = null;
 
         if (learningContent != null) {
             this.learningContent = learningContent;
@@ -127,6 +138,10 @@ public class RoadmapModule {
         return status;
     }
 
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
     // IMPORTANT:
     // Your handler is calling getLearningContent()
     public List<LearningContent> getLearningContent() {
@@ -154,7 +169,19 @@ public class RoadmapModule {
     }
 
     public void setStatus(ModuleStatus status) {
+
         this.status = status;
+
+        // Automatically record completion date
+        if (status == ModuleStatus.COMPLETED) {
+            this.completedAt = LocalDateTime.now();
+        } else {
+            this.completedAt = null;
+        }
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
     }
 
     public void setLearningContent(
