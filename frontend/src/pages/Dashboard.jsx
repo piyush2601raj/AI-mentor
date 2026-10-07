@@ -9,9 +9,6 @@ function Dashboard() {
 
     /* =====================================================
        BACKEND DATA
-
-       Currently everything is ZERO / EMPTY.
-       Later API response yahan set karna hai.
     ===================================================== */
 
     const [dashboard, setDashboard] = useState({
@@ -56,10 +53,6 @@ function Dashboard() {
 
     /* =====================================================
        DASHBOARD ANALYTICS STATE
-
-       These values are derived from the authenticated
-       student's roadmap/progress response. Existing UI
-       remains unchanged; this only feeds the existing cards.
     ===================================================== */
 
     const [dashboardAnalytics, setDashboardAnalytics] = useState({
@@ -74,65 +67,28 @@ function Dashboard() {
 
 
     /* =====================================================
-       REAL-TIME DASHBOARD DATA
-       =====================================================
-
-       Existing Dashboard UI is intentionally unchanged.
-
-       The Dashboard now reads the authenticated student's
-       roadmap and progress from the backend.
-
-       Source of truth:
-
-       1. /api/roadmaps/student
-          -> authenticated student's roadmaps
-
-       2. /api/roadmaps/{roadmapId}/modules
-          -> modules belonging to that student's roadmap
-
-       3. /api/roadmaps/{roadmapId}/progress
-          -> server-calculated roadmap progress
-
-       This prevents completion/progress from being treated
-       as a global value shared by every user.
+       SAFE NUMBER
     ===================================================== */
 
-
-    /*
-     * =====================================================
-     * SAFE NUMBER
-     * =====================================================
-     */
     const safeNumber = (
         value,
         fallback = 0
     ) => {
 
-        const numberValue =
-            Number(value);
+        const numberValue = Number(value);
 
-
-        if (
-            !Number.isFinite(
-                numberValue
-            )
-        ) {
-
+        if (!Number.isFinite(numberValue)) {
             return fallback;
-
         }
 
-
         return numberValue;
-
     };
 
 
-    /*
-     * =====================================================
-     * SAFE STRING
-     * =====================================================
-     */
+    /* =====================================================
+       SAFE STRING
+    ===================================================== */
+
     const safeString = (
         value,
         fallback = ""
@@ -142,24 +98,17 @@ function Dashboard() {
             value === null ||
             value === undefined
         ) {
-
             return fallback;
-
         }
 
-
-        return String(
-            value
-        ).trim();
-
+        return String(value).trim();
     };
 
 
-    /*
-     * =====================================================
-     * NORMALIZE STATUS
-     * =====================================================
-     */
+    /* =====================================================
+       NORMALIZE STATUS
+    ===================================================== */
+
     const normalizeStatus = (
         status
     ) => {
@@ -168,41 +117,32 @@ function Dashboard() {
             status,
             "NOT_STARTED"
         ).toUpperCase();
-
     };
 
 
-    /*
-     * =====================================================
-     * COMPLETED MODULE CHECK
-     * =====================================================
-     */
+    /* =====================================================
+       COMPLETED MODULE CHECK
+    ===================================================== */
+
     const isModuleCompleted = (
         module
     ) => {
 
         if (!module) {
-
             return false;
-
         }
-
 
         const status =
             normalizeStatus(
                 module.status
             );
 
-
         if (
             status === "COMPLETED" ||
             status === "DONE"
         ) {
-
             return true;
-
         }
-
 
         const moduleProgress =
             safeNumber(
@@ -212,29 +152,21 @@ function Dashboard() {
                 0
             );
 
-
-        return (
-            moduleProgress >= 100
-        );
-
+        return moduleProgress >= 100;
     };
 
 
-    /*
-     * =====================================================
-     * MODULE WEEK
-     * =====================================================
-     */
+    /* =====================================================
+       MODULE WEEK
+    ===================================================== */
+
     const getModuleWeek = (
         module
     ) => {
 
         if (!module) {
-
             return 0;
-
         }
-
 
         return safeNumber(
             module?.weekNumber ??
@@ -244,25 +176,20 @@ function Dashboard() {
             0,
             0
         );
-
     };
 
 
-    /*
-     * =====================================================
-     * MODULE TITLE
-     * =====================================================
-     */
+    /* =====================================================
+       MODULE TITLE
+    ===================================================== */
+
     const getModuleTitle = (
         module
     ) => {
 
         if (!module) {
-
             return "";
-
         }
-
 
         return safeString(
             module?.title ??
@@ -270,25 +197,20 @@ function Dashboard() {
             module?.moduleTitle,
             ""
         );
-
     };
 
 
-    /*
-     * =====================================================
-     * MODULE DESCRIPTION
-     * =====================================================
-     */
+    /* =====================================================
+       MODULE DESCRIPTION
+    ===================================================== */
+
     const getModuleDescription = (
         module
     ) => {
 
         if (!module) {
-
             return "";
-
         }
-
 
         return safeString(
             module?.description ??
@@ -296,186 +218,101 @@ function Dashboard() {
             module?.summary,
             ""
         );
-
     };
 
 
-    /*
-     * =====================================================
-     * SORT ROADMAP MODULES
-     * =====================================================
-     *
-     * Never assume module IDs are sequential.
-     * The learning order is based on week/order.
-     */
+    /* =====================================================
+       SORT ROADMAP MODULES
+    ===================================================== */
+
     const sortRoadmapModules = (
         modules = []
     ) => {
 
-        if (
-            !Array.isArray(
-                modules
-            )
-        ) {
-
+        if (!Array.isArray(modules)) {
             return [];
-
         }
 
-
-        return [
-            ...modules
-        ].sort(
+        return [...modules].sort(
             (a, b) => {
 
                 const weekA =
-                    getModuleWeek(
-                        a
-                    );
-
+                    getModuleWeek(a);
 
                 const weekB =
-                    getModuleWeek(
-                        b
-                    );
+                    getModuleWeek(b);
 
-
-                if (
-                    weekA !== weekB
-                ) {
-
-                    return (
-                        weekA -
-                        weekB
-                    );
-
+                if (weekA !== weekB) {
+                    return weekA - weekB;
                 }
 
-
                 return (
-                    safeNumber(
-                        a?.id,
-                        0
-                    ) -
-                    safeNumber(
-                        b?.id,
-                        0
-                    )
+                    safeNumber(a?.id, 0) -
+                    safeNumber(b?.id, 0)
                 );
-
             }
         );
-
     };
 
 
-    /*
-     * =====================================================
-     * NORMALIZE ROADMAP RESPONSE
-     * =====================================================
-     */
+    /* =====================================================
+       NORMALIZE ROADMAP RESPONSE
+    ===================================================== */
+
     const normalizeRoadmaps = (
         data
     ) => {
 
-        if (
-            Array.isArray(
-                data
-            )
-        ) {
-
+        if (Array.isArray(data)) {
             return data;
-
         }
 
-
-        if (
-            Array.isArray(
-                data?.roadmaps
-            )
-        ) {
-
+        if (Array.isArray(data?.roadmaps)) {
             return data.roadmaps;
-
         }
 
-
-        if (
-            data?.id
-        ) {
-
-            return [
-                data
-            ];
-
+        if (data?.id) {
+            return [data];
         }
-
 
         return [];
-
     };
 
 
-    /*
-     * =====================================================
-     * NORMALIZE MODULE RESPONSE
-     * =====================================================
-     */
+    /* =====================================================
+       NORMALIZE MODULE RESPONSE
+    ===================================================== */
+
     const normalizeModules = (
         data
     ) => {
 
-        if (
-            Array.isArray(
-                data
-            )
-        ) {
-
+        if (Array.isArray(data)) {
             return data;
-
         }
 
-
-        if (
-            Array.isArray(
-                data?.modules
-            )
-        ) {
-
+        if (Array.isArray(data?.modules)) {
             return data.modules;
-
         }
-
 
         return [];
-
     };
 
 
-    /*
-     * =====================================================
-     * PICK ACTIVE ROADMAP
-     * =====================================================
-     *
-     * The /student endpoint is already scoped to the
-     * authenticated user. A stored roadmap ID is only
-     * accepted when it actually belongs to that response.
-     */
+    /* =====================================================
+       PICK ACTIVE ROADMAP
+    ===================================================== */
+
     const pickActiveRoadmap = (
         roadmaps
     ) => {
 
         if (
-            !Array.isArray(
-                roadmaps
-            ) ||
+            !Array.isArray(roadmaps) ||
             roadmaps.length === 0
         ) {
-
             return null;
-
         }
-
 
         const storedRoadmapId =
             safeString(
@@ -485,62 +322,42 @@ function Dashboard() {
                 ""
             );
 
-
-        if (
-            storedRoadmapId
-        ) {
+        if (storedRoadmapId) {
 
             const matchingRoadmap =
                 roadmaps.find(
                     roadmap =>
                         String(
                             roadmap?.id
-                        ) ===
-                        storedRoadmapId
+                        ) === storedRoadmapId
                 );
 
-
-            if (
-                matchingRoadmap
-            ) {
-
+            if (matchingRoadmap) {
                 return matchingRoadmap;
-
             }
-
         }
 
-
-        /*
-         * Latest roadmap returned by the student-scoped
-         * endpoint is the safe fallback.
-         */
         return (
             roadmaps[
                 roadmaps.length - 1
             ] || null
         );
-
     };
 
 
-    /*
-     * =====================================================
-     * NORMALIZE PROGRESS
-     * =====================================================
-     */
+    /* =====================================================
+       CALCULATE PROGRESS SUMMARY
+    ===================================================== */
+
     const calculateProgressSummary = (
         progressData,
         modules
     ) => {
 
         const moduleList =
-            Array.isArray(
-                modules
-            )
+            Array.isArray(modules)
                 ? modules
                 : [];
-
 
         const totalFromBackend =
             safeNumber(
@@ -548,19 +365,16 @@ function Dashboard() {
                 -1
             );
 
-
         const totalModules =
             totalFromBackend >= 0
                 ? totalFromBackend
                 : moduleList.length;
-
 
         const completedFromBackend =
             safeNumber(
                 progressData?.completedModules,
                 -1
             );
-
 
         const completedModules =
             completedFromBackend >= 0
@@ -569,13 +383,11 @@ function Dashboard() {
                     isModuleCompleted
                 ).length;
 
-
         const remainingFromBackend =
             safeNumber(
                 progressData?.remainingModules,
                 -1
             );
-
 
         const remainingModules =
             remainingFromBackend >= 0
@@ -586,25 +398,21 @@ function Dashboard() {
                     0
                 );
 
-
         const calculatedProgress =
             totalModules > 0
                 ? Math.round(
                     (
                         completedModules /
                         totalModules
-                    ) *
-                    100
+                    ) * 100
                 )
                 : 0;
-
 
         const backendProgress =
             safeNumber(
                 progressData?.progressPercentage,
                 -1
             );
-
 
         const overallProgress =
             backendProgress >= 0
@@ -617,45 +425,42 @@ function Dashboard() {
                 )
                 : calculatedProgress;
 
-
         return {
-
             totalModules,
-
             completedModules,
-
             remainingModules,
-
             overallProgress
-
         };
-
     };
 
 
-    /*
-     * =====================================================
-     * BUILD DASHBOARD ANALYTICS
-     * =====================================================
-     *
-     * Uses backend values whenever they are available and
-     * derives the remaining dashboard widgets from the same
-     * authenticated student's roadmap modules. No global or
-     * hard-coded student data is introduced.
-     */
+    /* =====================================================
+       BUILD DASHBOARD ANALYTICS
+    ===================================================== */
+
     const buildDashboardAnalytics = (
         modules = [],
         progressData = null
     ) => {
 
-        const moduleList = Array.isArray(modules)
-            ? modules
-            : [];
+        const moduleList =
+            Array.isArray(modules)
+                ? modules
+                : [];
 
-        const getModuleProgressValue = (module) => {
-            const status = normalizeStatus(module?.status);
+        const getModuleProgressValue = (
+            module
+        ) => {
 
-            if (status === "COMPLETED" || status === "DONE") {
+            const status =
+                normalizeStatus(
+                    module?.status
+                );
+
+            if (
+                status === "COMPLETED" ||
+                status === "DONE"
+            ) {
                 return 100;
             }
 
@@ -675,18 +480,29 @@ function Dashboard() {
             );
         };
 
-        const completedModules = moduleList.filter(
-            module => getModuleProgressValue(module) >= 100
-        );
 
-        const incompleteModules = moduleList.filter(
-            module => getModuleProgressValue(module) < 100
-        );
+        const completedModules =
+            moduleList.filter(
+                module =>
+                    getModuleProgressValue(
+                        module
+                    ) >= 100
+            );
 
-        /* -----------------------------------------------------
+
+        const incompleteModules =
+            moduleList.filter(
+                module =>
+                    getModuleProgressValue(
+                        module
+                    ) < 100
+            );
+
+
+        /* =================================================
            PERFORMANCE
-           Backend performance history is preferred when present.
-        ----------------------------------------------------- */
+        ================================================= */
+
         let performanceSource =
             progressData?.performance ??
             progressData?.performanceHistory ??
@@ -699,339 +515,496 @@ function Dashboard() {
             performanceSource = [];
         }
 
-        let performance = performanceSource
-            .map((item, index) => {
-                const value = safeNumber(
-                    item?.value ??
-                    item?.score ??
-                    item?.progress ??
-                    item?.percentage ??
-                    item?.progressPercentage,
-                    0
+        let performance =
+            performanceSource
+                .map(
+                    (item, index) => {
+
+                        const value =
+                            safeNumber(
+                                item?.value ??
+                                item?.score ??
+                                item?.progress ??
+                                item?.percentage ??
+                                item?.progressPercentage,
+                                0
+                            );
+
+                        return {
+                            label:
+                                item?.label ??
+                                item?.month ??
+                                item?.week ??
+                                `W${index + 1}`,
+
+                            value:
+                                Math.round(
+                                    Math.min(
+                                        100,
+                                        Math.max(
+                                            0,
+                                            value
+                                        )
+                                    )
+                                )
+                        };
+                    }
+                )
+                .filter(
+                    item =>
+                        Number.isFinite(
+                            item.value
+                        )
                 );
 
-                return {
-                    label:
-                        item?.label ??
-                        item?.month ??
-                        item?.week ??
-                        `W${index + 1}`,
-                    value: Math.round(
-                        Math.min(100, Math.max(0, value))
-                    )
-                };
-            })
-            .filter(item => Number.isFinite(item.value));
 
         if (performance.length === 0) {
-            performance = moduleList
-                .slice(0, 8)
-                .map((module, index) => ({
-                    label:
-                        getModuleWeek(module) > 0
-                            ? `W${getModuleWeek(module)}`
-                            : `${index + 1}`,
-                    value: Math.round(
-                        getModuleProgressValue(module)
-                    )
-                }));
+
+            performance =
+                moduleList
+                    .slice(0, 8)
+                    .map(
+                        (module, index) => ({
+
+                            label:
+                                getModuleWeek(
+                                    module
+                                ) > 0
+                                    ? `W${getModuleWeek(module)}`
+                                    : `${index + 1}`,
+
+                            value:
+                                Math.round(
+                                    getModuleProgressValue(
+                                        module
+                                    )
+                                )
+                        })
+                    );
         }
 
-        /* -----------------------------------------------------
+
+        /* =================================================
            SKILL STRENGTH
-           Uses explicit skill/technology fields first, then
-           safely identifies common technologies from titles.
-        ----------------------------------------------------- */
-        const skillMap = new Map();
+        ================================================= */
 
-        const addSkillValue = (name, value) => {
-            const cleanName = safeString(name, "");
+        const skillMap =
+            new Map();
 
-            if (!cleanName) return;
 
-            const key = cleanName.toLowerCase();
+        const addSkillValue = (
+            name,
+            value
+        ) => {
 
-            if (!skillMap.has(key)) {
-                skillMap.set(key, {
-                    name: cleanName,
-                    total: 0,
-                    count: 0
-                });
+            const cleanName =
+                safeString(
+                    name,
+                    ""
+                );
+
+            if (!cleanName) {
+                return;
             }
 
-            const entry = skillMap.get(key);
+            const key =
+                cleanName.toLowerCase();
+
+            if (!skillMap.has(key)) {
+
+                skillMap.set(
+                    key,
+                    {
+                        name: cleanName,
+                        total: 0,
+                        count: 0
+                    }
+                );
+            }
+
+            const entry =
+                skillMap.get(key);
+
             entry.total += value;
             entry.count += 1;
         };
 
-        moduleList.forEach(module => {
-            const value = getModuleProgressValue(module);
 
-            const explicitSkills =
-                module?.skills ??
-                module?.skillNames ??
-                module?.technologies ??
-                module?.technology ??
-                module?.skillName ??
-                module?.skill?.name;
+        moduleList.forEach(
+            module => {
 
-            if (Array.isArray(explicitSkills)) {
-                explicitSkills.forEach(skill => {
+                const value =
+                    getModuleProgressValue(
+                        module
+                    );
+
+                const explicitSkills =
+                    module?.skills ??
+                    module?.skillNames ??
+                    module?.technologies ??
+                    module?.technology ??
+                    module?.skillName ??
+                    module?.skill?.name;
+
+
+                if (Array.isArray(explicitSkills)) {
+
+                    explicitSkills.forEach(
+                        skill => {
+
+                            addSkillValue(
+                                typeof skill === "object"
+                                    ? skill?.name ??
+                                      skill?.title
+                                    : skill,
+                                value
+                            );
+                        }
+                    );
+
+                } else if (explicitSkills) {
+
                     addSkillValue(
-                        typeof skill === "object"
-                            ? skill?.name ?? skill?.title
-                            : skill,
+                        explicitSkills,
                         value
                     );
-                });
-            } else if (explicitSkills) {
-                addSkillValue(explicitSkills, value);
-            }
-
-            const searchableText =
-                `${getModuleTitle(module)} ${getModuleDescription(module)}`
-                    .toLowerCase();
-
-            const knownSkills = [
-                "Java",
-                "Spring Boot",
-                "React",
-                "JavaScript",
-                "SQL",
-                "DBMS",
-                "DSA",
-                "Git",
-                "Docker",
-                "AWS",
-                "HTML",
-                "CSS",
-                "Hibernate",
-                "REST API",
-                "System Design"
-            ];
-
-            knownSkills.forEach(skill => {
-                if (searchableText.includes(skill.toLowerCase())) {
-                    addSkillValue(skill, value);
                 }
-            });
-        });
 
-        const skillStrength = Array.from(skillMap.values())
-            .map(entry => ({
-                name: entry.name,
-                value: Math.round(
-                    entry.count > 0
-                        ? entry.total / entry.count
-                        : 0
+
+                const searchableText =
+                    `${getModuleTitle(module)} ${getModuleDescription(module)}`
+                        .toLowerCase();
+
+
+                const knownSkills = [
+                    "Java",
+                    "Spring Boot",
+                    "React",
+                    "JavaScript",
+                    "SQL",
+                    "DBMS",
+                    "DSA",
+                    "Git",
+                    "Docker",
+                    "AWS",
+                    "HTML",
+                    "CSS",
+                    "Hibernate",
+                    "REST API",
+                    "System Design"
+                ];
+
+
+                knownSkills.forEach(
+                    skill => {
+
+                        if (
+                            searchableText.includes(
+                                skill.toLowerCase()
+                            )
+                        ) {
+
+                            addSkillValue(
+                                skill,
+                                value
+                            );
+                        }
+                    }
+                );
+            }
+        );
+
+
+        const skillStrength =
+            Array.from(
+                skillMap.values()
+            )
+                .map(
+                    entry => ({
+                        name: entry.name,
+
+                        value:
+                            Math.round(
+                                entry.count > 0
+                                    ? entry.total /
+                                      entry.count
+                                    : 0
+                            )
+                    })
                 )
-            }))
-            .sort((a, b) => b.value - a.value)
-            .slice(0, 6);
+                .sort(
+                    (a, b) =>
+                        b.value - a.value
+                )
+                .slice(0, 6);
 
-        /* -----------------------------------------------------
+
+        /* =================================================
            UPCOMING TASKS
-        ----------------------------------------------------- */
-        const upcomingTasks = incompleteModules
-            .slice(0, 4)
-            .map((module, index) => ({
-                title:
-                    getModuleTitle(module) ||
-                    `Learning Module ${index + 1}`,
-                due:
-                    getModuleProgressValue(module) > 0
-                        ? "Continue today"
-                        : index === 0
-                            ? "Recommended next"
-                            : getModuleWeek(module) > 0
-                                ? `Week ${getModuleWeek(module)}`
-                                : "Upcoming",
-                priority:
-                    index === 0
-                        ? "High"
-                        : index === 1
-                            ? "Medium"
-                            : "Low"
-            }));
+        ================================================= */
 
-        /* -----------------------------------------------------
+        const upcomingTasks =
+            incompleteModules
+                .slice(0, 4)
+                .map(
+                    (module, index) => ({
+
+                        title:
+                            getModuleTitle(module) ||
+                            `Learning Module ${index + 1}`,
+
+                        due:
+                            getModuleProgressValue(module) > 0
+                                ? "Continue today"
+                                : index === 0
+                                    ? "Recommended next"
+                                    : getModuleWeek(module) > 0
+                                        ? `Week ${getModuleWeek(module)}`
+                                        : "Upcoming",
+
+                        priority:
+                            index === 0
+                                ? "High"
+                                : index === 1
+                                    ? "Medium"
+                                    : "Low"
+                    })
+                );
+
+
+        /* =================================================
            RECENT ACTIVITY
-           If backend activity exists, preserve it. Otherwise
-           completed roadmap modules provide meaningful history.
-        ----------------------------------------------------- */
+        ================================================= */
+
         let recentActivitySource =
             progressData?.recentActivity ??
             progressData?.activities ??
             progressData?.activity ??
             [];
 
-        if (!Array.isArray(recentActivitySource)) {
+        if (
+            !Array.isArray(
+                recentActivitySource
+            )
+        ) {
             recentActivitySource = [];
         }
 
-        let recentActivity = recentActivitySource
-            .slice(0, 5)
-            .map(item => ({
-                title:
-                    item?.title ??
-                    item?.description ??
-                    item?.activity ??
-                    "Learning activity",
-                time:
-                    item?.time ??
-                    item?.relativeTime ??
-                    item?.createdAt ??
-                    "Recently"
-            }));
 
-        if (recentActivity.length === 0) {
-            recentActivity = completedModules
-                .slice(-5)
-                .reverse()
-                .map((module, index) => ({
-                    title:
-                        `Completed: ${
-                            getModuleTitle(module) ||
-                            "Learning Module"
-                        }`,
-                    time:
-                        index === 0
-                            ? "Recently completed"
-                            : `${index + 1} learning days ago`
-                }));
+        let recentActivity =
+            recentActivitySource
+                .slice(0, 5)
+                .map(
+                    item => ({
+
+                        title:
+                            item?.title ??
+                            item?.description ??
+                            item?.activity ??
+                            "Learning activity",
+
+                        time:
+                            item?.time ??
+                            item?.relativeTime ??
+                            item?.createdAt ??
+                            "Recently"
+                    })
+                );
+
+
+        if (
+            recentActivity.length === 0
+        ) {
+
+            recentActivity =
+                completedModules
+                    .slice(-5)
+                    .reverse()
+                    .map(
+                        (module, index) => ({
+
+                            title:
+                                `Completed: ${
+                                    getModuleTitle(
+                                        module
+                                    ) ||
+                                    "Learning Module"
+                                }`,
+
+                            time:
+                                index === 0
+                                    ? "Recently completed"
+                                    : `${index + 1} learning days ago`
+                        })
+                    );
         }
 
-        /* -----------------------------------------------------
+
+        /* =================================================
            STREAK
-           Prefer backend streak fields. If unavailable, use
-           completion activity only as a conservative fallback.
-        ----------------------------------------------------- */
-        const currentStreak = Math.max(
-            0,
-            Math.round(
-                safeNumber(
-                    progressData?.currentStreak ??
-                    progressData?.streak ??
-                    progressData?.currentStreakDays ??
-                    dashboard.currentStreak,
-                    0
+        ================================================= */
+
+        const currentStreak =
+            Math.max(
+                0,
+                Math.round(
+                    safeNumber(
+                        progressData?.currentStreak ??
+                        progressData?.streak ??
+                        progressData?.currentStreakDays ??
+                        dashboard.currentStreak,
+                        0
+                    )
                 )
-            )
-        );
+            );
 
-        const bestStreak = Math.max(
-            currentStreak,
-            Math.round(
-                safeNumber(
-                    progressData?.bestStreak ??
-                    progressData?.longestStreak ??
-                    progressData?.bestStreakDays,
-                    currentStreak
+
+        const bestStreak =
+            Math.max(
+                currentStreak,
+                Math.round(
+                    safeNumber(
+                        progressData?.bestStreak ??
+                        progressData?.longestStreak ??
+                        progressData?.bestStreakDays,
+                        currentStreak
+                    )
                 )
+            );
+
+
+        /* =================================================
+           STREAK DAYS
+        ================================================= */
+
+        const activityDates =
+            Array.isArray(
+                progressData?.activityDates
             )
-        );
+                ? progressData.activityDates
+                : [];
 
-       /*
- * -----------------------------------------------------
- * STREAK DAYS
- * -----------------------------------------------------
- * Backend returns activityDates.
- *
- * The existing M T W T F S S UI is kept unchanged.
- * Only the active state is calculated from actual
- * learning activity dates.
- */
-const activityDates = Array.isArray(
-    progressData?.activityDates
-)
-    ? progressData.activityDates
-    : [];
 
-const parseActivityDate = (value) => {
+        const parseActivityDate = (
+            value
+        ) => {
 
-    if (!value) {
-        return null;
-    }
+            if (!value) {
+                return null;
+            }
 
-    const parts = String(value).split("-");
+            const parts =
+                String(value).split("-");
 
-    if (parts.length !== 3) {
-        return null;
-    }
+            if (parts.length !== 3) {
+                return null;
+            }
 
-    const year = Number(parts[0]);
-    const month = Number(parts[1]);
-    const day = Number(parts[2]);
+            const year =
+                Number(parts[0]);
 
-    if (
-        !Number.isInteger(year) ||
-        !Number.isInteger(month) ||
-        !Number.isInteger(day)
-    ) {
-        return null;
-    }
+            const month =
+                Number(parts[1]);
 
-    return new Date(
-        year,
-        month - 1,
-        day
-    );
-};
+            const day =
+                Number(parts[2]);
 
-const today = new Date();
+            if (
+                !Number.isInteger(year) ||
+                !Number.isInteger(month) ||
+                !Number.isInteger(day)
+            ) {
+                return null;
+            }
 
-/*
- * JavaScript:
- * Sunday = 0
- * Monday = 1
- * ...
- *
- * Convert it so Monday becomes index 0.
- */
-const todayDayIndex =
-    (today.getDay() + 6) % 7;
+            return new Date(
+                year,
+                month - 1,
+                day
+            );
+        };
 
-const monday = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() - todayDayIndex
-);
 
-const activityDateSet =
-    new Set(
-        activityDates
-            .map(parseActivityDate)
-            .filter(Boolean)
-            .map(date =>
-                `${date.getFullYear()}-${String(
-                    date.getMonth() + 1
-                ).padStart(2, "0")}-${String(
-                    date.getDate()
-                ).padStart(2, "0")}`
-            )
-    );
+        const today =
+            new Date();
 
-const streakDays = [
-    "M", "T", "W", "T", "F", "S", "S"
-].map((_, index) => {
 
-    const date = new Date(
-        monday.getFullYear(),
-        monday.getMonth(),
-        monday.getDate() + index
-    );
+        /*
+         * Sunday = 0
+         * Monday = 1
+         *
+         * Convert so Monday becomes index 0.
+         */
 
-    const dateKey =
-        `${date.getFullYear()}-${String(
-            date.getMonth() + 1
-        ).padStart(2, "0")}-${String(
-            date.getDate()
-        ).padStart(2, "0")}`;
+        const todayDayIndex =
+            (today.getDay() + 6) % 7;
 
-    return activityDateSet.has(
-        dateKey
-    );
-});
+
+        const monday =
+            new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate() -
+                    todayDayIndex
+            );
+
+
+        /*
+         * IMPORTANT:
+         * Backticks were missing here in the old file.
+         */
+
+        const activityDateSet =
+            new Set(
+                activityDates
+                    .map(parseActivityDate)
+                    .filter(Boolean)
+                    .map(
+                        date =>
+                            `${date.getFullYear()}-${String(
+                                date.getMonth() + 1
+                            ).padStart(2, "0")}-${String(
+                                date.getDate()
+                            ).padStart(2, "0")}`
+                    )
+            );
+
+
+        const streakDays =
+            [
+                "M",
+                "T",
+                "W",
+                "T",
+                "F",
+                "S",
+                "S"
+            ].map(
+                (_, index) => {
+
+                    const date =
+                        new Date(
+                            monday.getFullYear(),
+                            monday.getMonth(),
+                            monday.getDate() +
+                                index
+                        );
+
+
+                    const dateKey =
+                        `${date.getFullYear()}-${String(
+                            date.getMonth() + 1
+                        ).padStart(2, "0")}-${String(
+                            date.getDate()
+                        ).padStart(2, "0")}`;
+
+
+                    return activityDateSet.has(
+                        dateKey
+                    );
+                }
+            );
+
 
         return {
             performance,
@@ -1045,14 +1018,10 @@ const streakDays = [
     };
 
 
-    /*
-     * =====================================================
-     * LOAD AUTHENTICATED STUDENT ROADMAP
-     * =====================================================
-     *
-     * This is the main Dashboard data synchronization
-     * function. It only updates existing React state.
-     */
+    /* =====================================================
+       LOAD AUTHENTICATED STUDENT ROADMAP
+    ===================================================== */
+
     const loadDashboardRoadmapState =
         async () => {
 
@@ -1071,11 +1040,8 @@ const streakDays = [
                 );
 
 
-                /*
-                 * STEP 1:
-                 * Get only the current authenticated user's
-                 * roadmaps.
-                 */
+                /* STEP 1 */
+
                 const roadmapResponse =
                     await api.get(
                         "/api/roadmaps/student"
@@ -1094,12 +1060,6 @@ const streakDays = [
                     );
 
 
-                /*
-                 * No roadmap yet.
-                 *
-                 * Preserve the existing Dashboard UI and
-                 * simply keep roadmap values empty.
-                 */
                 if (
                     !activeRoadmap?.id
                 ) {
@@ -1148,13 +1108,10 @@ const streakDays = [
                             currentStreak: 0,
 
                             bestStreak: 0
-
                         })
                     );
 
-
                     return;
-
                 }
 
 
@@ -1162,22 +1119,14 @@ const streakDays = [
                     activeRoadmap.id;
 
 
-                /*
-                 * Store only the roadmap returned for the
-                 * currently authenticated user.
-                 */
                 localStorage.setItem(
                     "generatedRoadmapId",
-                    String(
-                        roadmapId
-                    )
+                    String(roadmapId)
                 );
 
 
-                /*
-                 * STEP 2:
-                 * Get this roadmap's modules.
-                 */
+                /* STEP 2 */
+
                 const modulesResponse =
                     await api.get(
                         `/api/roadmaps/${roadmapId}/modules`
@@ -1192,14 +1141,8 @@ const streakDays = [
                     );
 
 
-                /*
-                 * STEP 3:
-                 * Get backend-calculated roadmap progress.
-                 *
-                 * If this endpoint temporarily fails,
-                 * modules are still sufficient for a safe
-                 * fallback calculation.
-                 */
+                /* STEP 3 */
+
                 let progressData =
                     null;
 
@@ -1224,7 +1167,6 @@ const streakDays = [
                         "Dashboard progress API unavailable. Using module fallback.",
                         progressError
                     );
-
                 }
 
 
@@ -1235,10 +1177,6 @@ const streakDays = [
                     );
 
 
-                /*
-                 * Build the existing Dashboard widgets from the
-                 * same authenticated roadmap/progress data.
-                 */
                 const analytics =
                     buildDashboardAnalytics(
                         modules,
@@ -1246,11 +1184,8 @@ const streakDays = [
                     );
 
 
-                /*
-                 * STEP 4:
-                 * Current module is the first module that
-                 * is not completed.
-                 */
+                /* STEP 4 */
+
                 const currentModule =
                     modules.find(
                         module =>
@@ -1260,11 +1195,8 @@ const streakDays = [
                     ) || null;
 
 
-                /*
-                 * STEP 5:
-                 * Next module is the next module after the
-                 * current module in roadmap order.
-                 */
+                /* STEP 5 */
+
                 let nextModule =
                     null;
 
@@ -1295,32 +1227,20 @@ const streakDays = [
                             modules[
                                 currentIndex + 1
                             ];
-
                     }
-
                 }
 
 
-                /*
-                 * If all modules are complete, there is no
-                 * next module.
-                 */
                 if (
                     !currentModule
                 ) {
 
                     nextModule = null;
-
                 }
 
 
-                /*
-                 * STEP 6:
-                 * Resolve existing display data.
-                 *
-                 * These values feed the EXISTING JSX only.
-                 * No new Dashboard UI is being introduced.
-                 */
+                /* STEP 6 */
+
                 const roadmapTitle =
                     safeString(
                         activeRoadmap?.title,
@@ -1374,12 +1294,8 @@ const streakDays = [
                         : "";
 
 
-                /*
-                 * STEP 7:
-                 * Keep the existing state object intact and
-                 * update only values that the Dashboard already
-                 * renders.
-                 */
+                /* STEP 7 */
+
                 setDashboard(
                     previous => ({
 
@@ -1441,9 +1357,9 @@ const streakDays = [
                                 summary.totalModules > 0 &&
                                 summary.completedModules ===
                                     summary.totalModules
-                                    ? "Roadmap completed"
-                                    : previous.continueModule
-                            ),
+                            )
+                                ? "Roadmap completed"
+                                : previous.continueModule,
 
                         continueDescription:
                             currentModuleDescription ||
@@ -1495,7 +1411,6 @@ const streakDays = [
 
                         bestStreak:
                             analytics.bestStreak
-
                     })
                 );
 
@@ -1519,7 +1434,6 @@ const streakDays = [
                             summary.overallProgress,
 
                         currentWeek
-
                     }
                 );
 
@@ -1528,55 +1442,27 @@ const streakDays = [
                 dashboardError
             ) {
 
-                /*
-                 * Important:
-                 * A dashboard refresh failure must not destroy
-                 * or clear existing visible data.
-                 *
-                 * The existing Dashboard remains usable and
-                 * another refresh will retry automatically.
-                 */
                 console.error(
                     "Dashboard roadmap sync failed:",
                     dashboardError
                 );
-
             }
-
         };
 
 
-    /*
-     * =====================================================
-     * REAL-TIME DASHBOARD SYNC
-     * =====================================================
-     *
-     * Module.jsx dispatches a custom event after successful
-     * completion. The Dashboard reacts immediately.
-     *
-     * Additional focus/visibility/polling listeners provide
-     * safe fallback behaviour for:
-     *
-     * - another browser tab
-     * - another window
-     * - returning from a module
-     * - temporary event delivery issues
-     */
+    /* =====================================================
+       REAL-TIME DASHBOARD SYNC
+    ===================================================== */
+
     useEffect(() => {
 
         let refreshTimer =
             null;
 
 
-        /*
-         * Initial dashboard load.
-         */
         loadDashboardRoadmapState();
 
 
-        /*
-         * Immediate refresh after module completion.
-         */
         const handleLearningProgressUpdated =
             (
                 event
@@ -1587,26 +1473,17 @@ const streakDays = [
                     event?.detail
                 );
 
-
                 loadDashboardRoadmapState();
-
             };
 
 
-        /*
-         * Refresh whenever the window becomes focused.
-         */
         const handleWindowFocus =
             () => {
 
                 loadDashboardRoadmapState();
-
             };
 
 
-        /*
-         * Refresh whenever the tab becomes visible.
-         */
         const handleVisibilityChange =
             () => {
 
@@ -1616,45 +1493,28 @@ const streakDays = [
                 ) {
 
                     loadDashboardRoadmapState();
-
                 }
-
             };
 
 
-        /*
-         * Listen globally for Module completion.
-         */
         window.addEventListener(
             "learning-progress-updated",
             handleLearningProgressUpdated
         );
 
 
-        /*
-         * Window focus fallback.
-         */
         window.addEventListener(
             "focus",
             handleWindowFocus
         );
 
 
-        /*
-         * Tab visibility fallback.
-         */
         document.addEventListener(
             "visibilitychange",
             handleVisibilityChange
         );
 
 
-        /*
-         * Backend polling fallback.
-         *
-         * This keeps the Dashboard dynamically synchronized
-         * even if a module is completed in another tab/window.
-         */
         refreshTimer =
             window.setInterval(
                 () => {
@@ -1666,9 +1526,6 @@ const streakDays = [
             );
 
 
-        /*
-         * Clean every listener/timer when Dashboard unmounts.
-         */
         return () => {
 
             window.removeEventListener(
@@ -1696,9 +1553,7 @@ const streakDays = [
                 window.clearInterval(
                     refreshTimer
                 );
-
             }
-
         };
 
     }, []);
@@ -1712,33 +1567,46 @@ const streakDays = [
 
         const updateStudyTime = () => {
 
-            const totalSeconds = Number(
-                localStorage.getItem(
-                    "aiMentorStudySeconds"
-                ) || 0
-            );
+            const totalSeconds =
+                Number(
+                    localStorage.getItem(
+                        "aiMentorStudySeconds"
+                    ) || 0
+                );
 
-            const totalMinutes = Math.floor(
-                totalSeconds / 60
-            );
 
-            setDashboard(previous => ({
-                ...previous,
-                totalStudyMinutes: totalMinutes
-            }));
+            const totalMinutes =
+                Math.floor(
+                    totalSeconds / 60
+                );
+
+
+            setDashboard(
+                previous => ({
+
+                    ...previous,
+
+                    totalStudyMinutes:
+                        totalMinutes
+                })
+            );
         };
 
+
         updateStudyTime();
+
 
         window.addEventListener(
             "study-time-updated",
             updateStudyTime
         );
 
+
         window.addEventListener(
             "storage",
             updateStudyTime
         );
+
 
         return () => {
 
@@ -1747,24 +1615,31 @@ const streakDays = [
                 updateStudyTime
             );
 
+
             window.removeEventListener(
                 "storage",
                 updateStudyTime
             );
-
         };
 
     }, []);
 
 
-        /* =====================================================
+    /* =====================================================
        HELPERS
     ===================================================== */
 
-    const formatStudyTime = (minutes = 0) => {
+    const formatStudyTime = (
+        minutes = 0
+    ) => {
 
-        const hours = Math.floor(minutes / 60);
-        const mins = minutes % 60;
+        const hours =
+            Math.floor(
+                minutes / 60
+            );
+
+        const mins =
+            minutes % 60;
 
         return `${hours}h ${mins}m`;
     };
@@ -1777,15 +1652,9 @@ const streakDays = [
         );
 
 
-    /*
-     * =====================================================
-     * EXISTING DISPLAY SAFETY HELPERS
-     * =====================================================
-     *
-     * These helpers do not change the visual design.
-     * They only normalize data before it is displayed.
-     */
-
+    /* =====================================================
+       EXISTING DISPLAY SAFETY HELPERS
+    ===================================================== */
 
     const normalizedProgress =
         Math.min(
@@ -1843,16 +1712,8 @@ const streakDays = [
         );
 
 
-    /*
-     * Existing JSX still uses `dashboard` so the UI structure
-     * remains byte-for-byte conceptually unchanged.
-     *
-     * These values simply document the normalized calculations
-     * and provide safe fallbacks for future Dashboard widgets.
-     */
     const hasActiveRoadmap =
-        normalizedTotalModules >
-        0;
+        normalizedTotalModules > 0;
 
 
     const hasCompletedRoadmap =
@@ -1881,7 +1742,11 @@ const streakDays = [
         )}%`;
 
 
-        return (
+    /* =====================================================
+       DASHBOARD UI
+    ===================================================== */
+
+    return (
 
         <div className="dashboard-page">
 
@@ -1912,11 +1777,13 @@ const streakDays = [
                     className="continue-learning-btn"
                     onClick={() => navigate("/roadmap")}
                 >
+
                     <i className="bi bi-play-circle"></i>
 
                     Continue Learning
 
                     <i className="bi bi-arrow-right"></i>
+
                 </button>
 
             </section>
@@ -1931,61 +1798,69 @@ const streakDays = [
 
                 {/* OVERALL */}
 
-              <div className="stat-card overall-progress-card">
+                <div className="stat-card overall-progress-card">
 
-    <div className="progress-circle">
+                    <div className="progress-circle">
 
-        <svg
-            viewBox="0 0 42 42"
-            aria-label={`Overall progress ${Math.round(normalizedProgress)}%`}
-        >
+                        <svg
+                            viewBox="0 0 42 42"
+                            aria-label={`Overall progress ${Math.round(
+                                normalizedProgress
+                            )}%`}
+                        >
 
-            <circle
-                className="progress-bg"
-                cx="21"
-                cy="21"
-                r="17"
-                pathLength="100"
-            />
+                            <circle
+                                className="progress-bg"
+                                cx="21"
+                                cy="21"
+                                r="17"
+                                pathLength="100"
+                            />
 
-            <circle
-                className="progress-value"
-                cx="21"
-                cy="21"
-                r="17"
-                pathLength="100"
-                style={{
-                    strokeDasharray: `${normalizedProgress} 100`
-                }}
-            />
+                            <circle
+                                className="progress-value"
+                                cx="21"
+                                cy="21"
+                                r="17"
+                                pathLength="100"
+                                style={{
+                                    strokeDasharray:
+                                        `${normalizedProgress} 100`
+                                }}
+                            />
 
-        </svg>
+                        </svg>
 
-        <span>
-            {Math.round(normalizedProgress)}%
-        </span>
+                        <span>
+                            {Math.round(
+                                normalizedProgress
+                            )}%
+                        </span>
 
-    </div>
+                    </div>
 
 
-    <div className="stat-info">
+                    <div className="stat-info">
 
-        <span className="stat-label">
-            Overall Progress
-        </span>
+                        <span className="stat-label">
+                            Overall Progress
+                        </span>
 
-        <strong>
-            {Math.round(normalizedProgress)}%
-        </strong>
+                        <strong>
+                            {Math.round(
+                                normalizedProgress
+                            )}%
+                        </strong>
 
-        <small>
-            {normalizedCompletedModules} of{" "}
-            {normalizedTotalModules} modules
-        </small>
+                        <small>
+                            {normalizedCompletedModules} of{" "}
+                            {normalizedTotalModules} modules
+                        </small>
 
-    </div>
+                    </div>
 
-</div>
+                </div>
+
 
                 {/* COMPLETED */}
 
@@ -2054,10 +1929,14 @@ const streakDays = [
                         <span className="stat-label">
                             Current Streak
                         </span>
-<strong>
-    {dashboard.currentStreak}{" "}
-    {dashboard.currentStreak === 1 ? "day" : "days"}
-</strong>
+
+                        <strong>
+                            {dashboard.currentStreak}{" "}
+                            {dashboard.currentStreak === 1
+                                ? "day"
+                                : "days"}
+                        </strong>
+
                         <small>
                             Keep it up!
                         </small>
@@ -2124,7 +2003,9 @@ const streakDays = [
 
                             <button
                                 className="text-button"
-                                onClick={() => navigate("/roadmap")}
+                                onClick={() =>
+                                    navigate("/roadmap")
+                                }
                             >
                                 View Full Roadmap
                                 <i className="bi bi-arrow-right"></i>
@@ -2160,7 +2041,8 @@ const streakDays = [
                                         <div
                                             className="progress-fill"
                                             style={{
-                                                width: `${dashboard.roadmapProgress || 0}%`
+                                                width:
+                                                    `${normalizedRoadmapProgress}%`
                                             }}
                                         />
 
@@ -2169,12 +2051,14 @@ const streakDays = [
                                     <div className="progress-meta">
 
                                         <span>
-                                            {dashboard.roadmapProgress || 0}% Complete
+                                            {Math.round(
+                                                normalizedRoadmapProgress
+                                            )}% Complete
                                         </span>
 
                                         <span>
-                                            {dashboard.completedModules} of{" "}
-                                            {dashboard.totalModules} modules
+                                            {normalizedCompletedModules} of{" "}
+                                            {normalizedTotalModules} modules
                                         </span>
 
                                     </div>
@@ -2189,6 +2073,7 @@ const streakDays = [
                         <div className="roadmap-meta">
 
                             <div>
+
                                 <span>
                                     <i className="bi bi-calendar3"></i>
                                     Current Week
@@ -2198,22 +2083,27 @@ const streakDays = [
                                     Week {dashboard.currentWeek || 0} of{" "}
                                     {dashboard.totalWeeks || 0}
                                 </strong>
+
                             </div>
 
 
                             <div>
+
                                 <span>
                                     <i className="bi bi-book"></i>
                                     Next Module
                                 </span>
 
                                 <strong>
-                                    {dashboard.nextModule || "Not available"}
+                                    {dashboard.nextModule ||
+                                        "Not available"}
                                 </strong>
+
                             </div>
 
 
                             <div>
+
                                 <span>
                                     <i className="bi bi-clock"></i>
                                     Est. Completion
@@ -2223,6 +2113,7 @@ const streakDays = [
                                     {dashboard.estimatedCompletion ||
                                         "Not available"}
                                 </strong>
+
                             </div>
 
                         </div>
@@ -2322,6 +2213,7 @@ const streakDays = [
 
                                 <div className="chart-line"></div>
 
+
                                 {dashboard.performance?.length > 0 ? (
 
                                     <svg
@@ -2332,6 +2224,7 @@ const streakDays = [
                                     >
 
                                         <defs>
+
                                             <linearGradient
                                                 id="dashboardPerformanceFill"
                                                 x1="0"
@@ -2339,74 +2232,133 @@ const streakDays = [
                                                 x2="0"
                                                 y2="1"
                                             >
+
                                                 <stop
                                                     offset="0%"
                                                     stopColor="#6c63ff"
                                                     stopOpacity="0.20"
                                                 />
+
                                                 <stop
                                                     offset="100%"
                                                     stopColor="#6c63ff"
                                                     stopOpacity="0"
                                                 />
+
                                             </linearGradient>
+
                                         </defs>
 
+
                                         {(() => {
+
                                             const points =
                                                 dashboard.performance
                                                     .slice(-8);
+
 
                                             const width = 700;
                                             const height = 220;
                                             const paddingX = 18;
                                             const paddingY = 18;
+
+
                                             const usableWidth =
-                                                width - paddingX * 2;
+                                                width -
+                                                paddingX * 2;
+
+
                                             const usableHeight =
-                                                height - paddingY * 2;
+                                                height -
+                                                paddingY * 2;
+
 
                                             const coordinates =
-                                                points.map((item, index) => {
-                                                    const x =
-                                                        points.length === 1
-                                                            ? width / 2
-                                                            : paddingX +
-                                                              (usableWidth * index) /
-                                                              (points.length - 1);
+                                                points.map(
+                                                    (item, index) => {
 
-                                                    const y =
-                                                        height -
-                                                        paddingY -
-                                                        (Math.min(100, Math.max(0, Number(item.value) || 0)) / 100) *
+                                                        const x =
+                                                            points.length === 1
+                                                                ? width / 2
+                                                                : paddingX +
+                                                                  (
+                                                                      usableWidth *
+                                                                      index
+                                                                  ) /
+                                                                  (
+                                                                      points.length - 1
+                                                                  );
+
+
+                                                        const y =
+                                                            height -
+                                                            paddingY -
+                                                            (
+                                                                Math.min(
+                                                                    100,
+                                                                    Math.max(
+                                                                        0,
+                                                                        Number(
+                                                                            item.value
+                                                                        ) || 0
+                                                                    )
+                                                                ) /
+                                                                100
+                                                            ) *
                                                             usableHeight;
 
-                                                    return {
-                                                        ...item,
-                                                        x,
-                                                        y
-                                                    };
-                                                });
+
+                                                        return {
+                                                            ...item,
+                                                            x,
+                                                            y
+                                                        };
+                                                    }
+                                                );
+
 
                                             const linePoints =
                                                 coordinates
-                                                    .map(point => `${point.x},${point.y}`)
+                                                    .map(
+                                                        point =>
+                                                            `${point.x},${point.y}`
+                                                    )
                                                     .join(" ");
+
 
                                             const areaPoints =
                                                 coordinates.length > 0
-                                                    ? `${paddingX},${height - paddingY} ${linePoints} ${coordinates[coordinates.length - 1].x},${height - paddingY}`
+                                                    ? `${paddingX},${
+                                                          height -
+                                                          paddingY
+                                                      } ${linePoints} ${
+                                                          coordinates[
+                                                              coordinates.length -
+                                                              1
+                                                          ].x
+                                                      },${
+                                                          height -
+                                                          paddingY
+                                                      }`
                                                     : "";
 
+
                                             return (
+
                                                 <>
+
                                                     <polygon
-                                                        points={areaPoints}
+                                                        points={
+                                                            areaPoints
+                                                        }
                                                         fill="url(#dashboardPerformanceFill)"
                                                     />
 
+
                                                     <polyline
-                                                        points={linePoints}
+                                                        points={
+                                                            linePoints
+                                                        }
                                                         fill="none"
                                                         stroke="#6258dc"
                                                         strokeWidth="4"
@@ -2414,19 +2366,34 @@ const streakDays = [
                                                         strokeLinejoin="round"
                                                     />
 
-                                                    {coordinates.map((point, index) => (
-                                                        <circle
-                                                            key={index}
-                                                            cx={point.x}
-                                                            cy={point.y}
-                                                            r="5"
-                                                            fill="#ffffff"
-                                                            stroke="#6258dc"
-                                                            strokeWidth="3"
-                                                        />
-                                                    ))}
+
+                                                    {coordinates.map(
+                                                        (
+                                                            point,
+                                                            index
+                                                        ) => (
+
+                                                            <circle
+                                                                key={index}
+                                                                cx={
+                                                                    point.x
+                                                                }
+                                                                cy={
+                                                                    point.y
+                                                                }
+                                                                r="5"
+                                                                fill="#ffffff"
+                                                                stroke="#6258dc"
+                                                                strokeWidth="3"
+                                                            />
+
+                                                        )
+                                                    )}
+
                                                 </>
+
                                             );
+
                                         })()}
 
                                     </svg>
@@ -2434,11 +2401,13 @@ const streakDays = [
                                 ) : (
 
                                     <div className="chart-placeholder">
+
                                         <i className="bi bi-bar-chart"></i>
 
                                         <span>
                                             Complete roadmap modules to build your performance history
                                         </span>
+
                                     </div>
 
                                 )}
@@ -2506,12 +2475,16 @@ const streakDays = [
 
 
                         <button
-                            onClick={() => navigate("/roadmap")}
+                            onClick={() =>
+                                navigate("/roadmap")
+                            }
                             className="start-learning-btn"
                         >
+
                             Start Learning
 
                             <i className="bi bi-play-fill"></i>
+
                         </button>
 
                     </div>
@@ -2534,12 +2507,18 @@ const streakDays = [
                         </div>
 
 
-                       <div className="streak-number">
-    {dashboard.currentStreak}
-    <span>
-        {dashboard.currentStreak === 1 ? "day" : "days"}
-    </span>
-</div>
+                        <div className="streak-number">
+
+                            {dashboard.currentStreak}
+
+                            <span>
+                                {dashboard.currentStreak === 1
+                                    ? "day"
+                                    : "days"}
+                            </span>
+
+                        </div>
+
                         <small>
                             Current streak
                         </small>
@@ -2547,12 +2526,26 @@ const streakDays = [
 
                         <div className="streak-days">
 
-                            {["M", "T", "W", "T", "F", "S", "S"].map(
-                                (day, index) => {
+                            {[
+                                "M",
+                                "T",
+                                "W",
+                                "T",
+                                "F",
+                                "S",
+                                "S"
+                            ].map(
+                                (
+                                    day,
+                                    index
+                                ) => {
 
                                     const active =
-                                        dashboard.streakDays?.[index] ||
+                                        dashboard.streakDays?.[
+                                            index
+                                        ] ||
                                         false;
+
 
                                     return (
 
@@ -2572,9 +2565,11 @@ const streakDays = [
                                                         : "day-circle"
                                                 }
                                             >
+
                                                 {active && (
                                                     <i className="bi bi-check"></i>
                                                 )}
+
                                             </div>
 
                                         </div>
@@ -2587,12 +2582,27 @@ const streakDays = [
 
 
                         <p className="best-streak">
-    Best streak:{" "}
-    {dashboard.bestStreak || dashboard.currentStreak || 0}{" "}
-    {(dashboard.bestStreak || dashboard.currentStreak || 0) === 1
-        ? "day"
-        : "days"}
-</p>
+
+                            Best streak:{" "}
+
+                            {
+                                dashboard.bestStreak ||
+                                dashboard.currentStreak ||
+                                0
+                            }{" "}
+
+                            {
+                                (
+                                    dashboard.bestStreak ||
+                                    dashboard.currentStreak ||
+                                    0
+                                ) === 1
+                                    ? "day"
+                                    : "days"
+                            }
+
+                        </p>
+
                     </div>
 
 
@@ -2622,17 +2632,22 @@ const streakDays = [
                             {dashboard.skillStrength.length === 0 ? (
 
                                 <div className="empty-state">
+
                                     <i className="bi bi-bar-chart"></i>
 
                                     <span>
                                         Skill data will appear here
                                     </span>
+
                                 </div>
 
                             ) : (
 
                                 dashboard.skillStrength.map(
-                                    (skill, index) => (
+                                    (
+                                        skill,
+                                        index
+                                    ) => (
 
                                         <div
                                             className="skill-row"
@@ -2643,15 +2658,18 @@ const streakDays = [
                                                 {skill.name}
                                             </span>
 
+
                                             <div className="skill-track">
 
                                                 <div
                                                     style={{
-                                                        width: `${skill.value || 0}%`
+                                                        width:
+                                                            `${skill.value || 0}%`
                                                     }}
                                                 />
 
                                             </div>
+
 
                                             <strong>
                                                 {skill.value || 0}%
@@ -2682,7 +2700,9 @@ const streakDays = [
                             <button
                                 className="text-button"
                                 type="button"
-                                onClick={() => navigate("/roadmap")}
+                                onClick={() =>
+                                    navigate("/roadmap")
+                                }
                             >
                                 View all
                             </button>
@@ -2695,17 +2715,22 @@ const streakDays = [
                             {dashboard.upcomingTasks.length === 0 ? (
 
                                 <div className="empty-state">
+
                                     <i className="bi bi-check2-square"></i>
 
                                     <span>
                                         No upcoming tasks
                                     </span>
+
                                 </div>
 
                             ) : (
 
                                 dashboard.upcomingTasks.map(
-                                    (task, index) => (
+                                    (
+                                        task,
+                                        index
+                                    ) => (
 
                                         <div
                                             className="task-item"
@@ -2713,8 +2738,11 @@ const streakDays = [
                                         >
 
                                             <div className="task-icon">
+
                                                 <i className="bi bi-calendar-event"></i>
+
                                             </div>
+
 
                                             <div className="task-content">
 
@@ -2727,6 +2755,7 @@ const streakDays = [
                                                 </span>
 
                                             </div>
+
 
                                             <span className="priority">
                                                 {task.priority}
@@ -2757,7 +2786,9 @@ const streakDays = [
                             <button
                                 className="text-button"
                                 type="button"
-                                onClick={() => navigate("/roadmap")}
+                                onClick={() =>
+                                    navigate("/roadmap")
+                                }
                             >
                                 View all
                             </button>
@@ -2770,17 +2801,22 @@ const streakDays = [
                             {dashboard.recentActivity.length === 0 ? (
 
                                 <div className="empty-state">
+
                                     <i className="bi bi-clock-history"></i>
 
                                     <span>
                                         No recent activity
                                     </span>
+
                                 </div>
 
                             ) : (
 
                                 dashboard.recentActivity.map(
-                                    (activity, index) => (
+                                    (
+                                        activity,
+                                        index
+                                    ) => (
 
                                         <div
                                             className="activity-item"
@@ -2788,8 +2824,11 @@ const streakDays = [
                                         >
 
                                             <div className="activity-icon">
+
                                                 <i className="bi bi-check-circle"></i>
+
                                             </div>
+
 
                                             <div>
 
@@ -2826,8 +2865,11 @@ const streakDays = [
             <section className="achievement-banner">
 
                 <div className="achievement-icon">
+
                     <i className="bi bi-trophy-fill"></i>
+
                 </div>
+
 
                 <div>
 
@@ -2841,9 +2883,13 @@ const streakDays = [
 
                 </div>
 
+
                 <button>
+
                     <i className="bi bi-trophy"></i>
+
                     View Achievements
+
                 </button>
 
             </section>
@@ -2851,5 +2897,6 @@ const streakDays = [
         </div>
     );
 }
+
 
 export default Dashboard;
