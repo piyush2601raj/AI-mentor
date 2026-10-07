@@ -1998,6 +1998,8 @@ function Module() {
     }
 
 
+
+
     /* =====================================================
        MAIN UI
        ===================================================== */
@@ -2006,227 +2008,102 @@ function Module() {
 
         <div className="module-page">
 
-
             {/* =================================================
                 TOP NAVIGATION
             ================================================= */}
 
-            <div className="module-topbar">
+            <header className="module-topbar">
 
                 <div className="module-topbar-left">
 
                     <button
+                        type="button"
                         className="back-btn"
-                        onClick={
-                            handleBack
-                        }
+                        onClick={handleBack}
                     >
-
-                        <span>
-                            ←
-                        </span>
-
+                        <span aria-hidden="true">←</span>
                         Roadmap
-
                     </button>
 
-
                     <div className="breadcrumb">
-
-                        <span>
-                            Learning Path
-                        </span>
-
-                        <b>
-                            /
-                        </b>
-
-                        <strong>
-                            Module {week}
-                        </strong>
-
+                        <span>Learning Path</span>
+                        <b>/</b>
+                        <strong>Week {week}</strong>
                     </div>
 
                 </div>
-
 
                 <div className="module-status">
 
                     <span
                         className={
-                            status ===
-                            "COMPLETED"
+                            status === "COMPLETED"
                                 ? "status-pill completed"
-                                : status ===
-                                  "IN_PROGRESS"
+                                : status === "IN_PROGRESS"
                                     ? "status-pill progress"
                                     : "status-pill pending"
                         }
                     >
-
                         <span className="status-dot" />
 
-                        {
-                            status ===
-                            "COMPLETED"
-                                ? "Completed"
-                                : status ===
-                                  "IN_PROGRESS"
-                                    ? "In Progress"
-                                    : "Not Started"
-                        }
-
+                        {status === "COMPLETED"
+                            ? "Completed"
+                            : status === "IN_PROGRESS"
+                                ? "In Progress"
+                                : "Not Started"}
                     </span>
 
                 </div>
 
-            </div>
+            </header>
 
 
             <main className="module-container">
 
-
                 {/* =================================================
-                    HERO
+                    MODULE HERO
                 ================================================= */}
 
                 <section className="module-hero">
 
                     <div className="hero-decoration hero-decoration-one" />
-
                     <div className="hero-decoration hero-decoration-two" />
-
 
                     <div className="hero-content">
 
                         <div className="hero-left">
 
-                            <div className="week-badge">
+                            <span className="week-badge">
                                 ✦ WEEK {week}
-                            </div>
+                            </span>
 
-
-                            <h1>
-                                {title}
-                            </h1>
-
+                            <h1>{title}</h1>
 
                             <p className="hero-description">
                                 {description}
                             </p>
 
-
                             <div className="hero-stats">
 
-                                <div
-                                    className="hero-stat"
-                                    style={{
-                                        minWidth: "105px",
-                                        padding: "12px 16px",
-                                        borderRadius: "14px",
-                                        background: "rgba(255, 255, 255, 0.13)",
-                                        border: "1px solid rgba(255, 255, 255, 0.22)",
-                                        boxSizing: "border-box"
-                                    }}
-                                >
-
-                                    <span style={{
-                                        display: "block",
-                                        color: "rgba(255, 255, 255, 0.72)",
-                                        fontSize: "9px",
-                                        fontWeight: 800,
-                                        letterSpacing: "1px",
-                                        marginBottom: "5px"
-                                    }}>
-                                        LESSONS
-                                    </span>
-
-                                    <strong style={{
-                                        display: "block",
-                                        color: "#ffffff",
-                                        fontSize: "20px",
-                                        fontWeight: 900,
-                                        lineHeight: 1.15
-                                    }}>
-                                        {
-                                            learningContents.length
-                                        }
+                                <div className="hero-stat">
+                                    <span>LESSONS</span>
+                                    <strong>
+                                        {learningContents.length}
                                     </strong>
-
                                 </div>
 
-
-                                <div
-                                    className="hero-stat"
-                                    style={{
-                                        minWidth: "105px",
-                                        padding: "12px 16px",
-                                        borderRadius: "14px",
-                                        background: "rgba(255, 255, 255, 0.13)",
-                                        border: "1px solid rgba(255, 255, 255, 0.22)",
-                                        boxSizing: "border-box"
-                                    }}
-                                >
-
-                                    <span style={{
-                                        display: "block",
-                                        color: "rgba(255, 255, 255, 0.72)",
-                                        fontSize: "9px",
-                                        fontWeight: 800,
-                                        letterSpacing: "1px",
-                                        marginBottom: "5px"
-                                    }}>
-                                        TOPICS
-                                    </span>
-
-                                    <strong style={{
-                                        display: "block",
-                                        color: "#ffffff",
-                                        fontSize: "20px",
-                                        fontWeight: 900,
-                                        lineHeight: 1.15
-                                    }}>
-                                        {
-                                            topicArray.length
-                                        }
+                                <div className="hero-stat">
+                                    <span>TOPICS</span>
+                                    <strong>
+                                        {topicArray.length}
                                     </strong>
-
                                 </div>
 
-
-                                <div
-                                    className="hero-stat"
-                                    style={{
-                                        minWidth: "105px",
-                                        padding: "12px 16px",
-                                        borderRadius: "14px",
-                                        background: "rgba(255, 255, 255, 0.13)",
-                                        border: "1px solid rgba(255, 255, 255, 0.22)",
-                                        boxSizing: "border-box"
-                                    }}
-                                >
-
-                                    <span style={{
-                                        display: "block",
-                                        color: "rgba(255, 255, 255, 0.72)",
-                                        fontSize: "9px",
-                                        fontWeight: 800,
-                                        letterSpacing: "1px",
-                                        marginBottom: "5px"
-                                    }}>
-                                        PROGRESS
-                                    </span>
-
-                                    <strong style={{
-                                        display: "block",
-                                        color: "#ffffff",
-                                        fontSize: "20px",
-                                        fontWeight: 900,
-                                        lineHeight: 1.15
-                                    }}>
+                                <div className="hero-stat">
+                                    <span>PROGRESS</span>
+                                    <strong>
                                         {progressValue}%
                                     </strong>
-
                                 </div>
 
                             </div>
@@ -2242,25 +2119,15 @@ function Module() {
                                     "--progress":
                                         `${progressValue * 3.6}deg`
                                 }}
+                                aria-label={`${progressValue}% complete`}
                             >
-
                                 <div className="progress-circle-inner">
-
-                                    <strong>
-                                        {progressValue}%
-                                    </strong>
-
-                                    <span>
-                                        Complete
-                                    </span>
-
+                                    <strong>{progressValue}%</strong>
+                                    <span>Complete</span>
                                 </div>
-
                             </div>
 
-                            <span>
-                                Your module progress
-                            </span>
+                            <span>Your module progress</span>
 
                         </div>
 
@@ -2270,28 +2137,17 @@ function Module() {
                     <div className="hero-progress">
 
                         <div className="progress-label-row">
-
-                            <span>
-                                Module progress
-                            </span>
-
-                            <strong>
-                                {progressValue}%
-                            </strong>
-
+                            <span>Module progress</span>
+                            <strong>{progressValue}%</strong>
                         </div>
 
-
                         <div className="progress-track">
-
                             <div
                                 className="progress-fill"
                                 style={{
-                                    width:
-                                        `${progressValue}%`
+                                    width: `${progressValue}%`
                                 }}
                             />
-
                         </div>
 
                     </div>
@@ -2300,42 +2156,27 @@ function Module() {
 
 
                 {/* =================================================
-                    ERROR ALERT
+                    ERROR
                 ================================================= */}
 
                 {error && (
-
                     <div className="module-alert">
-
-                        <span>
-                            !
-                        </span>
-
-                        <p>
-                            {error}
-                        </p>
-
+                        <span>!</span>
+                        <p>{error}</p>
                     </div>
-
                 )}
 
 
                 {/* =================================================
-                    MAIN GRID
+                    MAIN CONTENT
                 ================================================= */}
 
                 <div className="module-grid">
 
-
-                    {/* =================================================
-                        LEFT COLUMN
-                    ================================================= */}
-
                     <div className="module-main">
 
-
                         {/* =================================================
-                            WHAT YOU WILL LEARN
+                            OVERVIEW
                         ================================================= */}
 
                         <section className="content-card">
@@ -2347,26 +2188,18 @@ function Module() {
                                 </div>
 
                                 <div>
-
                                     <span className="eyebrow">
                                         MODULE OVERVIEW
                                     </span>
 
-                                    <h2>
-                                        What you'll learn
-                                    </h2>
-
+                                    <h2>What you'll learn</h2>
                                 </div>
 
                             </div>
 
 
                             <div className="overview-box">
-
-                                <p>
-                                    {description}
-                                </p>
-
+                                <p>{description}</p>
                             </div>
 
 
@@ -2375,31 +2208,20 @@ function Module() {
                                 <div className="topics-section">
 
                                     <div className="sub-heading">
-                                        Skills covered
+                                        KEY TOPICS
                                     </div>
-
 
                                     <div className="topic-grid">
 
                                         {topicArray.map(
-                                            (
-                                                topic,
-                                                index
-                                            ) => (
-
-                                                <div
+                                            (topic, index) => (
+                                                <span
                                                     className="topic-chip"
-                                                    key={index}
+                                                    key={`${topic}-${index}`}
                                                 >
-
-                                                    <span>
-                                                        ✓
-                                                    </span>
-
+                                                    <span>✓</span>
                                                     {topic}
-
-                                                </div>
-
+                                                </span>
                                             )
                                         )}
 
@@ -2416,61 +2238,42 @@ function Module() {
                             LEARNING CONTENT
                         ================================================= */}
 
-                        <section
-                            className="content-card learning-card"
-                        >
+                        <section className="content-card learning-card">
 
                             <div className="learning-header">
 
-                                <div className="card-heading">
+                                <div>
 
-                                    <div className="card-heading-icon purple">
-                                        📚
-                                    </div>
+                                    <span className="eyebrow">
+                                        LEARNING CONTENT
+                                    </span>
 
-                                    <div>
+                                    <div className="card-heading">
 
-                                        <span className="eyebrow">
-                                            LEARNING CONTENT
-                                        </span>
+                                        <div className="card-heading-icon purple">
+                                            ◫
+                                        </div>
 
-                                        <h2>
-                                            Start Learning
-                                        </h2>
+                                        <div>
+                                            <h2>Learn step by step</h2>
+                                        </div>
 
                                     </div>
 
                                 </div>
 
 
-                                {learningContents.length > 0 && (
-
-                                    <div className="lesson-count">
-
-                                        {
-                                            learningContents.length
-                                        }
-
-                                        {" "}
-
-                                        {
-                                            learningContents.length === 1
-                                                ? "lesson"
-                                                : "lessons"
-                                        }
-
-                                    </div>
-
-                                )}
+                                <div className="lesson-count">
+                                    {learningContents.length}{" "}
+                                    {learningContents.length === 1
+                                        ? "Lesson"
+                                        : "Lessons"}
+                                </div>
 
                             </div>
 
 
-                            {/* =================================================
-                                LOADING
-                            ================================================= */}
-
-                            {contentLoading && (
+                            {contentLoading ? (
 
                                 <div className="content-loading">
 
@@ -2481,1125 +2284,600 @@ function Module() {
                                     </h3>
 
                                     <p>
-                                        Loading learning content for this module...
+                                        Your personalized learning
+                                        content is being prepared.
                                     </p>
+
+                                </div>
+
+                            ) : contentError ? (
+
+                                <div className="content-empty">
+
+                                    <div className="empty-icon">
+                                        !
+                                    </div>
+
+                                    <h3>
+                                        Learning content unavailable
+                                    </h3>
+
+                                    <p>
+                                        {contentError}
+                                    </p>
+
+                                </div>
+
+                            ) : learningContents.length === 0 ? (
+
+                                <div className="content-empty">
+
+                                    <div className="empty-icon">
+                                        📚
+                                    </div>
+
+                                    <h3>
+                                        No lessons available yet
+                                    </h3>
+
+                                    <p>
+                                        Learning content for this module
+                                        has not been added yet.
+                                    </p>
+
+                                </div>
+
+                            ) : (
+
+                                <div className="learning-layout">
+
+                                    {/* =====================================
+                                        LESSON NAVIGATION
+                                    ===================================== */}
+
+                                    <aside className="lesson-list">
+
+                                        <div className="lesson-list-title">
+                                            MODULE LESSONS
+                                        </div>
+
+                                        {learningContents.map(
+                                            (content, index) => {
+
+                                                const selected =
+                                                    index === activeIndex;
+
+                                                return (
+
+                                                    <button
+                                                        type="button"
+                                                        key={
+                                                            content.id ||
+                                                            `${content._title}-${index}`
+                                                        }
+                                                        className={
+                                                            selected
+                                                                ? "lesson-item active"
+                                                                : "lesson-item"
+                                                        }
+                                                        onClick={() =>
+                                                            handleSelectContent(
+                                                                content,
+                                                                index
+                                                            )
+                                                        }
+                                                    >
+
+                                                        <span
+                                                            className={
+                                                                selected
+                                                                    ? "lesson-number active"
+                                                                    : "lesson-number"
+                                                            }
+                                                        >
+                                                            {content.completed
+                                                                ? "✓"
+                                                                : String(index + 1).padStart(
+                                                                    2,
+                                                                    "0"
+                                                                )}
+                                                        </span>
+
+                                                        <span className="lesson-info">
+
+                                                            <strong>
+                                                                {content._title}
+                                                            </strong>
+
+                                                            <span>
+                                                                {content.completed
+                                                                    ? "Completed"
+                                                                    : content._type}
+                                                            </span>
+
+                                                        </span>
+
+                                                        <span className="lesson-arrow">
+                                                            →
+                                                        </span>
+
+                                                    </button>
+
+                                                );
+
+                                            }
+                                        )}
+
+                                    </aside>
+
+
+                                    {/* =====================================
+                                        LESSON VIEWER
+                                    ===================================== */}
+
+                                    <article
+                                        id="lesson-viewer"
+                                        className="lesson-viewer"
+                                    >
+
+                                        {activeContent ? (
+
+                                            <>
+
+                                                <div className="viewer-top">
+
+                                                    <div>
+
+                                                        <span className="lesson-badge">
+                                                            {activeContent._type ||
+                                                                "LESSON"}
+                                                        </span>
+
+                                                        <h3>
+                                                            {activeContent._title}
+                                                        </h3>
+
+                                                    </div>
+
+                                                    <span className="viewer-position">
+                                                        {navigationLabel}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div className="viewer-meta">
+
+                                                    <span>
+                                                        {activeContent.completed
+                                                            ? "✓ Completed"
+                                                            : "● In progress"}
+                                                    </span>
+
+                                                    {activeContent._duration && (
+                                                        <span>
+                                                            ⏱{" "}
+                                                            {activeContent._duration} min
+                                                        </span>
+                                                    )}
+
+                                                    <span>
+                                                        Step{" "}
+                                                        {safeSectionIndex + 1}
+                                                        {" "}
+                                                        of{" "}
+                                                        {Math.max(
+                                                            activeSections.length,
+                                                            1
+                                                        )}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div className="lesson-body">
+
+                                                    {activeContent._description && (
+                                                        <p className="lesson-description">
+                                                            {activeContent._description}
+                                                        </p>
+                                                    )}
+
+
+                                                    {activeSection ? (
+
+                                                        <div className="lesson-content-text">
+
+                                                            <article>
+
+                                                                <div>
+
+                                                                    <span>
+                                                                        {activeSection.icon}
+                                                                    </span>
+
+                                                                    <div>
+
+                                                                        <span>
+                                                                            LEARNING STEP{" "}
+                                                                            {safeSectionIndex + 1}
+                                                                        </span>
+
+                                                                        <h4>
+                                                                            {activeSection.title}
+                                                                        </h4>
+
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                                <p>
+                                                                    {activeSection.content}
+                                                                </p>
+
+                                                            </article>
+
+                                                        </div>
+
+                                                    ) : (
+
+                                                        <div className="lesson-placeholder">
+
+                                                            <div className="empty-icon">
+                                                                📘
+                                                            </div>
+
+                                                            <h3>
+                                                                Lesson content
+                                                            </h3>
+
+                                                            <p>
+                                                                No learning text is
+                                                                available for this lesson.
+                                                            </p>
+
+                                                        </div>
+
+                                                    )}
+
+
+                                                    {/* =================================
+                                                        LESSON ACTIONS
+                                                    ================================= */}
+
+                                                    <div className="lesson-actions">
+
+                                                        {activeContent._resourceUrl && (
+
+                                                            <a
+                                                                className="resource-btn"
+                                                                href={
+                                                                    activeContent._resourceUrl
+                                                                }
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                            >
+                                                                ↗
+                                                                Open Learning Resource
+                                                            </a>
+
+                                                        )}
+
+
+                                                        <button
+                                                            type="button"
+                                                            className="resource-btn"
+                                                            onClick={() =>
+                                                                setNotesOpen(
+                                                                    previous =>
+                                                                        !previous
+                                                                )
+                                                            }
+                                                        >
+                                                            📝
+                                                            {notesOpen
+                                                                ? "Hide Notes"
+                                                                : "My Notes"}
+                                                        </button>
+
+                                                    </div>
+
+
+                                                    {/* =================================
+                                                        NOTES
+                                                    ================================= */}
+
+                                                    {notesOpen && (
+
+                                                        <div className="notes-panel">
+
+                                                            <div className="notes-panel-header">
+
+                                                                <div>
+                                                                    <strong>
+                                                                        Your notes
+                                                                    </strong>
+
+                                                                    <span>
+                                                                        Saved locally
+                                                                        for this lesson
+                                                                    </span>
+                                                                </div>
+
+                                                                {notesSaved && (
+                                                                    <span className="notes-saved">
+                                                                        ✓ Saved
+                                                                    </span>
+                                                                )}
+
+                                                            </div>
+
+
+                                                            <textarea
+                                                                value={notes}
+                                                                onChange={event => {
+                                                                    setNotes(
+                                                                        event.target.value
+                                                                    );
+                                                                    setNotesSaved(false);
+                                                                }}
+                                                                placeholder="Write your notes, key points, examples or questions..."
+                                                                rows={6}
+                                                            />
+
+
+                                                            <div className="notes-actions">
+
+                                                                <button
+                                                                    type="button"
+                                                                    className="lesson-nav-btn"
+                                                                    onClick={
+                                                                        handleClearNotes
+                                                                    }
+                                                                >
+                                                                    Clear
+                                                                </button>
+
+                                                                <button
+                                                                    type="button"
+                                                                    className="lesson-nav-btn next"
+                                                                    onClick={
+                                                                        handleSaveNotes
+                                                                    }
+                                                                >
+                                                                    Save Notes
+                                                                </button>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    )}
+
+
+                                                    {/* =================================
+                                                        COMPLETE LESSON
+                                                    ================================= */}
+
+                                                    {!activeContent.completed && (
+
+                                                        <div className="lesson-complete-bar">
+
+                                                            <div>
+
+                                                                <strong>
+                                                                    Finished this lesson?
+                                                                </strong>
+
+                                                                <span>
+                                                                    Mark it complete to
+                                                                    keep your progress
+                                                                    updated.
+                                                                </span>
+
+                                                            </div>
+
+                                                            <button
+                                                                type="button"
+                                                                className="complete-btn"
+                                                                onClick={
+                                                                    handleCompleteLesson
+                                                                }
+                                                                disabled={
+                                                                    completingLesson
+                                                                }
+                                                            >
+                                                                {completingLesson ? (
+                                                                    <>
+                                                                        <span className="button-spinner" />
+                                                                        Saving...
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        ✓ Mark Lesson Complete
+                                                                    </>
+                                                                )}
+                                                            </button>
+
+                                                        </div>
+
+                                                    )}
+
+                                                </div>
+
+
+                                                {/* =================================
+                                                    LESSON NAVIGATION
+                                                ================================= */}
+
+                                                <div className="lesson-navigation">
+
+                                                    <button
+                                                        type="button"
+                                                        className="lesson-nav-btn"
+                                                        onClick={
+                                                            handlePreviousLesson
+                                                        }
+                                                        disabled={
+                                                            isFirstLesson
+                                                        }
+                                                    >
+                                                        ← Previous
+                                                    </button>
+
+
+                                                    <div className="lesson-dots">
+
+                                                        {(
+                                                            hasVirtualSections
+                                                                ? activeSections
+                                                                : learningContents
+                                                        ).map(
+                                                            (_, index) => (
+
+                                                                <button
+                                                                    type="button"
+                                                                    key={index}
+                                                                    aria-label={
+                                                                        `Go to step ${index + 1}`
+                                                                    }
+                                                                    className={
+                                                                        index === (
+                                                                            hasVirtualSections
+                                                                                ? safeSectionIndex
+                                                                                : activeIndex
+                                                                        )
+                                                                            ? "lesson-dot active"
+                                                                            : "lesson-dot"
+                                                                    }
+                                                                    onClick={() => {
+
+                                                                        if (
+                                                                            hasVirtualSections
+                                                                        ) {
+
+                                                                            setActiveSectionIndex(
+                                                                                index
+                                                                            );
+
+                                                                            setTimeout(
+                                                                                () =>
+                                                                                    document
+                                                                                        .getElementById(
+                                                                                            "lesson-viewer"
+                                                                                        )
+                                                                                        ?.scrollIntoView({
+                                                                                            behavior:
+                                                                                                "smooth",
+                                                                                            block:
+                                                                                                "start"
+                                                                                        }),
+                                                                                50
+                                                                            );
+
+                                                                        } else {
+
+                                                                            handleSelectContent(
+                                                                                learningContents[index],
+                                                                                index
+                                                                            );
+
+                                                                        }
+
+                                                                    }}
+                                                                />
+
+                                                            )
+                                                        )}
+
+                                                    </div>
+
+
+                                                    <button
+                                                        type="button"
+                                                        className="lesson-nav-btn next"
+                                                        onClick={
+                                                            handleNextLesson
+                                                        }
+                                                        disabled={
+                                                            completingLesson
+                                                        }
+                                                    >
+                                                        {isLastLesson
+                                                            ? "Finish →"
+                                                            : "Next →"}
+                                                    </button>
+
+                                                </div>
+
+                                            </>
+
+                                        ) : (
+
+                                            <div className="viewer-empty">
+
+                                                <div className="empty-icon">
+                                                    📖
+                                                </div>
+
+                                                <h3>
+                                                    Select a lesson
+                                                </h3>
+
+                                                <p>
+                                                    Choose a lesson from the
+                                                    module list to begin learning.
+                                                </p>
+
+                                            </div>
+
+                                        )}
+
+                                    </article>
 
                                 </div>
 
                             )}
 
-
-                            {/* =================================================
-                                CONTENT ERROR
-                            ================================================= */}
-
-                            {!contentLoading &&
-                                contentError && (
-
-                                    <div className="content-empty">
-
-                                        <div className="empty-icon">
-                                            !
-                                        </div>
-
-                                        <h3>
-                                            Learning content unavailable
-                                        </h3>
-
-                                        <p>
-                                            {contentError}
-                                        </p>
-
-                                    </div>
-
-                                )}
-
-
-                            {/* =================================================
-                                LESSONS + VIEWER
-                            ================================================= */}
-
-                            {!contentLoading &&
-                                !contentError &&
-                                learningContents.length > 0 && (
-
-                                    <div className="learning-layout">
-
-
-                                        {/* =================================================
-                                            LESSON LIST
-                                        ================================================= */}
-
-                                        <div className="lesson-list">
-
-                                            <div className="lesson-list-title">
-                                                MODULE LESSONS
-                                            </div>
-
-
-                                            {learningContents.map(
-                                                (
-                                                    item,
-                                                    index
-                                                ) => {
-
-                                                    const active =
-                                                        index ===
-                                                        activeIndex;
-
-
-                                                    return (
-
-                                                        <button
-                                                            key={
-                                                                item?.id ||
-                                                                index
-                                                            }
-                                                            className={
-                                                                active
-                                                                    ? "lesson-item active"
-                                                                    : "lesson-item"
-                                                            }
-                                                            onClick={() =>
-                                                                handleSelectContent(
-                                                                    item,
-                                                                    index
-                                                                )
-                                                            }
-                                                        >
-
-                                                            <div
-                                                                className={
-                                                                    active
-                                                                        ? "lesson-number active"
-                                                                        : "lesson-number"
-                                                                }
-                                                            >
-
-                                                                {
-                                                                    String(
-                                                                        index + 1
-                                                                    ).padStart(
-                                                                        2,
-                                                                        "0"
-                                                                    )
-                                                                }
-
-                                                            </div>
-
-
-                                                            <div className="lesson-info">
-
-                                                                <strong>
-                                                                    {
-                                                                        item._title
-                                                                    }
-                                                                </strong>
-
-                                                                <span>
-
-                                                                    {
-                                                                        item._duration
-                                                                            ? `${item._duration} min`
-                                                                            : item._type
-                                                                    }
-
-                                                                </span>
-
-                                                            </div>
-
-
-                                                            <span className="lesson-arrow">
-                                                                →
-                                                            </span>
-
-                                                        </button>
-
-                                                    );
-
-                                                }
-                                            )}
-
-                                        </div>
-
-
-                                        {/* =================================================
-                                            LESSON VIEWER
-                                        ================================================= */}
-
-                                        <div
-                                            className="lesson-viewer"
-                                            id="lesson-viewer"
-                                        >
-
-                                            {activeContent ? (
-
-                                                <>
-
-
-                                                    {/* =================================================
-                                                        VIEWER HEADER
-                                                    ================================================= */}
-
-                                                    <div className="viewer-top">
-
-                                                        <div>
-
-                                                            <span className="lesson-badge">
-
-                                                                {
-                                                                    hasVirtualSections
-                                                                        ? `STEP ${safeSectionIndex + 1}`
-                                                                        : `LESSON ${activeIndex + 1}`
-                                                                }
-
-                                                            </span>
-
-
-                                                            <h3>
-                                                                {
-                                                                    activeContent._title
-                                                                }
-                                                            </h3>
-
-                                                        </div>
-
-
-                                                        <div className="viewer-position">
-
-                                                            {
-                                                                navigationLabel
-                                                            }
-
-                                                        </div>
-
-                                                    </div>
-
-
-                                                    {/* =================================================
-                                                        META
-                                                    ================================================= */}
-
-                                                    <div className="viewer-meta">
-
-                                                        <span>
-                                                            📖
-                                                            {" "}
-                                                            {
-                                                                activeContent._type
-                                                            }
-                                                        </span>
-
-
-                                                        {activeContent._duration && (
-
-                                                            <span>
-                                                                ⏱
-                                                                {" "}
-                                                                {
-                                                                    activeContent._duration
-                                                                }
-                                                                {" "}
-                                                                min
-                                                            </span>
-
-                                                        )}
-
-                                                    </div>
-
-
-                                                    {/* =================================================
-                                                        LESSON BODY
-                                                    ================================================= */}
-
-                                                    <div className="lesson-body">
-
-
-                                                        {activeContent._description && (
-
-                                                            <p className="lesson-description">
-
-                                                                {
-                                                                    activeContent._description
-                                                                }
-
-                                                            </p>
-
-                                                        )}
-
-
-                                                        {/* =================================================
-                                                            PROFESSIONAL LEARNING CARD
-                                                        ================================================= */}
-
-                                                        {activeSection ? (
-
-                                                            <div
-                                                                className="lesson-content-text"
-                                                                style={{
-                                                                    display:
-                                                                        "grid",
-                                                                    gap:
-                                                                        "14px"
-                                                                }}
-                                                            >
-
-                                                                <article
-                                                                    style={{
-                                                                        padding:
-                                                                            "22px 24px",
-
-                                                                        border:
-                                                                            "1px solid rgba(99, 74, 230, 0.12)",
-
-                                                                        borderRadius:
-                                                                            "18px",
-
-                                                                        background:
-                                                                            "linear-gradient(145deg, #ffffff 0%, #f8f7ff 100%)",
-
-                                                                        boxShadow:
-                                                                            "0 10px 28px rgba(35, 24, 90, 0.06)"
-                                                                    }}
-                                                                >
-
-                                                                    <div
-                                                                        style={{
-                                                                            display:
-                                                                                "flex",
-
-                                                                            alignItems:
-                                                                                "center",
-
-                                                                            gap:
-                                                                                "12px",
-
-                                                                            marginBottom:
-                                                                                "12px"
-                                                                        }}
-                                                                    >
-
-                                                                        <span
-                                                                            style={{
-                                                                                width:
-                                                                                    "40px",
-
-                                                                                height:
-                                                                                    "40px",
-
-                                                                                minWidth:
-                                                                                    "40px",
-
-                                                                                borderRadius:
-                                                                                    "12px",
-
-                                                                                display:
-                                                                                    "inline-flex",
-
-                                                                                alignItems:
-                                                                                    "center",
-
-                                                                                justifyContent:
-                                                                                    "center",
-
-                                                                                background:
-                                                                                    "rgba(99, 74, 230, 0.10)",
-
-                                                                                color:
-                                                                                    "#5b3fd6",
-
-                                                                                fontWeight:
-                                                                                    800,
-
-                                                                                fontSize:
-                                                                                    "17px"
-                                                                            }}
-                                                                        >
-
-                                                                            {
-                                                                                activeSection.icon
-                                                                            }
-
-                                                                        </span>
-
-
-                                                                        <div>
-
-                                                                            <span
-                                                                                style={{
-                                                                                    display:
-                                                                                        "block",
-
-                                                                                    fontSize:
-                                                                                        "10px",
-
-                                                                                    letterSpacing:
-                                                                                        "0.12em",
-
-                                                                                    textTransform:
-                                                                                        "uppercase",
-
-                                                                                    fontWeight:
-                                                                                        800,
-
-                                                                                    color:
-                                                                                        "#8c84a8",
-
-                                                                                    marginBottom:
-                                                                                        "3px"
-                                                                                }}
-                                                                            >
-
-                                                                                Learning step{" "}
-                                                                                {
-                                                                                    safeSectionIndex + 1
-                                                                                }
-
-                                                                            </span>
-
-
-                                                                            <h4
-                                                                                style={{
-                                                                                    margin:
-                                                                                        0,
-
-                                                                                    fontSize:
-                                                                                        "17px",
-
-                                                                                    fontWeight:
-                                                                                        800,
-
-                                                                                    color:
-                                                                                        "#1d1833"
-                                                                                }}
-                                                                            >
-
-                                                                                {
-                                                                                    activeSection.title
-                                                                                }
-
-                                                                            </h4>
-
-                                                                        </div>
-
-                                                                    </div>
-
-
-                                                                    <p
-                                                                        style={{
-                                                                            margin:
-                                                                                0,
-
-                                                                            color:
-                                                                                "#5f5a72",
-
-                                                                            lineHeight:
-                                                                                1.75,
-
-                                                                            fontSize:
-                                                                                "14px",
-
-                                                                            whiteSpace:
-                                                                                "pre-line"
-                                                                        }}
-                                                                    >
-
-                                                                        {
-                                                                            activeSection.content
-                                                                        }
-
-                                                                    </p>
-
-                                                                </article>
-
-                                                            </div>
-
-                                                        ) : activeContent._content ? (
-
-                                                            <div className="lesson-content-text">
-
-                                                                {
-                                                                    String(
-                                                                        activeContent._content
-                                                                    )
-                                                                }
-
-                                                            </div>
-
-                                                        ) : (
-
-                                                            <div className="lesson-placeholder">
-
-                                                                <div>
-                                                                    📘
-                                                                </div>
-
-                                                                <h4>
-                                                                    Learning material ready
-                                                                </h4>
-
-                                                                <p>
-                                                                    Continue with this lesson
-                                                                    and use the learning resource
-                                                                    below to study the topic.
-                                                                </p>
-
-                                                            </div>
-
-                                                        )}
-
-
-                                                        {/* =================================================
-                                                            RESOURCES + NOTES
-                                                        ================================================= */}
-
-                                                        <div
-                                                            style={{
-                                                                display:
-                                                                    "flex",
-
-                                                                flexWrap:
-                                                                    "wrap",
-
-                                                                gap:
-                                                                    "10px",
-
-                                                                marginTop:
-                                                                    "18px"
-                                                            }}
-                                                        >
-
-                                                            {activeContent._resourceUrl && (
-
-                                                                <a
-                                                                    href={
-                                                                        activeContent._resourceUrl
-                                                                    }
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="resource-btn"
-                                                                >
-
-                                                                    <span>
-                                                                        Open Learning Resource
-                                                                    </span>
-
-                                                                    <b>
-                                                                        ↗
-                                                                    </b>
-
-                                                                </a>
-
-                                                            )}
-
-
-                                                            <button
-                                                                type="button"
-                                                                onClick={() =>
-                                                                    setNotesOpen(
-                                                                        previous =>
-                                                                            !previous
-                                                                    )
-                                                                }
-                                                                style={{
-                                                                    border:
-                                                                        "1px solid rgba(99, 74, 230, 0.18)",
-
-                                                                    background:
-                                                                        "#fff",
-
-                                                                    color:
-                                                                        "#5b3fd6",
-
-                                                                    borderRadius:
-                                                                        "12px",
-
-                                                                    padding:
-                                                                        "11px 15px",
-
-                                                                    fontWeight:
-                                                                        800,
-
-                                                                    cursor:
-                                                                        "pointer"
-                                                                }}
-                                                            >
-
-                                                                📝
-                                                                {" "}
-                                                                {
-                                                                    notesOpen
-                                                                        ? "Hide Notes"
-                                                                        : "My Notes"
-                                                                }
-
-                                                            </button>
-
-                                                        </div>
-
-
-                                                        {/* =================================================
-                                                            NOTES PANEL
-                                                        ================================================= */}
-
-                                                        {notesOpen && (
-
-                                                            <div
-                                                                style={{
-                                                                    marginTop:
-                                                                        "14px",
-
-                                                                    padding:
-                                                                        "18px",
-
-                                                                    borderRadius:
-                                                                        "16px",
-
-                                                                    background:
-                                                                        "#fbfaff",
-
-                                                                    border:
-                                                                        "1px solid rgba(99, 74, 230, 0.14)"
-                                                                }}
-                                                            >
-
-                                                                <div
-                                                                    style={{
-                                                                        display:
-                                                                            "flex",
-
-                                                                        justifyContent:
-                                                                            "space-between",
-
-                                                                        gap:
-                                                                            "12px",
-
-                                                                        alignItems:
-                                                                            "center",
-
-                                                                        marginBottom:
-                                                                            "10px"
-                                                                    }}
-                                                                >
-
-                                                                    <div>
-
-                                                                        <strong
-                                                                            style={{
-                                                                                color:
-                                                                                    "#1d1833"
-                                                                            }}
-                                                                        >
-                                                                            Your notes
-                                                                        </strong>
-
-                                                                        <div
-                                                                            style={{
-                                                                                color:
-                                                                                    "#8c84a8",
-
-                                                                                fontSize:
-                                                                                    "12px",
-
-                                                                                marginTop:
-                                                                                    "3px"
-                                                                            }}
-                                                                        >
-                                                                            Notes are saved locally for this lesson.
-                                                                        </div>
-
-                                                                    </div>
-
-
-                                                                    {notesSaved && (
-
-                                                                        <span
-                                                                            style={{
-                                                                                fontSize:
-                                                                                    "12px",
-
-                                                                                fontWeight:
-                                                                                    700,
-
-                                                                                color:
-                                                                                    "#198754"
-                                                                            }}
-                                                                        >
-                                                                            ✓ Saved
-                                                                        </span>
-
-                                                                    )}
-
-                                                                </div>
-
-
-                                                                <textarea
-                                                                    value={
-                                                                        notes
-                                                                    }
-                                                                    onChange={
-                                                                        event => {
-
-                                                                            setNotes(
-                                                                                event.target.value
-                                                                            );
-
-                                                                            setNotesSaved(
-                                                                                false
-                                                                            );
-
-                                                                        }
-                                                                    }
-                                                                    placeholder="Write your key points, questions or examples here..."
-                                                                    rows={5}
-                                                                    style={{
-                                                                        width:
-                                                                            "100%",
-
-                                                                        resize:
-                                                                            "vertical",
-
-                                                                        border:
-                                                                            "1px solid #e4e0f2",
-
-                                                                        borderRadius:
-                                                                            "12px",
-
-                                                                        padding:
-                                                                            "13px 14px",
-
-                                                                        outline:
-                                                                            "none",
-
-                                                                        color:
-                                                                            "#28233d",
-
-                                                                        background:
-                                                                            "#fff",
-
-                                                                        lineHeight:
-                                                                            1.6,
-
-                                                                        boxSizing:
-                                                                            "border-box"
-                                                                    }}
-                                                                />
-
-
-                                                                <div
-                                                                    style={{
-                                                                        display:
-                                                                            "flex",
-
-                                                                        justifyContent:
-                                                                            "flex-end",
-
-                                                                        gap:
-                                                                            "8px",
-
-                                                                        marginTop:
-                                                                            "10px"
-                                                                    }}
-                                                                >
-
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={
-                                                                            handleClearNotes
-                                                                        }
-                                                                        style={{
-                                                                            border:
-                                                                                "1px solid #e4e0f2",
-
-                                                                            background:
-                                                                                "#fff",
-
-                                                                            color:
-                                                                                "#6f6980",
-
-                                                                            borderRadius:
-                                                                                "10px",
-
-                                                                            padding:
-                                                                                "9px 13px",
-
-                                                                            fontWeight:
-                                                                                700,
-
-                                                                            cursor:
-                                                                                "pointer"
-                                                                        }}
-                                                                    >
-                                                                        Clear
-                                                                    </button>
-
-
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={
-                                                                            handleSaveNotes
-                                                                        }
-                                                                        style={{
-                                                                            border:
-                                                                                "none",
-
-                                                                            background:
-                                                                                "linear-gradient(135deg, #6847e8, #5135cf)",
-
-                                                                            color:
-                                                                                "#fff",
-
-                                                                            borderRadius:
-                                                                                "10px",
-
-                                                                            padding:
-                                                                                "9px 15px",
-
-                                                                            fontWeight:
-                                                                                800,
-
-                                                                            cursor:
-                                                                                "pointer",
-
-                                                                            boxShadow:
-                                                                                "0 8px 18px rgba(99, 74, 230, 0.20)"
-                                                                        }}
-                                                                    >
-                                                                        Save Notes
-                                                                    </button>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        )}
-
-
-                                                        {/* =================================================
-                                                            COMPLETE LESSON
-                                                        ================================================= */}
-
-                                                        <div className="lesson-actions">
-
-                                                            <button
-                                                                type="button"
-                                                                className={
-                                                                    activeContent.completed
-                                                                        ? "lesson-complete-btn completed"
-                                                                        : "lesson-complete-btn"
-                                                                }
-                                                                onClick={
-                                                                    handleCompleteLesson
-                                                                }
-                                                                disabled={
-                                                                    completingLesson ||
-                                                                    activeContent.completed
-                                                                }
-                                                            >
-
-                                                                {completingLesson ? (
-
-                                                                    <>
-
-                                                                        <span className="button-spinner" />
-
-                                                                        Saving...
-
-                                                                    </>
-
-                                                                ) : activeContent.completed ? (
-
-                                                                    <>
-                                                                        ✓ Lesson Completed
-                                                                    </>
-
-                                                                ) : (
-
-                                                                    <>
-                                                                        ✓ Mark Lesson Complete
-                                                                    </>
-
-                                                                )}
-
-                                                            </button>
-
-                                                        </div>
-
-                                                    </div>
-
-
-                                                    {/* =================================================
-                                                        PREVIOUS / NEXT
-                                                    ================================================= */}
-
-                                                    <div className="lesson-navigation">
-
-                                                        <button
-                                                            type="button"
-                                                            className="lesson-nav-btn"
-                                                            onClick={
-                                                                handlePreviousLesson
-                                                            }
-                                                            disabled={
-                                                                isFirstLesson
-                                                            }
-                                                        >
-
-                                                            ←
-
-                                                            <span>
-                                                                Previous
-                                                            </span>
-
-                                                        </button>
-
-
-                                                        <div className="lesson-dots">
-
-                                                            {hasVirtualSections
-                                                                ? activeSections.map(
-                                                                    (
-                                                                        section,
-                                                                        index
-                                                                    ) => (
-
-                                                                        <button
-                                                                            type="button"
-                                                                            key={
-                                                                                `${section.title}-${index}`
-                                                                            }
-                                                                            className={
-                                                                                index ===
-                                                                                safeSectionIndex
-                                                                                    ? "lesson-dot active"
-                                                                                    : "lesson-dot"
-                                                                            }
-                                                                            onClick={() => {
-
-                                                                                setActiveSectionIndex(
-                                                                                    index
-                                                                                );
-
-                                                                                setTimeout(
-                                                                                    () => {
-
-                                                                                        document
-                                                                                            .getElementById(
-                                                                                                "lesson-viewer"
-                                                                                            )
-                                                                                            ?.scrollIntoView({
-                                                                                                behavior:
-                                                                                                    "smooth",
-                                                                                                block:
-                                                                                                    "start"
-                                                                                            });
-
-                                                                                    },
-                                                                                    50
-                                                                                );
-
-                                                                            }}
-                                                                            aria-label={
-                                                                                `Go to learning step ${index + 1}`
-                                                                            }
-                                                                        />
-
-                                                                    )
-                                                                )
-                                                                : learningContents.map(
-                                                                    (
-                                                                        _,
-                                                                        index
-                                                                    ) => (
-
-                                                                        <button
-                                                                            type="button"
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            className={
-                                                                                index ===
-                                                                                activeIndex
-                                                                                    ? "lesson-dot active"
-                                                                                    : "lesson-dot"
-                                                                            }
-                                                                            onClick={() =>
-                                                                                handleSelectContent(
-                                                                                    learningContents[
-                                                                                        index
-                                                                                    ],
-                                                                                    index
-                                                                                )
-                                                                            }
-                                                                            aria-label={
-                                                                                `Go to lesson ${index + 1}`
-                                                                            }
-                                                                        />
-
-                                                                    )
-                                                                )}
-
-                                                        </div>
-
-
-                                                        <button
-                                                            type="button"
-                                                            className="lesson-nav-btn next"
-                                                            onClick={
-                                                                handleNextLesson
-                                                            }
-                                                            disabled={
-                                                                isLastLesson &&
-                                                                activeContent.completed
-                                                            }
-                                                        >
-
-                                                            <span>
-
-                                                                {
-                                                                    isLastLesson
-                                                                        ? activeContent.completed
-                                                                            ? "Completed"
-                                                                            : "Finish Lesson"
-                                                                        : "Next"
-                                                                }
-
-                                                            </span>
-
-                                                            {
-                                                                isLastLesson
-                                                                    ? "✓"
-                                                                    : "→"
-                                                            }
-
-                                                        </button>
-
-                                                    </div>
-
-                                                </>
-
-                                            ) : (
-
-                                                <div className="viewer-empty">
-
-                                                    <div>
-                                                        📖
-                                                    </div>
-
-                                                    <h3>
-                                                        Select a lesson
-                                                    </h3>
-
-                                                    <p>
-                                                        Choose a lesson from the left
-                                                        to start learning.
-                                                    </p>
-
-                                                </div>
-
-                                            )}
-
-                                        </div>
-
-                                    </div>
-
-                                )}
-
-
-                            {/* =================================================
-                                NO CONTENT
-                            ================================================= */}
-
-                            {!contentLoading &&
-                                !contentError &&
-                                learningContents.length === 0 && (
-
-                                    <div className="content-empty">
-
-                                        <div className="empty-icon">
-                                            📚
-                                        </div>
-
-                                        <h3>
-                                            Learning content is being prepared
-                                        </h3>
-
-                                        <p>
-                                            Your module has been created,
-                                            but learning lessons have not
-                                            been added yet.
-                                        </p>
-
-                                    </div>
-
-                                )}
-
                         </section>
 
 
                         {/* =================================================
-                            COMPLETE MODULE
+                            MODULE COMPLETION
                         ================================================= */}
 
                         <section
                             id="module-completion-card"
-                            className={
-                                status ===
-                                "COMPLETED"
-                                    ? "completion-card completed"
-                                    : "completion-card"
-                            }
+                            className="completion-card"
                         >
 
                             <div className="completion-left">
 
                                 <div className="completion-icon">
-
-                                    {
-                                        status ===
-                                        "COMPLETED"
-                                            ? "✓"
-                                            : "○"
-                                    }
-
+                                    {status === "COMPLETED"
+                                        ? "✓"
+                                        : "★"}
                                 </div>
-
 
                                 <div>
 
                                     <span className="eyebrow">
-
-                                        {
-                                            status ===
-                                            "COMPLETED"
-                                                ? "MODULE COMPLETED"
-                                                : "READY TO FINISH?"
-                                        }
-
+                                        {status === "COMPLETED"
+                                            ? "MODULE COMPLETED"
+                                            : "READY TO FINISH?"}
                                     </span>
 
-
                                     <h3>
-
-                                        {
-                                            status ===
-                                            "COMPLETED"
-                                                ? "Excellent work! 🎉"
-                                                : "Complete this module"
-                                        }
-
+                                        {status === "COMPLETED"
+                                            ? "Great work — you've completed this module."
+                                            : "Complete this module when you're ready."}
                                     </h3>
 
-
                                     <p>
-
-                                        {
-                                            status ===
-                                            "COMPLETED"
-                                                ? "Your progress has been saved successfully. You can continue with the next module."
-                                                : "Finish the lessons and mark this module complete when you're ready."
-                                        }
-
+                                        {status === "COMPLETED"
+                                            ? "Your progress has been synchronized with your learning roadmap."
+                                            : "Make sure you've reviewed the lessons and marked the required content complete."}
                                     </p>
 
                                 </div>
@@ -3610,34 +2888,29 @@ function Module() {
                             {status !== "COMPLETED" && (
 
                                 <button
+                                    type="button"
                                     className="complete-btn"
-                                    onClick={
-                                        handleComplete
-                                    }
+                                    onClick={handleComplete}
                                     disabled={
-                                        completing
+                                        completing ||
+                                        progressValue < 100
+                                    }
+                                    title={
+                                        progressValue < 100
+                                            ? "Complete all lessons first"
+                                            : "Complete module"
                                     }
                                 >
-
                                     {completing ? (
-
                                         <>
-
                                             <span className="button-spinner" />
-
                                             Completing...
-
                                         </>
-
                                     ) : (
-
                                         <>
-                                            ✓
-                                            Mark Complete
+                                            ✓ Complete Module
                                         </>
-
                                     )}
-
                                 </button>
 
                             )}
@@ -3648,15 +2921,14 @@ function Module() {
 
 
                     {/* =================================================
-                        RIGHT SIDEBAR
+                        SIDEBAR
                     ================================================= */}
 
                     <aside className="module-sidebar">
 
-
-                        {/* =================================================
+                        {/* =============================================
                             PROGRESS
-                        ================================================= */}
+                        ============================================= */}
 
                         <section className="sidebar-card">
 
@@ -3665,129 +2937,28 @@ function Module() {
                             </span>
 
                             <h3>
-                                Module Progress
+                                {progressValue}% complete
                             </h3>
 
+                            <p>
+                                Keep moving through each lesson to
+                                complete the module.
+                            </p>
 
                             <div className="sidebar-progress">
 
-                                <div
-                                    className="sidebar-progress-fill"
-                                    style={{
-                                        width:
-                                            `${progressValue}%`
-                                    }}
-                                />
-
-                            </div>
-
-
-                            <div className="sidebar-progress-row">
-
-                                <strong>
-                                    {progressValue}%
-                                </strong>
-
-                                <span>
-                                    {
-                                        progressLoading
-                                            ? "Updating..."
-                                            : "completed"
-                                    }
-                                </span>
-
-                            </div>
-
-                        </section>
-
-
-                        {/* =================================================
-                            MODULE DETAILS
-                        ================================================= */}
-
-                        <section className="sidebar-card">
-
-                            <span className="eyebrow">
-                                MODULE DETAILS
-                            </span>
-
-                            <h3>
-                                Quick Info
-                            </h3>
-
-
-                            <div className="details-list">
-
-                                <div className="detail-row">
-
-                                    <span>
-                                        Week
-                                    </span>
-
-                                    <strong>
-                                        {week}
-                                    </strong>
-
+                                <div className="sidebar-progress-row">
+                                    <span>Overall</span>
+                                    <strong>{progressValue}%</strong>
                                 </div>
 
-
-                                <div className="detail-row">
-
-                                    <span>
-                                        Lessons
-                                    </span>
-
-                                    <strong>
-                                        {
-                                            learningContents.length
-                                        }
-                                    </strong>
-
-                                </div>
-
-
-                                <div className="detail-row">
-
-                                    <span>
-                                        Topics
-                                    </span>
-
-                                    <strong>
-                                        {
-                                            topicArray.length
-                                        }
-                                    </strong>
-
-                                </div>
-
-
-                                <div className="detail-row">
-
-                                    <span>
-                                        Status
-                                    </span>
-
-                                    <strong
-                                        className={
-                                            status ===
-                                            "COMPLETED"
-                                                ? "status-success"
-                                                : "status-warning"
-                                        }
-                                    >
-
-                                        {
-                                            status ===
-                                            "COMPLETED"
-                                                ? "Completed"
-                                                : status ===
-                                                  "IN_PROGRESS"
-                                                    ? "In Progress"
-                                                    : "Not Started"
-                                        }
-
-                                    </strong>
-
+                                <div className="progress-track">
+                                    <div
+                                        className="sidebar-progress-fill"
+                                        style={{
+                                            width: `${progressValue}%`
+                                        }}
+                                    />
                                 </div>
 
                             </div>
@@ -3795,9 +2966,9 @@ function Module() {
                         </section>
 
 
-                        {/* =================================================
+                        {/* =============================================
                             LEARNING JOURNEY
-                        ================================================= */}
+                        ============================================= */}
 
                         <section className="sidebar-card journey-card">
 
@@ -3814,71 +2985,105 @@ function Module() {
                             </h3>
 
                             <p>
-                                Complete each lesson and keep
-                                building your knowledge toward
-                                your career goal.
+                                Complete each lesson and keep building
+                                momentum toward your learning goal.
                             </p>
-
 
                             <div className="journey-line">
 
-                                <span className="journey-line-fill" />
+                                <div
+                                    className="journey-line-fill"
+                                    style={{
+                                        width:
+                                            `${progressValue}%`
+                                    }}
+                                />
 
                             </div>
-
-
-                            <small>
-                                {progressValue}% of this module completed
-                            </small>
 
                         </section>
 
 
-                        {/* =================================================
+                        {/* =============================================
                             AI MENTOR
-                        ================================================= */}
+                        ============================================= */}
 
                         <section className="ai-mentor-card">
 
                             <div className="ai-mentor-glow" />
 
-
                             <div className="ai-mentor-icon">
                                 ✦
                             </div>
 
-
-                            <span>
+                            <span className="eyebrow">
                                 AI MENTOR
                             </span>
-
 
                             <h3>
                                 Stuck on something?
                             </h3>
 
-
                             <p>
-                                Ask your AI Mentor to explain
-                                a difficult concept or guide you
-                                through this module.
+                                Ask your AI Mentor to explain the
+                                current lesson in a simpler way or
+                                help you understand a difficult concept.
                             </p>
-
 
                             <button
                                 type="button"
-                                onClick={
-                                    handleAskMentor
-                                }
+                                className="ai-mentor-btn"
+                                onClick={handleAskMentor}
                             >
-
-                                Ask AI Mentor
-
-                                <span>
-                                    →
-                                </span>
-
+                                Ask AI Mentor →
                             </button>
+
+                        </section>
+
+
+                        {/* =============================================
+                            MODULE DETAILS
+                        ============================================= */}
+
+                        <section className="sidebar-card">
+
+                            <span className="eyebrow">
+                                MODULE DETAILS
+                            </span>
+
+                            <div className="details-list">
+
+                                <div className="detail-row">
+                                    <span>Week</span>
+                                    <strong>{week}</strong>
+                                </div>
+
+                                <div className="detail-row">
+                                    <span>Lessons</span>
+                                    <strong>
+                                        {learningContents.length}
+                                    </strong>
+                                </div>
+
+                                <div className="detail-row">
+                                    <span>Topics</span>
+                                    <strong>
+                                        {topicArray.length}
+                                    </strong>
+                                </div>
+
+                                <div className="detail-row">
+                                    <span>Status</span>
+                                    <strong>
+                                        {status === "COMPLETED"
+                                            ? "Completed"
+                                            : status === "IN_PROGRESS"
+                                                ? "In Progress"
+                                                : "Not Started"}
+                                    </strong>
+                                </div>
+
+                            </div>
 
                         </section>
 
@@ -3888,32 +3093,20 @@ function Module() {
 
 
                 {/* =================================================
-                    BOTTOM NAVIGATION
+                    FOOTER
                 ================================================= */}
 
-                <div className="module-bottom">
+                <footer className="module-bottom">
 
-                    <button
-                        type="button"
-                        onClick={
-                            handleBack
-                        }
-                    >
-
-                        ←
-
-                        <span>
-                            Back to Roadmap
-                        </span>
-
-                    </button>
-
+                    <span>
+                        AI Mentor Learning Platform
+                    </span>
 
                     <span>
                         Keep learning. Keep progressing.
                     </span>
 
-                </div>
+                </footer>
 
             </main>
 
@@ -3925,6 +3118,7 @@ function Module() {
 
 
 export default Module;
+
 
 /* =====================================================
    REAL-TIME PROGRESS INTEGRATION NOTE
