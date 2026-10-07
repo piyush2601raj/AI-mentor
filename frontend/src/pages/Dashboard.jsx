@@ -1630,49 +1630,49 @@ function Dashboard() {
 
     /* =====================================================
        REAL-TIME DASHBOARD SYNC
+       Loads once on mount.
+       Refreshes only when learning progress is updated.
     ===================================================== */
 
     useEffect(() => {
 
-        let refreshTimer =
-            null;
+        let isMounted = true;
 
 
-        loadDashboardRoadmapState();
+        const syncDashboard = async () => {
 
+            if (!isMounted) {
+                return;
+            }
 
-        const handleLearningProgressUpdated =
-            (
-                event
-            ) => {
+            try {
 
-                console.log(
-                    "Dashboard progress event received:",
-                    event?.detail
+                await loadDashboardRoadmapState();
+
+            } catch (error) {
+
+                console.error(
+                    "Dashboard sync failed:",
+                    error
                 );
-
-                loadDashboardRoadmapState();
-            };
-
-
-        const handleWindowFocus =
-            () => {
-
-                loadDashboardRoadmapState();
-            };
+            }
+        };
 
 
-        const handleVisibilityChange =
-            () => {
+        /* Initial dashboard load */
+        syncDashboard();
 
-                if (
-                    document.visibilityState ===
-                    "visible"
-                ) {
 
-                    loadDashboardRoadmapState();
-                }
-            };
+        /* Refresh after module/progress update */
+        const handleLearningProgressUpdated = (event) => {
+
+            console.log(
+                "Dashboard progress event received:",
+                event?.detail
+            );
+
+            syncDashboard();
+        };
 
 
         window.addEventListener(
@@ -1681,57 +1681,14 @@ function Dashboard() {
         );
 
 
-        window.addEventListener(
-            "focus",
-            handleWindowFocus
-        );
-
-
-        document.addEventListener(
-            "visibilitychange",
-            handleVisibilityChange
-        );
-
-
-        refreshTimer =
-            window.setInterval(
-                () => {
-
-                    loadDashboardRoadmapState();
-
-                },
-                5000
-            );
-
-
         return () => {
+
+            isMounted = false;
 
             window.removeEventListener(
                 "learning-progress-updated",
                 handleLearningProgressUpdated
             );
-
-
-            window.removeEventListener(
-                "focus",
-                handleWindowFocus
-            );
-
-
-            document.removeEventListener(
-                "visibilitychange",
-                handleVisibilityChange
-            );
-
-
-            if (
-                refreshTimer
-            ) {
-
-                window.clearInterval(
-                    refreshTimer
-                );
-            }
         };
 
     }, []);
