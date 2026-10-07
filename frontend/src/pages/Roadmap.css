@@ -3499,3 +3499,37 @@
     border-right: 0 !important;
 }
 }
+
+
+/* =========================================================
+   FINAL FIX — REMOVE LEARNING PATH VERTICAL CONNECTOR LINE
+   UI/logic otherwise unchanged
+========================================================= */
+
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after,
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after,
+.professional-roadmap .timeline-line {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.professional-roadmap .learning-step-side,
+.professional-roadmap .learning-timeline {
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
