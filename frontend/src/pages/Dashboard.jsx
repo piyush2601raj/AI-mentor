@@ -1568,7 +1568,7 @@ function Dashboard() {
                 }
 
                 const response = await api.get(
-                    `/students/${studentId}/profile`
+                    `/api/students/${studentId}/profile`
                 );
 
                 const data = response?.data || {};
@@ -1630,14 +1630,13 @@ function Dashboard() {
 
     /* =====================================================
        REAL-TIME DASHBOARD SYNC
-       Loads once on mount.
-       Refreshes only when learning progress is updated.
+       Loads once on mount and refreshes only when
+       learning progress is actually updated.
     ===================================================== */
 
     useEffect(() => {
 
         let isMounted = true;
-
 
         const syncDashboard = async () => {
 
@@ -1646,11 +1645,8 @@ function Dashboard() {
             }
 
             try {
-
                 await loadDashboardRoadmapState();
-
             } catch (error) {
-
                 console.error(
                     "Dashboard sync failed:",
                     error
@@ -1658,12 +1654,10 @@ function Dashboard() {
             }
         };
 
-
-        /* Initial dashboard load */
+        // Initial dashboard load
         syncDashboard();
 
-
-        /* Refresh after module/progress update */
+        // Refresh only after module/progress update
         const handleLearningProgressUpdated = (event) => {
 
             console.log(
@@ -1674,12 +1668,10 @@ function Dashboard() {
             syncDashboard();
         };
 
-
         window.addEventListener(
             "learning-progress-updated",
             handleLearningProgressUpdated
         );
-
 
         return () => {
 
