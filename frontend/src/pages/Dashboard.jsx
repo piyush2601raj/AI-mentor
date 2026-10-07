@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "./Dashboard.css";
@@ -10,97 +10,53 @@ function Dashboard() {
 
     /* =====================================================
        HEADER INTERACTION STATE
-       Added without changing existing dashboard functionality.
+       Search + Student profile are fully interactive.
+       Existing dashboard UI is kept unchanged.
     ===================================================== */
 
     const [profileOpen, setProfileOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
 
+    const searchWrapRef = useRef(null);
+    const searchInputRef = useRef(null);
+    const profileWrapRef = useRef(null);
+
     const searchItems = [
-        {
-            title: "Dashboard",
-            description: "Your learning dashboard",
-            icon: "▦",
-            route: "/dashboard"
-        },
-        {
-            title: "Roadmap",
-            description: "View your personalized learning roadmap",
-            icon: "◇",
-            route: "/roadmap"
-        },
-        {
-            title: "AI Mentor",
-            description: "Ask your AI Mentor anything",
-            icon: "✦",
-            route: "/ai-mentor"
-        },
-        {
-            title: "Assessments",
-            description: "Check your skill assessments",
-            icon: "▣",
-            route: "/assessments"
-        },
-        {
-            title: "DSA Practice",
-            description: "Practice coding and DSA",
-            icon: "⌘",
-            route: "/dsa-practice"
-        },
-        {
-            title: "Interview Prep",
-            description: "Prepare for technical interviews",
-            icon: "▤",
-            route: "/interview"
-        },
-        {
-            title: "Progress",
-            description: "Track your learning progress",
-            icon: "⌁",
-            route: "/progress"
-        },
-        {
-            title: "Projects",
-            description: "Build and manage your projects",
-            icon: "▣",
-            route: "/projects"
-        },
-        {
-            title: "Resources",
-            description: "Explore your learning resources",
-            icon: "▤",
-            route: "/resources"
-        },
-        {
-            title: "Profile",
-            description: "View and manage your profile",
-            icon: "♙",
-            route: "/profile"
-        },
-        {
-            title: "Settings",
-            description: "Manage your account settings",
-            icon: "⚙",
-            route: "/settings"
-        }
+        { title: "Dashboard", description: "Your learning dashboard", icon: "▦", route: "/dashboard" },
+        { title: "Roadmap", description: "View your personalized learning roadmap", icon: "◇", route: "/roadmap" },
+        { title: "AI Mentor", description: "Ask your AI Mentor anything", icon: "✦", route: "/ai-mentor" },
+        { title: "AI Analysis", description: "View your AI learning analysis", icon: "✦", route: "/ai-analysis" },
+        { title: "Assessments", description: "Check your skill assessments", icon: "▣", route: "/assessments" },
+        { title: "DSA Practice", description: "Practice coding and DSA", icon: "⌘", route: "/dsa-practice" },
+        { title: "Interview Prep", description: "Prepare for technical interviews", icon: "▤", route: "/interview" },
+        { title: "Progress", description: "Track your learning progress", icon: "⌁", route: "/progress" },
+        { title: "Projects", description: "Build and manage your projects", icon: "▣", route: "/projects" },
+        { title: "Resources", description: "Explore your learning resources", icon: "▤", route: "/resources" },
+        { title: "Code Editor", description: "Practice and write code", icon: "</>", route: "/code-editor" },
+        { title: "Notes", description: "View and manage your notes", icon: "▤", route: "/notes" },
+        { title: "Profile", description: "View and manage your profile", icon: "♙", route: "/profile" },
+        { title: "Settings", description: "Manage your account settings", icon: "⚙", route: "/settings" }
     ];
 
+    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+
     const filteredSearchItems = searchItems.filter((item) =>
+        !normalizedSearchQuery ||
         `${item.title} ${item.description}`
             .toLowerCase()
-            .includes(searchQuery.trim().toLowerCase())
+            .includes(normalizedSearchQuery)
     );
 
     const handleSearchChange = (event) => {
         const value = event.target.value;
-
         setSearchQuery(value);
-        setSearchOpen(value.trim().length > 0);
+        setSearchOpen(true);
         setProfileOpen(false);
     };
 
     const handleSearchSelect = (route) => {
+        if (!route) return;
         setSearchQuery("");
         setSearchOpen(false);
         setProfileOpen(false);
@@ -112,7 +68,7 @@ function Dashboard() {
         localStorage.removeItem("studentId");
         localStorage.removeItem("userId");
         localStorage.removeItem("id");
-        navigate("/login");
+        navigate("/login", { replace: true });
     };
 
     useEffect(() => {
@@ -122,15 +78,8 @@ function Dashboard() {
                 event.key.toLowerCase() === "k"
             ) {
                 event.preventDefault();
-
-                const input = document.querySelector(
-                    ".dashboard-topbar-search-input"
-                );
-
-                if (input) {
-                    input.focus();
-                }
-
+                const input = searchInputRef.current;
+                input?.focus();
                 setSearchOpen(true);
                 setProfileOpen(false);
             }
@@ -141,22 +90,28 @@ function Dashboard() {
             }
         };
 
-        const handleOutsideClick = (event) => {
-            if (!event.target.closest(".dashboard-topbar-search-wrap")) {
+        const handleOutsidePointerDown = (event) => {
+            if (
+                searchWrapRef.current &&
+                !searchWrapRef.current.contains(event.target)
+            ) {
                 setSearchOpen(false);
             }
 
-            if (!event.target.closest(".dashboard-profile-wrap")) {
+            if (
+                profileWrapRef.current &&
+                !profileWrapRef.current.contains(event.target)
+            ) {
                 setProfileOpen(false);
             }
         };
 
         document.addEventListener("keydown", handleGlobalShortcut);
-        document.addEventListener("mousedown", handleOutsideClick);
+        document.addEventListener("pointerdown", handleOutsidePointerDown);
 
         return () => {
             document.removeEventListener("keydown", handleGlobalShortcut);
-            document.removeEventListener("mousedown", handleOutsideClick);
+            document.removeEventListener("pointerdown", handleOutsidePointerDown);
         };
     }, []);
 
@@ -512,71 +467,63 @@ function Dashboard() {
                 ? modules
                 : [];
 
-        const totalFromBackend =
+        const backendTotal =
             safeNumber(
                 progressData?.totalModules,
                 -1
             );
 
-        const totalModules =
-            totalFromBackend >= 0
-                ? totalFromBackend
-                : moduleList.length;
-
-        const completedFromBackend =
+        const backendCompleted =
             safeNumber(
                 progressData?.completedModules,
                 -1
             );
 
-        const completedModules =
-            completedFromBackend >= 0
-                ? completedFromBackend
-                : moduleList.filter(
-                    isModuleCompleted
-                ).length;
-
-        const remainingFromBackend =
+        const backendRemaining =
             safeNumber(
                 progressData?.remainingModules,
                 -1
             );
 
+        /*
+         * The module list is the source of truth when it is available.
+         * This prevents stale progressPercentage values from showing an
+         * incorrect Overall Progress. Example: 2 / 12 = 16.67%.
+         */
+        const totalModules =
+            moduleList.length > 0
+                ? moduleList.length
+                : backendTotal >= 0
+                    ? backendTotal
+                    : 0;
+
+        const completedModules =
+            moduleList.length > 0
+                ? moduleList.filter(isModuleCompleted).length
+                : backendCompleted >= 0
+                    ? backendCompleted
+                    : 0;
+
         const remainingModules =
-            remainingFromBackend >= 0
-                ? remainingFromBackend
-                : Math.max(
-                    totalModules -
-                    completedModules,
-                    0
-                );
-
-        const calculatedProgress =
             totalModules > 0
-                ? Math.round(
-                    (
-                        completedModules /
-                        totalModules
-                    ) * 100
+                ? Math.max(
+                    totalModules - completedModules,
+                    0
                 )
-                : 0;
-
-        const backendProgress =
-            safeNumber(
-                progressData?.progressPercentage,
-                -1
-            );
+                : backendRemaining >= 0
+                    ? backendRemaining
+                    : 0;
 
         const overallProgress =
-            backendProgress >= 0
+            totalModules > 0
                 ? Math.min(
                     100,
                     Math.max(
                         0,
-                        backendProgress
+                        (completedModules / totalModules) * 100
                     )
                 )
-                : calculatedProgress;
+                : 0;
 
         return {
             totalModules,
@@ -1604,6 +1551,84 @@ function Dashboard() {
 
 
     /* =====================================================
+       STUDENT PROFILE SYNC
+       Loads the actual student name used by the profile page.
+    ===================================================== */
+
+    useEffect(() => {
+
+        const loadStudentProfile = async () => {
+            try {
+                const studentId =
+                    localStorage.getItem("studentId") ||
+                    localStorage.getItem("userId");
+
+                if (!studentId) {
+                    return;
+                }
+
+                const response = await api.get(
+                    `/students/${studentId}/profile`
+                );
+
+                const data = response?.data || {};
+
+                const name =
+                    data.fullName ||
+                    data.name ||
+                    data.firstName ||
+                    "Student";
+
+                setDashboard(previous => ({
+                    ...previous,
+                    userName: String(name).trim() || "Student"
+                }));
+            } catch (profileError) {
+                console.warn(
+                    "Dashboard student profile could not be loaded.",
+                    profileError
+                );
+
+                // Safe localStorage fallback if the profile API is unavailable.
+                const possibleKeys = [
+                    "user",
+                    "ai_mentor_user",
+                    "student",
+                    "currentUser"
+                ];
+
+                for (const key of possibleKeys) {
+                    const stored = localStorage.getItem(key);
+                    if (!stored) continue;
+
+                    try {
+                        const parsed = JSON.parse(stored);
+                        const name =
+                            parsed?.fullName ||
+                            parsed?.name ||
+                            parsed?.firstName ||
+                            parsed?.student?.fullName ||
+                            parsed?.user?.fullName;
+
+                        if (name) {
+                            setDashboard(previous => ({
+                                ...previous,
+                                userName: String(name).trim()
+                            }));
+                            break;
+                        }
+                    } catch {
+                        // Ignore malformed localStorage values.
+                    }
+                }
+            }
+        };
+
+        loadStudentProfile();
+    }, []);
+
+
+    /* =====================================================
        REAL-TIME DASHBOARD SYNC
     ===================================================== */
 
@@ -1798,29 +1823,11 @@ function Dashboard() {
     };
 
 
-    const progress =
-        Number(
-            dashboard.overallProgress ||
-            0
-        );
-
-
     /* =====================================================
        EXISTING DISPLAY SAFETY HELPERS
+       Overall progress is derived from module counts so the card
+       can never show a stale percentage from the backend.
     ===================================================== */
-
-    const normalizedProgress =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                safeNumber(
-                    progress,
-                    0
-                )
-            )
-        );
-
 
     const normalizedCompletedModules =
         Math.max(
@@ -1848,6 +1855,21 @@ function Dashboard() {
             safeNumber(
                 dashboard.remainingModules,
                 0
+            )
+        );
+
+
+    const progress =
+        normalizedTotalModules > 0
+            ? (normalizedCompletedModules / normalizedTotalModules) * 100
+            : 0;
+
+    const normalizedProgress =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                progress
             )
         );
 
@@ -1890,9 +1912,7 @@ function Dashboard() {
 
 
     const progressLabel =
-        `${Math.round(
-            normalizedProgress
-        )}%`;
+        `${normalizedProgress.toFixed(2)}%`;
 
 
     /* =====================================================
@@ -1933,6 +1953,7 @@ function Dashboard() {
                 {/* SEARCH */}
                 <div
                     className="dashboard-topbar-search-wrap"
+                    ref={searchWrapRef}
                     style={{
                         position: "relative",
                         width: "min(360px, 38vw)"
@@ -1969,17 +1990,16 @@ function Dashboard() {
                         </span>
 
                         <input
+                            ref={searchInputRef}
                             className="dashboard-topbar-search-input"
                             type="text"
                             value={searchQuery}
                             onChange={handleSearchChange}
                             onFocus={() => {
                                 setProfileOpen(false);
-
-                                if (searchQuery.trim()) {
-                                    setSearchOpen(true);
-                                }
+                                setSearchOpen(true);
                             }}
+                            onPointerDown={(event) => event.stopPropagation()}
                             onKeyDown={(event) => {
                                 if (
                                     event.key === "Enter" &&
@@ -2007,7 +2027,8 @@ function Dashboard() {
                         {searchQuery && (
                             <button
                                 type="button"
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation();
                                     setSearchQuery("");
                                     setSearchOpen(false);
                                 }}
@@ -2106,11 +2127,11 @@ function Dashboard() {
                                             <button
                                                 type="button"
                                                 key={item.title}
-                                                onClick={() =>
-                                                    handleSearchSelect(
-                                                        item.route
-                                                    )
-                                                }
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    handleSearchSelect(item.route);
+                                                }}
+                                                onPointerDown={(event) => event.stopPropagation()}
                                                 style={{
                                                     width: "100%",
                                                     display: "flex",
@@ -2237,7 +2258,7 @@ function Dashboard() {
                                             lineHeight: 1.5
                                         }}
                                     >
-                                        Try roadmap, AI mentor, quiz, projects
+                                        Try roadmap, AI mentor, DSA, projects
                                         or profile.
                                     </span>
                                 </div>
@@ -2252,6 +2273,7 @@ function Dashboard() {
                 {/* STUDENT PROFILE */}
                 <div
                     className="dashboard-profile-wrap"
+                    ref={profileWrapRef}
                     style={{
                         position: "relative"
                     }}
@@ -2259,10 +2281,12 @@ function Dashboard() {
 
                     <button
                         type="button"
-                        onClick={() => {
+                        onClick={(event) => {
+                            event.stopPropagation();
                             setProfileOpen((previous) => !previous);
                             setSearchOpen(false);
                         }}
+                        onPointerDown={(event) => event.stopPropagation()}
                         aria-expanded={profileOpen}
                         aria-haspopup="menu"
                         style={{
@@ -2443,10 +2467,12 @@ function Dashboard() {
                             <button
                                 type="button"
                                 role="menuitem"
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation();
                                     setProfileOpen(false);
                                     navigate("/profile");
                                 }}
+                                onPointerDown={(event) => event.stopPropagation()}
                                 style={{
                                     width: "100%",
                                     display: "flex",
@@ -2521,10 +2547,12 @@ function Dashboard() {
                             <button
                                 type="button"
                                 role="menuitem"
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation();
                                     setProfileOpen(false);
                                     navigate("/settings");
                                 }}
+                                onPointerDown={(event) => event.stopPropagation()}
                                 style={{
                                     width: "100%",
                                     display: "flex",
@@ -2608,7 +2636,11 @@ function Dashboard() {
                             <button
                                 type="button"
                                 role="menuitem"
-                                onClick={handleLogout}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleLogout();
+                                }}
+                                onPointerDown={(event) => event.stopPropagation()}
                                 style={{
                                     width: "100%",
                                     display: "flex",
@@ -2694,9 +2726,7 @@ function Dashboard() {
 
                         <svg
                             viewBox="0 0 42 42"
-                            aria-label={`Overall progress ${Math.round(
-                                normalizedProgress
-                            )}%`}
+                            aria-label={`Overall progress ${normalizedProgress.toFixed(2)}%`}
                         >
 
                             <circle
@@ -2722,9 +2752,7 @@ function Dashboard() {
                         </svg>
 
                         <span>
-                            {Math.round(
-                                normalizedProgress
-                            )}%
+                            {normalizedProgress.toFixed(2)}%
                         </span>
 
                     </div>
@@ -2737,9 +2765,7 @@ function Dashboard() {
                         </span>
 
                         <strong>
-                            {Math.round(
-                                normalizedProgress
-                            )}%
+                            {normalizedProgress.toFixed(2)}%
                         </strong>
 
                         <small>
@@ -2767,7 +2793,7 @@ function Dashboard() {
                         </span>
 
                         <strong>
-                            {dashboard.completedModules}
+                            {normalizedCompletedModules}
                         </strong>
 
                         <small>
@@ -2794,7 +2820,7 @@ function Dashboard() {
                         </span>
 
                         <strong>
-                            {dashboard.remainingModules}
+                            {normalizedRemainingModules}
                         </strong>
 
                         <small>
