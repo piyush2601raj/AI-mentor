@@ -2311,680 +2311,600 @@ function Roadmap() {
 
     return (
 
-        <div
-            className="min-vh-100"
-            style={{
-                background:
-                    "linear-gradient(180deg,#f8f9ff 0%,#f4f6fb 100%)"
-            }}
-        >
+        <div className="professional-roadmap">
 
-            {/* =================================================
-                TOP HEADER
-            ================================================= */}
+            <div className="roadmap-topbar">
 
-            <div className="container-fluid px-3 px-md-4 px-xl-5 pt-4">
+                <div className="roadmap-topbar-title">
 
-                <div className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+                    <h2>
+                        Learning Roadmap
+                    </h2>
 
-                    <div>
-
-                        <div className="d-flex align-items-center gap-2 mb-2">
-
-                            <span className="badge bg-primary px-3 py-2 rounded-pill">
-
-                                ✦ AI POWERED
-
-                            </span>
-
-
-                            <span className="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
-
-                                Personalized
-
-                            </span>
-
-                        </div>
-
-
-                        <h1 className="fw-bold mb-1">
-
-                            {roadmap.title}
-
-                        </h1>
-
-
-                        <p className="text-secondary mb-0">
-
-                            {roadmap.description}
-
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        className="btn btn-outline-primary rounded-3 px-4"
-                        onClick={
-                            handleBackToAssessment
-                        }
-                    >
-
-                        ← Update Skills
-
-                    </button>
-
-                </div>
-
-
-                {/* =================================================
-                    AI BANNER
-                ================================================= */}
-
-                <div className="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
-
-                    <div className="card-body p-4">
-
-                        <div className="d-flex flex-column flex-md-row align-items-md-center gap-3">
-
-                            <div
-                                className="bg-primary-subtle text-primary rounded-4 d-flex align-items-center justify-content-center flex-shrink-0"
-                                style={{
-                                    width: "60px",
-                                    height: "60px",
-                                    fontSize: "25px"
-                                }}
-                            >
-
-                                ✦
-
-                            </div>
-
-
-                            <div className="flex-grow-1">
-
-                                <h5 className="fw-bold mb-1">
-
-                                    Gemini AI Personalized Learning Path
-
-                                </h5>
-
-
-                                <p className="text-secondary mb-0">
-
-                                    This roadmap is generated specifically
-                                    for your selected skill and learning level.
-
-                                </p>
-
-                            </div>
-
-
-                            <span className="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill align-self-start align-self-md-center">
-
-                                AI Generated
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {/* =================================================
-                    STAT CARDS
-                ================================================= */}
-
-                <div className="row g-3 mb-4">
-
-                    {/* Duration */}
-
-                    <div className="col-12 col-sm-6 col-xl-3">
-
-                        <div className="card border-0 shadow-sm rounded-4 h-100">
-
-                            <div className="card-body p-4">
-
-                                <div className="d-flex justify-content-between">
-
-                                    <div>
-
-                                        <small className="text-uppercase text-muted fw-semibold">
-
-                                            Duration
-
-                                        </small>
-
-
-                                        <h2 className="fw-bold mt-2 mb-0">
-
-                                            {roadmap.durationWeeks || 0}
-
-                                        </h2>
-
-
-                                        <small className="text-secondary">
-
-                                            Weeks
-
-                                        </small>
-
-                                    </div>
-
-
-                                    <div className="bg-primary-subtle text-primary rounded-3 p-3 fs-4">
-
-                                        ◷
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    {/* Modules */}
-
-                    <div className="col-12 col-sm-6 col-xl-3">
-
-                        <div className="card border-0 shadow-sm rounded-4 h-100">
-
-                            <div className="card-body p-4">
-
-                                <div className="d-flex justify-content-between">
-
-                                    <div>
-
-                                        <small className="text-uppercase text-muted fw-semibold">
-
-                                            Modules
-
-                                        </small>
-
-
-                                        <h2 className="fw-bold mt-2 mb-0">
-
-                                            {totalModules}
-
-                                        </h2>
-
-
-                                        <small className="text-secondary">
-
-                                            Learning modules
-
-                                        </small>
-
-                                    </div>
-
-
-                                    <div className="bg-info-subtle text-info rounded-3 p-3 fs-4">
-
-                                        ◇
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    {/* Completed */}
-
-                    <div className="col-12 col-sm-6 col-xl-3">
-
-                        <div className="card border-0 shadow-sm rounded-4 h-100">
-
-                            <div className="card-body p-4">
-
-                                <div className="d-flex justify-content-between">
-
-                                    <div>
-
-                                        <small className="text-uppercase text-muted fw-semibold">
-
-                                            Completed
-
-                                        </small>
-
-
-                                        <h2 className="fw-bold mt-2 mb-0 text-success">
-
-                                            {completedModules}
-
-                                        </h2>
-
-
-                                        <small className="text-secondary">
-
-                                            Modules completed
-
-                                        </small>
-
-                                    </div>
-
-
-                                    <div className="bg-success-subtle text-success rounded-3 p-3 fs-4">
-
-                                        ✓
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    {/* Progress */}
-
-                    <div className="col-12 col-sm-6 col-xl-3">
-
-                        <div className="card border-0 shadow-sm rounded-4 h-100">
-
-                            <div className="card-body p-4">
-
-                                <div className="d-flex justify-content-between">
-
-                                    <div>
-
-                                        <small className="text-uppercase text-muted fw-semibold">
-
-                                            Progress
-
-                                        </small>
-
-
-                                        <h2 className="fw-bold mt-2 mb-0">
-
-                                            {safeProgress}%
-
-                                        </h2>
-
-
-                                        <small className="text-secondary">
-
-                                            Overall progress
-
-                                        </small>
-
-                                    </div>
-
-
-                                    <div className="bg-warning-subtle text-warning rounded-3 p-3 fs-4">
-
-                                        %
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {/* =================================================
-                    PROGRESS SECTION
-                ================================================= */}
-
-                <div className="card border-0 shadow-sm rounded-4 mb-5">
-
-                    <div className="card-body p-4 p-md-5">
-
-                        <div className="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
-
-                            <div>
-
-                                <small className="text-uppercase text-primary fw-bold">
-
-                                    Your Learning Progress
-
-                                </small>
-
-
-                                <h3 className="fw-bold mt-1 mb-0">
-
-                                    {safeProgress}% Complete
-
-                                </h3>
-
-                            </div>
-
-
-                            <div className="text-md-end">
-
-                                <strong className="fs-5">
-
-                                    {completedModules}
-
-                                    {" / "}
-
-                                    {totalModules}
-
-                                </strong>
-
-
-                                <div className="text-secondary small">
-
-                                    modules completed
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            className="progress"
-                            style={{
-                                height: "12px"
-                            }}
-                        >
-
-                            <div
-                                className="progress-bar bg-primary"
-                                role="progressbar"
-                                style={{
-                                    width:
-                                        `${safeProgress}%`
-                                }}
-                            />
-
-                        </div>
-
-
-                        <div className="d-flex justify-content-between mt-3">
-
-                            <small className="text-success fw-semibold">
-
-                                {completedModules} completed
-
-                            </small>
-
-
-                            <small className="text-secondary">
-
-                                {remainingModules} remaining
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {/* =================================================
-                    MODULE HEADER
-                ================================================= */}
-
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
-
-                    <div>
-
-                        <small className="text-primary fw-bold text-uppercase">
-
-                            Learning Journey
-
-                        </small>
-
-
-                        <h2 className="fw-bold mb-1">
-
-                            Your Personalized Roadmap
-
-                        </h2>
-
-
-                        <p className="text-secondary mb-0">
-
-                            Follow each module step by step to build
-                            your skills.
-
-                        </p>
-
-                    </div>
-
-
-                    <span className="badge bg-dark px-3 py-2 rounded-pill">
-
-                        {totalModules} Modules
-
+                    <span>
+                        Continue your personalized learning journey
                     </span>
 
                 </div>
 
 
+                <div className="roadmap-topbar-right">
+
+                    <div className="roadmap-search">
+
+                        <i className="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            placeholder="Search topics, skills..."
+                            aria-label="Search topics and skills"
+                        />
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        className="roadmap-notification"
+                        aria-label="Notifications"
+                    >
+                        <i className="bi bi-bell"></i>
+                    </button>
+
+
+                    <div className="roadmap-user">
+
+                        <div className="roadmap-user-avatar">
+                            S
+                        </div>
+
+                        <div>
+                            <strong>
+                                Student
+                            </strong>
+
+                            <span>
+                                Learning Workspace
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div className="professional-roadmap-content">
+
+
                 {/* =================================================
-                    MODULES
+                    HERO
                 ================================================= */}
 
-                <div className="row g-4 pb-5">
+                <section className="roadmap-hero">
 
-                    {sortedModules.map(
-                        (module, index) => {
+                    <div className="roadmap-hero-content">
 
-                            const isCompleted =
-                                String(
-                                    module.status || ""
-                                ).toUpperCase() ===
-                                "COMPLETED";
+                        <div className="roadmap-hero-badge">
 
+                            <i className="bi bi-bullseye"></i>
 
-                            const isCurrent =
-                                !isCompleted &&
-                                index ===
-                                currentModuleIndex;
+                            YOUR PERSONALIZED ROADMAP
+
+                        </div>
 
 
-                            const isUnlocked =
-                                isCompleted ||
-                                index <=
-                                currentModuleIndex;
+                        <h1>
+                            {roadmap.title}
+                        </h1>
 
 
-                            const isLocked =
-                                !isUnlocked;
+                        <p>
+                            {roadmap.description ||
+                                "A step-by-step learning path tailored to your current skill level and career goal. Track your progress and build real-world skills with AI guidance."
+                            }
+                        </p>
+
+                    </div>
 
 
-                            return (
+                    <div className="roadmap-hero-side">
 
-                                <div
-                                    className="col-12"
-                                    key={
-                                        module.id ||
-                                        index
+                        <div className="hero-info-item">
+
+                            <div className="hero-info-icon">
+                                <i className="bi bi-code-slash"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Focus Skill
+                                </span>
+
+                                <strong>
+                                    {
+                                        roadmap.skillName ||
+                                        roadmap.focusSkill ||
+                                        roadmap.skill ||
+                                        "Personalized Learning"
                                     }
-                                >
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="hero-info-item">
+
+                            <div className="hero-info-icon">
+                                <i className="bi bi-clock"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Estimated Time
+                                </span>
+
+                                <strong>
+                                    {roadmap.durationWeeks || 0} Weeks
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            className="hero-update-btn"
+                            onClick={handleBackToAssessment}
+                        >
+
+                            <i className="bi bi-bullseye"></i>
+
+                            Update Goal
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                {/* =================================================
+                    TWO COLUMN AREA
+                ================================================= */}
+
+                <div className="roadmap-main-grid">
+
+
+                    {/* LEFT */}
+
+                    <div className="roadmap-left-column">
+
+
+                        <section className="roadmap-panel">
+
+                            <div className="panel-heading">
+
+                                <div className="panel-heading-left">
+
+                                    <div className="panel-icon purple">
+                                        <i className="bi bi-bar-chart-fill"></i>
+                                    </div>
+
+                                    <h2>
+                                        Roadmap Overview
+                                    </h2>
+
+                                </div>
+
+
+                                <span className="on-track-badge">
+                                    {safeProgress >= 50
+                                        ? "You're on track! 🎯"
+                                        : "Keep going! 🎯"}
+                                </span>
+
+                            </div>
+
+
+                            <div className="overview-progress">
+
+                                <div className="overview-progress-top">
+
+                                    <strong>
+                                        Overall Progress
+                                    </strong>
+
+                                    <span>
+                                        {safeProgress}%
+                                    </span>
+
+                                </div>
+
+
+                                <div className="overview-progress-track">
 
                                     <div
-                                        className={`card border-0 shadow-sm rounded-4 ${
-                                            isCurrent
-                                                ? "border-start border-primary border-4"
-                                                : ""
-                                        } ${
-                                            isLocked
-                                                ? "opacity-75"
-                                                : ""
-                                        }`}
-                                    >
+                                        className="overview-progress-fill"
+                                        style={{
+                                            width: `${safeProgress}%`
+                                        }}
+                                    />
 
-                                        <div className="card-body p-4">
+                                </div>
 
-                                            <div className="row align-items-center g-4">
+                            </div>
 
-                                                {/* Number */}
 
-                                                <div className="col-auto">
+                            <div className="overview-stats">
 
-                                                    <div
-                                                        className={`rounded-circle d-flex align-items-center justify-content-center fw-bold ${
-                                                            isCompleted
-                                                                ? "bg-success text-white"
-                                                                : isCurrent
-                                                                    ? "bg-primary text-white"
-                                                                    : isLocked
-                                                                        ? "bg-secondary-subtle text-secondary"
-                                                                        : "bg-light text-primary"
-                                                        }`}
-                                                        style={{
-                                                            width: "58px",
-                                                            height: "58px",
-                                                            fontSize: "18px"
-                                                        }}
-                                                    >
+                                <div className="overview-stat">
 
-                                                        {isCompleted
-                                                            ? "✓"
-                                                            : isLocked
-                                                                ? "🔒"
-                                                                : module.weekNumber ||
-                                                                  index + 1}
+                                    <div className="overview-stat-icon blue">
+                                        <i className="bi bi-book"></i>
+                                    </div>
 
-                                                    </div>
+                                    <strong>
+                                        {totalModules}
+                                    </strong>
+
+                                    <span>
+                                        Total Modules
+                                    </span>
+
+                                </div>
+
+
+                                <div className="overview-stat">
+
+                                    <div className="overview-stat-icon green">
+                                        <i className="bi bi-check-circle-fill"></i>
+                                    </div>
+
+                                    <strong>
+                                        {completedModules}
+                                    </strong>
+
+                                    <span>
+                                        Completed
+                                    </span>
+
+                                </div>
+
+
+                                <div className="overview-stat">
+
+                                    <div className="overview-stat-icon orange">
+                                        <i className="bi bi-play-fill"></i>
+                                    </div>
+
+                                    <strong>
+                                        {
+                                            currentModuleIndex >= 0 &&
+                                            completedModules < totalModules
+                                                ? 1
+                                                : 0
+                                        }
+                                    </strong>
+
+                                    <span>
+                                        In Progress
+                                    </span>
+
+                                </div>
+
+
+                                <div className="overview-stat">
+
+                                    <div className="overview-stat-icon purple">
+                                        <i className="bi bi-pie-chart-fill"></i>
+                                    </div>
+
+                                    <strong>
+                                        {remainingModules}
+                                    </strong>
+
+                                    <span>
+                                        Remaining
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <section className="roadmap-panel current-level-panel">
+
+                            <div className="panel-heading">
+
+                                <div className="panel-heading-left">
+
+                                    <div className="panel-icon blue">
+                                        <i className="bi bi-person-fill"></i>
+                                    </div>
+
+                                    <h2>
+                                        Your Current Level
+                                    </h2>
+
+                                </div>
+
+
+                                <span className="level-badge">
+                                    {roadmap.level ||
+                                        roadmap.learningLevel ||
+                                        "Intermediate"}
+                                </span>
+
+                            </div>
+
+
+                            <p>
+                                You have good fundamentals. This roadmap
+                                will help you build practical skills
+                                through structured learning and
+                                real-world projects.
+                            </p>
+
+                        </section>
+
+
+                        <section className="roadmap-panel">
+
+                            <div className="panel-heading">
+
+                                <div className="panel-heading-left">
+
+                                    <div className="panel-icon yellow">
+                                        <i className="bi bi-lightning-fill"></i>
+                                    </div>
+
+                                    <h2>
+                                        Recommended Next Steps
+                                    </h2>
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="next-step-list">
+
+                                <div className="next-step">
+
+                                    <span className="step-number blue-bg">
+                                        1
+                                    </span>
+
+                                    <span>
+                                        Complete your current module
+                                    </span>
+
+                                    <i className="bi bi-chevron-right"></i>
+
+                                </div>
+
+
+                                <div className="next-step">
+
+                                    <span className="step-number green-bg">
+                                        2
+                                    </span>
+
+                                    <span>
+                                        Practice DSA questions
+                                    </span>
+
+                                    <i className="bi bi-chevron-right"></i>
+
+                                </div>
+
+
+                                <div className="next-step">
+
+                                    <span className="step-number yellow-bg">
+                                        3
+                                    </span>
+
+                                    <span>
+                                        Build a mini project
+                                    </span>
+
+                                    <i className="bi bi-chevron-right"></i>
+
+                                </div>
+
+
+                                <div className="next-step">
+
+                                    <span className="step-number purple-bg">
+                                        4
+                                    </span>
+
+                                    <span>
+                                        Take an assessment
+                                    </span>
+
+                                    <i className="bi bi-chevron-right"></i>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    {/* RIGHT — LEARNING PATH */}
+
+                    <section className="roadmap-panel learning-path-panel">
+
+                        <div className="panel-heading">
+
+                            <div className="panel-heading-left">
+
+                                <div className="panel-icon blue">
+                                    <i className="bi bi-map-fill"></i>
+                                </div>
+
+                                <h2>
+                                    Learning Path
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="learning-timeline">
+
+                            {sortedModules.map(
+                                (module, index) => {
+
+                                    const isCompleted =
+                                        String(
+                                            module.status || ""
+                                        ).toUpperCase() ===
+                                        "COMPLETED";
+
+
+                                    const isCurrent =
+                                        !isCompleted &&
+                                        index === currentModuleIndex;
+
+
+                                    const isUnlocked =
+                                        isCompleted ||
+                                        index <= currentModuleIndex;
+
+
+                                    const isLocked =
+                                        !isUnlocked;
+
+
+                                    return (
+
+                                        <div
+                                            className={`learning-step ${
+                                                isCompleted
+                                                    ? "completed"
+                                                    : isCurrent
+                                                        ? "current"
+                                                        : "locked"
+                                            }`}
+                                            key={
+                                                module.id ||
+                                                index
+                                            }
+                                        >
+
+                                            <div className="learning-step-side">
+
+                                                <div className="learning-step-dot">
+
+                                                    {isCompleted
+                                                        ? "✓"
+                                                        : isLocked
+                                                            ? "🔒"
+                                                            : (
+                                                                module.weekNumber ||
+                                                                index + 1
+                                                            )}
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div className="learning-module-card">
+
+                                                <div className="learning-module-icon">
+
+                                                    {isCompleted ? (
+                                                        <i className="bi bi-check-circle-fill"></i>
+                                                    ) : isCurrent ? (
+                                                        <i className="bi bi-gear-fill"></i>
+                                                    ) : (
+                                                        <i className="bi bi-book"></i>
+                                                    )}
 
                                                 </div>
 
 
-                                                {/* Content */}
+                                                <div className="learning-module-content">
 
-                                                <div className="col">
-
-                                                    <div className="d-flex flex-column flex-md-row justify-content-between gap-2">
+                                                    <div className="learning-module-title-row">
 
                                                         <div>
 
-                                                            <div className="d-flex align-items-center gap-2 flex-wrap mb-2">
-
-                                                                <span className="badge bg-primary-subtle text-primary rounded-pill">
-
-                                                                    WEEK{" "}
-
-                                                                    {
-                                                                        module.weekNumber ||
-                                                                        index + 1
-                                                                    }
-
-                                                                </span>
-
-
-                                                                {isCompleted && (
-
-                                                                    <span className="badge bg-success-subtle text-success rounded-pill">
-
-                                                                        ✓ Completed
-
-                                                                    </span>
-
-                                                                )}
-
-
-                                                                {isCurrent && (
-
-                                                                    <span className="badge bg-warning-subtle text-warning rounded-pill">
-
-                                                                        CURRENT
-
-                                                                    </span>
-
-                                                                )}
-
-
-                                                                {isLocked && (
-
-                                                                    <span className="badge bg-secondary-subtle text-secondary rounded-pill">
-
-                                                                        🔒 LOCKED
-
-                                                                    </span>
-
-                                                                )}
-
-                                                            </div>
-
-
-                                                            <h4 className="fw-bold mb-2">
-
+                                                            <h3>
+                                                                {index + 1}.{" "}
                                                                 {module.title}
+                                                            </h3>
 
-                                                            </h4>
-
-
-                                                            <p className="text-secondary mb-0">
-
+                                                            <p>
                                                                 {module.description}
-
                                                             </p>
 
                                                         </div>
 
 
-                                                        <div className="text-md-end">
-
-                                                            <small className="text-muted">
-
-                                                                {isCompleted
-                                                                    ? "Completed"
+                                                        <span
+                                                            className={`learning-status ${
+                                                                isCompleted
+                                                                    ? "status-completed"
                                                                     : isCurrent
-                                                                        ? "Ready to start"
-                                                                        : "Locked until previous module is completed"}
+                                                                        ? "status-current"
+                                                                        : "status-upcoming"
+                                                            }`}
+                                                        >
 
-                                                            </small>
+                                                            {isCompleted
+                                                                ? "Completed"
+                                                                : isCurrent
+                                                                    ? "In Progress"
+                                                                    : "Upcoming"}
 
-                                                        </div>
+                                                        </span>
 
                                                     </div>
 
 
-                                                    <div className="d-flex justify-content-end mt-4">
+                                                    <div className="learning-module-action">
+
+                                                        <span>
+                                                            Week{" "}
+                                                            {module.weekNumber ||
+                                                                index + 1}
+                                                        </span>
+
 
                                                         <button
                                                             type="button"
-                                                            className={`btn rounded-3 px-4 ${
-                                                                isLocked
-                                                                    ? "btn-light text-secondary border"
-                                                                    : "btn-primary"
-                                                            }`}
+                                                            disabled={isLocked}
                                                             onClick={() =>
                                                                 handleOpenModule(
                                                                     module
                                                                 )
                                                             }
-                                                            disabled={
-                                                                isLocked
-                                                            }
-                                                            title={
-                                                                isLocked
-                                                                    ? "Complete the previous module to unlock this module."
-                                                                    : "Open module"
-                                                            }
                                                         >
 
                                                             {isLocked
-                                                                ? "🔒 Locked"
+                                                                ? "Locked"
                                                                 : isCompleted
-                                                                    ? "Review Module →"
-                                                                    : "View Module →"}
+                                                                    ? "Review"
+                                                                    : "Open"}
+
+                                                            <i className="bi bi-chevron-right"></i>
 
                                                         </button>
 
@@ -2996,60 +2916,22 @@ function Roadmap() {
 
                                         </div>
 
-                                    </div>
+                                    );
 
-                                </div>
-                            );
-                        }
-                    )}
-
-                </div>
-
-
-                {/* =================================================
-                    EMPTY MODULES
-                ================================================= */}
-
-                {sortedModules.length === 0 && (
-
-                    <div className="card border-0 shadow-sm rounded-4 text-center mb-5">
-
-                        <div className="card-body p-5">
-
-                            <h4 className="fw-bold">
-
-                                No modules available
-
-                            </h4>
-
-
-                            <p className="text-secondary">
-
-                                Generate your AI roadmap again
-                                to create personalized modules.
-
-                            </p>
-
-
-                            <button
-                                className="btn btn-primary rounded-3 px-4"
-                                onClick={
-                                    loadRoadmap
                                 }
-                            >
-
-                                Generate Again
-
-                            </button>
+                            )}
 
                         </div>
 
-                    </div>
+                    </section>
 
-                )}
+                </div>
 
             </div>
 
+        </div>
+
+    );
 
             {/* =====================================================
                 MODULE MODAL
