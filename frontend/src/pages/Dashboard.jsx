@@ -1931,57 +1931,61 @@ const streakDays = [
 
                 {/* OVERALL */}
 
-                <div className="stat-card">
+              <div className="stat-card overall-progress-card">
 
-                    <div className="progress-circle">
+    <div className="progress-circle">
 
-                        <svg viewBox="0 0 42 42">
+        <svg
+            viewBox="0 0 42 42"
+            aria-label={`Overall progress ${Math.round(normalizedProgress)}%`}
+        >
 
-                            <circle
-                                className="progress-bg"
-                                cx="21"
-                                cy="21"
-                                r="17"
-                            />
+            <circle
+                className="progress-bg"
+                cx="21"
+                cy="21"
+                r="17"
+                pathLength="100"
+            />
 
-                            <circle
-                                className="progress-value"
-                                cx="21"
-                                cy="21"
-                                r="17"
-                                style={{
-                                    strokeDasharray: `${progress} 100`
-                                }}
-                            />
+            <circle
+                className="progress-value"
+                cx="21"
+                cy="21"
+                r="17"
+                pathLength="100"
+                style={{
+                    strokeDasharray: `${normalizedProgress} 100`
+                }}
+            />
 
-                        </svg>
+        </svg>
 
-                        <span>
-                            {progress}%
-                        </span>
+        <span>
+            {Math.round(normalizedProgress)}%
+        </span>
 
-                    </div>
+    </div>
 
 
-                    <div className="stat-info">
+    <div className="stat-info">
 
-                        <span className="stat-label">
-                            Overall Progress
-                        </span>
+        <span className="stat-label">
+            Overall Progress
+        </span>
 
-                        <strong>
-                            {progress}%
-                        </strong>
+        <strong>
+            {Math.round(normalizedProgress)}%
+        </strong>
 
-                        <small>
-                            {dashboard.completedModules} of{" "}
-                            {dashboard.totalModules} modules
-                        </small>
+        <small>
+            {normalizedCompletedModules} of{" "}
+            {normalizedTotalModules} modules
+        </small>
 
-                    </div>
+    </div>
 
-                </div>
-
+</div>
 
                 {/* COMPLETED */}
 
@@ -2050,11 +2054,10 @@ const streakDays = [
                         <span className="stat-label">
                             Current Streak
                         </span>
-
-                        <strong>
-                            {dashboard.currentStreak} days
-                        </strong>
-
+<strong>
+    {dashboard.currentStreak}{" "}
+    {dashboard.currentStreak === 1 ? "day" : "days"}
+</strong>
                         <small>
                             Keep it up!
                         </small>
@@ -2531,11 +2534,12 @@ const streakDays = [
                         </div>
 
 
-                        <div className="streak-number">
-                            {dashboard.currentStreak}
-                            <span>days</span>
-                        </div>
-
+                       <div className="streak-number">
+    {dashboard.currentStreak}
+    <span>
+        {dashboard.currentStreak === 1 ? "day" : "days"}
+    </span>
+</div>
                         <small>
                             Current streak
                         </small>
@@ -2583,9 +2587,12 @@ const streakDays = [
 
 
                         <p className="best-streak">
-                            Best streak: {dashboard.bestStreak || dashboard.currentStreak || 0} days
-                        </p>
-
+    Best streak:{" "}
+    {dashboard.bestStreak || dashboard.currentStreak || 0}{" "}
+    {(dashboard.bestStreak || dashboard.currentStreak || 0) === 1
+        ? "day"
+        : "days"}
+</p>
                     </div>
 
 
