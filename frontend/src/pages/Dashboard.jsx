@@ -43,12 +43,6 @@ function Dashboard() {
             route: "/assessments"
         },
         {
-            title: "Quiz",
-            description: "Practice with AI quizzes",
-            icon: "?",
-            route: "/quiz"
-        },
-        {
             title: "DSA Practice",
             description: "Practice coding and DSA",
             icon: "⌘",
@@ -58,7 +52,7 @@ function Dashboard() {
             title: "Interview Prep",
             description: "Prepare for technical interviews",
             icon: "▤",
-            route: "/interview-prep"
+            route: "/interview"
         },
         {
             title: "Progress",
