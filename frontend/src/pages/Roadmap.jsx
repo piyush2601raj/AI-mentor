@@ -2929,6 +2929,9 @@ function Roadmap() {
 
             </div>
 
+        </div>
+
+    );
 
             {/* =====================================================
                 MODULE MODAL
@@ -3074,9 +3077,10 @@ function Roadmap() {
                 </div>
 
             )}
-        </div>
 
+        </div>
     );
 }
+
 
 export default Roadmap;
