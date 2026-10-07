@@ -1,11 +1,17 @@
 /* =========================================================
-   SIDEBAR
+   AI MENTOR SIDEBAR
+   Production-safe / uniquely prefixed
 ========================================================= */
 
-.sidebar-inner {
+.ai-sidebar-inner {
     width: 100%;
     min-height: 100vh;
-    padding: 22px 14px 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px 12px 22px;
+
     background: #ffffff;
 }
 
@@ -14,19 +20,21 @@
    BRAND
 ========================================================= */
 
-.sidebar-brand {
+.ai-sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-height: 74px;
-    padding: 0 8px 20px;
+
+    gap: 11px;
+
+    padding: 4px 8px 20px;
+
     border-bottom: 1px solid #edf0f5;
 }
 
-.brand-logo {
-    width: 46px;
-    height: 46px;
-    flex-shrink: 0;
+.ai-sidebar-brand-logo {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
 
     display: flex;
     align-items: center;
@@ -34,62 +42,64 @@
 
     border-radius: 13px;
 
-    background: linear-gradient(
-        135deg,
-        #6847f5,
-        #5432e4
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #7657f6 0%,
+            #5835df 100%
+        );
 
     color: #ffffff;
 
     box-shadow:
-        0 10px 22px rgba(92, 61, 232, 0.20);
+        0 8px 20px rgba(91, 61, 226, 0.24);
+
+    font-size: 19px;
 }
 
-.brand-logo i {
-    font-size: 20px;
-}
-
-.brand-content {
+.ai-sidebar-brand-content {
     min-width: 0;
 }
 
-.brand-content h5 {
-    margin: 0;
-
-    font-size: 17px;
-    font-weight: 700;
-
+.ai-sidebar-brand-title {
     color: #111827;
+
+    font-size: 16px;
+    font-weight: 750;
+
+    line-height: 1.2;
 }
 
-.brand-content span {
-    display: block;
+.ai-sidebar-brand-subtitle {
+    margin-top: 4px;
 
-    margin-top: 3px;
+    color: #98a0b2;
 
     font-size: 10px;
-    color: #8c94a8;
+    font-weight: 500;
+
+    letter-spacing: 0.15px;
 }
 
 
 /* =========================================================
-   SECTIONS
+   SECTION
 ========================================================= */
 
-.sidebar-section {
-    margin-top: 22px;
+.ai-sidebar-section {
+    margin-top: 21px;
 }
 
-.sidebar-section-title {
+.ai-sidebar-section-title {
     padding: 0 10px;
     margin-bottom: 8px;
 
-    font-size: 10px;
-    font-weight: 700;
+    color: #9aa1b1;
 
-    letter-spacing: 0.08em;
-    color: #9299aa;
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
 }
 
 
@@ -97,59 +107,92 @@
    NAVIGATION
 ========================================================= */
 
-.sidebar-nav {
+.ai-sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+
+    gap: 4px;
+
+    width: 100%;
 }
 
 
 /* =========================================================
-   SIDEBAR LINK
+   LINK
 ========================================================= */
 
-.sidebar-link {
-    width: 100%;
-    min-height: 41px;
+.ai-sidebar-link {
+    position: relative;
 
-    padding: 0 11px;
+    width: 100%;
+    min-height: 42px;
 
     display: flex;
     align-items: center;
 
     gap: 11px;
 
-    border-radius: 10px;
+    padding: 0 11px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background: transparent;
+
+    color: #596274;
 
     text-decoration: none;
 
-    color: #344054;
-
+    font-family: inherit;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 550;
+
+    cursor: pointer;
 
     transition:
         background 0.18s ease,
         color 0.18s ease,
-        transform 0.18s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
-.sidebar-link:hover {
+.ai-sidebar-link:hover {
     background: #f6f4ff;
-    color: #5b3df5;
+    color: #6043e8;
+
+    transform: translateX(2px);
 }
 
-.sidebar-link.active {
+.ai-sidebar-link.active {
+    background:
+        linear-gradient(
+            135deg,
+            #6848f2 0%,
+            #5837df 100%
+        );
+
     color: #ffffff;
 
-    background: linear-gradient(
-        135deg,
-        #6345ed,
-        #5636dc
-    );
-
     box-shadow:
-        0 8px 18px rgba(91, 61, 226, 0.18);
+        0 8px 18px rgba(91, 61, 226, 0.19);
+
+    transform: translateX(0);
+}
+
+.ai-sidebar-link.active::before {
+    content: "";
+
+    position: absolute;
+
+    left: -12px;
+    top: 8px;
+
+    width: 3px;
+    height: 26px;
+
+    border-radius: 0 5px 5px 0;
+
+    background: #6848f2;
 }
 
 
@@ -157,25 +200,70 @@
    ICON
 ========================================================= */
 
-.sidebar-icon {
-    width: 20px;
-    flex-shrink: 0;
+.ai-sidebar-icon {
+    width: 21px;
+    min-width: 21px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    color: #7b8498;
+
     font-size: 14px;
-    color: #65708a;
+
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease;
 }
 
-.sidebar-link.active .sidebar-icon {
+.ai-sidebar-link:hover .ai-sidebar-icon {
+    color: #6043e8;
+}
+
+.ai-sidebar-link.active .ai-sidebar-icon {
     color: #ffffff;
 }
 
-.sidebar-text {
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.ai-sidebar-label {
     flex: 1;
+
+    min-width: 0;
+
+    overflow: hidden;
+
     white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.ai-sidebar-arrow {
+    opacity: 0;
+
+    color: currentColor;
+
+    font-size: 9px;
+
+    transform: translateX(-3px);
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
+}
+
+.ai-sidebar-link:hover .ai-sidebar-arrow,
+.ai-sidebar-link.active .ai-sidebar-arrow {
+    opacity: 0.65;
+    transform: translateX(0);
 }
 
 
@@ -183,50 +271,58 @@
    AI BADGE
 ========================================================= */
 
-.ai-badge {
-    min-width: 26px;
+.ai-sidebar-badge {
+    min-width: 27px;
 
     padding: 4px 7px;
 
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
     background: #eeeaff;
-    color: #6043e8;
 
-    font-size: 9px;
-    font-weight: 700;
+    color: #6245e8;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.04em;
 }
 
-.sidebar-link.active .ai-badge {
-    background: rgba(255, 255, 255, 0.20);
+.ai-sidebar-link.active .ai-sidebar-badge {
+    background: rgba(255, 255, 255, 0.18);
     color: #ffffff;
 }
 
 
 /* =========================================================
-   AI PLAN
+   AI PLAN CARD
 ========================================================= */
 
-.ai-plan-card {
-    margin: 24px 0 4px;
-    padding: 16px;
+.ai-sidebar-plan {
+    position: relative;
 
-    border-radius: 14px;
+    overflow: hidden;
+
+    margin: 22px 2px 2px;
+
+    padding: 15px;
+
+    border-radius: 15px;
 
     background:
         radial-gradient(
-            circle at top right,
-            rgba(116, 86, 255, 0.35),
+            circle at 90% 5%,
+            rgba(142, 117, 255, 0.40),
             transparent 42%
         ),
         linear-gradient(
             145deg,
-            #21176e,
-            #321da0
+            #21166d 0%,
+            #3420a5 100%
         );
 
     color: #ffffff;
@@ -235,7 +331,25 @@
         0 12px 25px rgba(51, 31, 155, 0.20);
 }
 
-.ai-plan-icon {
+.ai-sidebar-plan-glow {
+    position: absolute;
+
+    width: 80px;
+    height: 80px;
+
+    top: -35px;
+    right: -20px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    pointer-events: none;
+}
+
+.ai-sidebar-plan-icon {
+    position: relative;
+
     width: 30px;
     height: 30px;
 
@@ -249,45 +363,67 @@
 
     background: rgba(255, 255, 255, 0.12);
 
+    color: #ffffff;
+
     font-size: 13px;
 }
 
-.ai-plan-title {
-    font-size: 10px;
+.ai-sidebar-plan-label {
+    position: relative;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
+}
+
+.ai-sidebar-plan-name {
+    position: relative;
+
+    margin-top: 3px;
+
     color: #ffffff;
-    font-weight: 600;
+
+    font-size: 14px;
+    font-weight: 750;
 }
 
-.ai-plan-name {
-    margin-top: 2px;
+.ai-sidebar-plan-description {
+    position: relative;
 
-    color: #ffd51f;
+    margin-top: 6px;
 
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.ai-plan-valid {
-    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.67);
 
     font-size: 9px;
-    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
 }
 
-.ai-plan-button {
+.ai-sidebar-plan-button {
+    position: relative;
+
     width: 100%;
     height: 32px;
 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     margin-top: 12px;
 
-    border: 0;
-    border-radius: 7px;
+    padding: 0 10px;
 
-    background: #6245ed;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.10);
+
     color: #ffffff;
 
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
 
     cursor: pointer;
 
@@ -296,8 +432,9 @@
         transform 0.18s ease;
 }
 
-.ai-plan-button:hover {
-    background: #7358f3;
+.ai-sidebar-plan-button:hover {
+    background: rgba(255, 255, 255, 0.18);
+
     transform: translateY(-1px);
 }
 
@@ -306,8 +443,8 @@
    ACCOUNT
 ========================================================= */
 
-.account-section {
-    margin-top: 24px;
+.ai-sidebar-account {
+    margin-top: 20px;
 }
 
 
@@ -315,62 +452,105 @@
    LOGOUT
 ========================================================= */
 
-.sidebar-logout {
-    border: 0;
-    background: transparent;
-
-    cursor: pointer;
-
+.ai-sidebar-logout {
     text-align: left;
-    font-family: inherit;
 }
 
-.sidebar-logout:hover {
-    background: #fff1f1;
+.ai-sidebar-logout:hover {
+    background: #fff2f2;
     color: #dc2626;
 }
 
-.sidebar-logout:hover .sidebar-icon {
+.ai-sidebar-logout:hover .ai-sidebar-icon {
     color: #dc2626;
 }
 
 
 /* =========================================================
-   RESPONSIVE
-   Keep sidebar structure intact.
-   Layout.css controls sidebar width.
+   TABLET
 ========================================================= */
 
-@media (max-width: 768px) {
-    .sidebar-inner {
+@media (max-width: 999px) {
+
+    .ai-sidebar-inner {
         padding-left: 10px;
         padding-right: 10px;
     }
 
-    .brand-content,
-    .sidebar-text,
-    .sidebar-section-title,
-    .ai-plan-card {
+    .ai-sidebar-brand-content,
+    .ai-sidebar-label,
+    .ai-sidebar-section-title,
+    .ai-sidebar-plan {
         display: none;
     }
 
-    .sidebar-brand {
+    .ai-sidebar-brand {
         justify-content: center;
 
         padding-left: 0;
         padding-right: 0;
     }
 
-    .sidebar-link {
+    .ai-sidebar-nav {
+        align-items: center;
+    }
+
+    .ai-sidebar-link {
+        width: 42px;
+        min-height: 42px;
+
         justify-content: center;
+
         padding: 0;
     }
 
-    .sidebar-icon {
+    .ai-sidebar-icon {
         width: auto;
+        min-width: auto;
     }
 
-    .ai-badge {
+    .ai-sidebar-arrow,
+    .ai-sidebar-badge {
         display: none;
+    }
+
+    .ai-sidebar-link.active::before {
+        left: -10px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ai-sidebar-inner {
+        padding: 15px 7px 18px;
+    }
+
+    .ai-sidebar-brand-logo {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+
+        font-size: 17px;
+    }
+
+    .ai-sidebar-link {
+        width: 38px;
+        min-height: 38px;
+    }
+
+    .ai-sidebar-section {
+        margin-top: 17px;
+    }
+
+    .ai-sidebar-link.active::before {
+        left: -7px;
+
+        height: 22px;
+        top: 8px;
     }
 }

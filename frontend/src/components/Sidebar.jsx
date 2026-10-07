@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
 function Sidebar() {
-
     const navigate = useNavigate();
 
     const mainMenu = [
@@ -27,11 +26,11 @@ function Sidebar() {
             path: "/assessments",
             icon: "bi-clipboard-check",
         },
-       {
-    name: "DSA Practice",
-    path: "/dsa-practice",
-    icon: "bi-code-slash",
-},
+        {
+            name: "DSA Practice",
+            path: "/dsa-practice",
+            icon: "bi-code-slash",
+        },
         {
             name: "Interview Prep",
             path: "/interview",
@@ -86,8 +85,10 @@ function Sidebar() {
     ];
 
     const handleLogout = () => {
-
         localStorage.removeItem("token");
+        localStorage.removeItem("studentId");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("id");
         localStorage.removeItem("ai_mentor_user");
 
         navigate("/login", {
@@ -95,196 +96,130 @@ function Sidebar() {
         });
     };
 
+    const renderMenu = (items) => (
+        <nav className="ai-sidebar-nav">
+            {items.map((item) => (
+                <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                        `ai-sidebar-link ${isActive ? "active" : ""}`
+                    }
+                >
+                    <span className="ai-sidebar-icon">
+                        <i className={`bi ${item.icon}`}></i>
+                    </span>
+
+                    <span className="ai-sidebar-label">
+                        {item.name}
+                    </span>
+
+                    {item.badge && (
+                        <span className="ai-sidebar-badge">
+                            {item.badge}
+                        </span>
+                    )}
+
+                    <i className="bi bi-chevron-right ai-sidebar-arrow"></i>
+                </NavLink>
+            ))}
+        </nav>
+    );
+
     return (
-        <div className="sidebar-inner">
+        <div className="ai-sidebar-inner">
 
-            {/* ================= BRAND ================= */}
-
-            <div className="sidebar-brand">
-
-                <div className="brand-logo">
+            {/* BRAND */}
+            <div className="ai-sidebar-brand">
+                <div className="ai-sidebar-brand-logo">
                     <i className="bi bi-stars"></i>
                 </div>
 
-                <div className="brand-content">
-                    <h5>AI Mentor</h5>
-                    <span>Learn Smarter</span>
-                </div>
+                <div className="ai-sidebar-brand-content">
+                    <div className="ai-sidebar-brand-title">
+                        AI Mentor
+                    </div>
 
+                    <div className="ai-sidebar-brand-subtitle">
+                        Learn Smarter
+                    </div>
+                </div>
             </div>
 
-
-            {/* ================= MAIN MENU ================= */}
-
-            <div className="sidebar-section">
-
-                <div className="sidebar-section-title">
+            {/* MAIN MENU */}
+            <section className="ai-sidebar-section">
+                <div className="ai-sidebar-section-title">
                     MAIN MENU
                 </div>
 
-                <nav className="sidebar-nav">
+                {renderMenu(mainMenu)}
+            </section>
 
-                    {mainMenu.map((item) => (
-
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                `sidebar-link ${
-                                    isActive ? "active" : ""
-                                }`
-                            }
-                        >
-
-                            <span className="sidebar-icon">
-                                <i
-                                    className={`bi ${item.icon}`}
-                                ></i>
-                            </span>
-
-                            <span className="sidebar-text">
-                                {item.name}
-                            </span>
-
-                            {item.badge && (
-                                <span className="ai-badge">
-                                    {item.badge}
-                                </span>
-                            )}
-
-                        </NavLink>
-
-                    ))}
-
-                </nav>
-
-            </div>
-
-
-            {/* ================= TOOLS ================= */}
-
-            <div className="sidebar-section">
-
-                <div className="sidebar-section-title">
+            {/* TOOLS */}
+            <section className="ai-sidebar-section">
+                <div className="ai-sidebar-section-title">
                     TOOLS
                 </div>
 
-                <nav className="sidebar-nav">
+                {renderMenu(toolsMenu)}
+            </section>
 
-                    {toolsMenu.map((item) => (
+            {/* AI PLAN */}
+            <div className="ai-sidebar-plan">
 
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                `sidebar-link ${
-                                    isActive ? "active" : ""
-                                }`
-                            }
-                        >
+                <div className="ai-sidebar-plan-glow"></div>
 
-                            <span className="sidebar-icon">
-                                <i
-                                    className={`bi ${item.icon}`}
-                                ></i>
-                            </span>
-
-                            <span className="sidebar-text">
-                                {item.name}
-                            </span>
-
-                        </NavLink>
-
-                    ))}
-
-                </nav>
-
-            </div>
-
-
-            {/* ================= AI PLAN ================= */}
-
-            <div className="ai-plan-card">
-
-                <div className="ai-plan-icon">
+                <div className="ai-sidebar-plan-icon">
                     <i className="bi bi-stars"></i>
                 </div>
 
-                <div className="ai-plan-title">
-                    AI Plan
+                <div className="ai-sidebar-plan-label">
+                    AI PLAN
                 </div>
 
-                <div className="ai-plan-name">
+                <div className="ai-sidebar-plan-name">
                     Premium
                 </div>
 
-                <div className="ai-plan-valid">
-                    Valid until your plan ends
+                <div className="ai-sidebar-plan-description">
+                    Unlock smarter learning tools and personalized guidance.
                 </div>
 
-                <button className="ai-plan-button">
-                    Upgrade Plan
+                <button
+                    type="button"
+                    className="ai-sidebar-plan-button"
+                    onClick={() => navigate("/settings")}
+                >
+                    <span>Manage Plan</span>
+                    <i className="bi bi-arrow-up-right"></i>
                 </button>
-
             </div>
 
+            {/* ACCOUNT */}
+            <section className="ai-sidebar-section ai-sidebar-account">
 
-            {/* ================= ACCOUNT ================= */}
-
-            <div className="sidebar-section account-section">
-
-                <div className="sidebar-section-title">
+                <div className="ai-sidebar-section-title">
                     ACCOUNT
                 </div>
 
-                <nav className="sidebar-nav">
+                {renderMenu(accountMenu)}
 
-                    {accountMenu.map((item) => (
+                <button
+                    type="button"
+                    className="ai-sidebar-link ai-sidebar-logout"
+                    onClick={handleLogout}
+                >
+                    <span className="ai-sidebar-icon">
+                        <i className="bi bi-box-arrow-right"></i>
+                    </span>
 
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                `sidebar-link ${
-                                    isActive ? "active" : ""
-                                }`
-                            }
-                        >
+                    <span className="ai-sidebar-label">
+                        Logout
+                    </span>
 
-                            <span className="sidebar-icon">
-                                <i
-                                    className={`bi ${item.icon}`}
-                                ></i>
-                            </span>
-
-                            <span className="sidebar-text">
-                                {item.name}
-                            </span>
-
-                        </NavLink>
-
-                    ))}
-
-
-                    <button
-                        type="button"
-                        className="sidebar-link sidebar-logout"
-                        onClick={handleLogout}
-                    >
-
-                        <span className="sidebar-icon">
-                            <i className="bi bi-box-arrow-right"></i>
-                        </span>
-
-                        <span className="sidebar-text">
-                            Logout
-                        </span>
-
-                    </button>
-
-                </nav>
-
-            </div>
+                    <i className="bi bi-chevron-right ai-sidebar-arrow"></i>
+                </button>
+            </section>
 
         </div>
     );
