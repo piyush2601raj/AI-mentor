@@ -573,16 +573,19 @@
 
 
 /* =========================================================
-   TIMELINE
+   TIMELINE — PROFESSIONAL CLEAN VERSION
 ========================================================= */
 
 .roadmap-timeline {
     position: relative;
-
     width: 100%;
 }
 
-
+/*
+ * Each module owns its own timeline column.
+ * The line is centered inside that exact column, so it cannot
+ * drift into the module card or appear as a page-wide divider.
+ */
 .roadmap-module {
     position: relative;
 
@@ -616,15 +619,22 @@
 }
 
 
+/* =========================================================
+   TIMELINE DOT
+========================================================= */
+
 .timeline-dot {
     position: relative;
 
     z-index: 3;
 
+    flex: 0 0 52px;
+
     width: 52px;
     height: 52px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -640,50 +650,70 @@
 
     font-weight: 800;
 
+    line-height: 1;
+
     box-shadow:
         0 7px 20px rgba(91,66,231,0.12);
 }
 
+
+/* =========================================================
+   TIMELINE LINE
+========================================================= */
 
 .timeline-line {
     position: absolute;
 
     z-index: 1;
 
+    /*
+     * Start exactly at the bottom of the dot.
+     * End exactly before the next module row.
+     */
     top: 52px;
-
     bottom: -22px;
 
+    /*
+     * Center ONLY inside .timeline-side.
+     */
     left: 50%;
 
     width: 2px;
 
     transform: translateX(-50%);
 
+    border-radius: 999px;
+
     background:
         linear-gradient(
             180deg,
-            #d9d4ff,
-            #ebeaf3
+            rgba(98,72,233,0.24),
+            rgba(98,72,233,0.08)
         );
+
+    pointer-events: none;
 }
 
 
-/* completed */
+/* =========================================================
+   COMPLETED
+========================================================= */
 
 .roadmap-module.completed .timeline-dot {
     background: #5b42e7;
 
     border-color: #5b42e7;
 
-    color: white;
+    color: #ffffff;
 
     box-shadow:
         0 8px 22px rgba(91,66,231,0.28);
 }
 
 
-/* current */
+/* =========================================================
+   CURRENT
+========================================================= */
 
 .roadmap-module.current .timeline-dot {
     border-color: #6248e9;
