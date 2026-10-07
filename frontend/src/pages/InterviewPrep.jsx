@@ -945,9 +945,13 @@ function Interview() {
             // =====================================================
             // SAVE FINAL QUESTION STATE
             // =====================================================
-            setQuestions(finalQuestions);
+            const shuffledQuestions = [...finalQuestions].sort(
+                () => Math.random() - 0.5
+            );
+
+            setQuestions(shuffledQuestions);
             setSummary(
-                calculateSkillSummary(finalQuestions)
+                calculateSkillSummary(shuffledQuestions)
             );
 
             // =====================================================
