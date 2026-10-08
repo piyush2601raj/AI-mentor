@@ -4180,65 +4180,69 @@
 
 
 /* =========================================================
-   FINAL ROADMAP POLISH — VISIBILITY + PROGRESS FIX
-   UI ONLY — JSX / API / LOGIC UNCHANGED
+   FINAL FIXES — ROADMAP VISIBILITY + PROGRESS
+   IMPORTANT:
+   CSS ONLY
+   JSX / API / STATE / HANDLERS / FUNCTIONALITY UNCHANGED
 ========================================================= */
 
-/* ---------------------------------------------------------
-   HERO SIDE VISIBILITY
-   The hero is now a light surface, so its old white text
-   must be explicitly converted to dark professional text.
---------------------------------------------------------- */
+
+/* =========================================================
+   1. HERO RIGHT SIDE
+   The current hero is LIGHT, therefore the old white
+   hero-side text/icons become invisible. Make this section
+   explicitly visible without changing its structure.
+========================================================= */
 
 .professional-roadmap .roadmap-hero-side {
-    padding: 18px !important;
+    padding: 16px !important;
 
-    border: 1px solid #e4e7ef !important;
-    border-left: 1px solid #e4e7ef !important;
+    border: 1px solid #e3e6ee !important;
+    border-left: 1px solid #e3e6ee !important;
 
-    border-radius: 15px !important;
+    border-radius: 14px !important;
 
-    background: rgba(255,255,255,.88) !important;
+    background: rgba(255,255,255,.92) !important;
 
     box-shadow:
-        0 6px 20px rgba(15,23,42,.045) !important;
+        0 7px 20px rgba(15,23,42,.045) !important;
 }
 
 .professional-roadmap .hero-info-item {
-    min-height: 50px !important;
+    min-height: 48px !important;
 
-    padding: 7px 8px !important;
+    padding: 6px 7px !important;
 
-    border: 0 !important;
+    border-bottom: 1px solid #eef0f4 !important;
+}
 
-    border-radius: 10px !important;
-
-    background: #f8f9fc !important;
+.professional-roadmap .hero-info-item:last-of-type {
+    border-bottom: 0 !important;
 }
 
 .professional-roadmap .hero-info-icon {
-    width: 36px !important;
-    height: 36px !important;
+    width: 34px !important;
+    height: 34px !important;
 
-    flex: 0 0 36px !important;
+    flex: 0 0 34px !important;
 
-    border-radius: 10px !important;
+    border-radius: 9px !important;
 
     background: #efedff !important;
 
-    color: #5544e8 !important;
+    color: #5b42e7 !important;
 }
 
 .professional-roadmap .hero-info-item span {
     display: block !important;
 
-    color: #8a93a5 !important;
+    color: #8b93a5 !important;
 
     font-size: 9px !important;
 
     font-weight: 800 !important;
 
-    letter-spacing: .75px !important;
+    letter-spacing: .7px !important;
 
     text-transform: uppercase !important;
 }
@@ -4250,7 +4254,7 @@
 
     color: #202638 !important;
 
-    font-size: 12px !important;
+    font-size: 13px !important;
 
     font-weight: 800 !important;
 }
@@ -4258,7 +4262,7 @@
 .professional-roadmap .hero-update-btn {
     min-height: 40px !important;
 
-    margin-top: 4px !important;
+    margin-top: 5px !important;
 
     border: 0 !important;
 
@@ -4268,7 +4272,7 @@
         linear-gradient(
             135deg,
             #5544e8,
-            #6758f1
+            #6758f2
         ) !important;
 
     color: #ffffff !important;
@@ -4284,29 +4288,31 @@
             #4d3bd8,
             #5e50e8
         ) !important;
+
+    transform: translateY(-1px);
 }
 
 
-/* ---------------------------------------------------------
-   OVERALL PROGRESS
---------------------------------------------------------- */
+/* =========================================================
+   2. OVERVIEW PROGRESS
+========================================================= */
 
 .professional-roadmap .overview-progress {
-    padding: 3px 0 19px !important;
+    padding: 18px 19px !important;
 }
 
 .professional-roadmap .overview-progress-top {
-    min-height: 30px !important;
-
     display: flex !important;
 
     align-items: center !important;
 
     justify-content: space-between !important;
+
+    gap: 15px !important;
 }
 
 .professional-roadmap .overview-progress-top strong {
-    color: #697386 !important;
+    color: #667085 !important;
 
     font-size: 11px !important;
 
@@ -4314,9 +4320,9 @@
 }
 
 .professional-roadmap .overview-progress-top span {
-    color: #5544e8 !important;
+    color: #5b42e7 !important;
 
-    font-size: 18px !important;
+    font-size: 17px !important;
 
     font-weight: 850 !important;
 }
@@ -4326,7 +4332,7 @@
 
     height: 10px !important;
 
-    margin-top: 9px !important;
+    margin-top: 10px !important;
 
     overflow: hidden !important;
 
@@ -4339,30 +4345,32 @@
 }
 
 .professional-roadmap .overview-progress-fill {
-    min-width: 0 !important;
-
     height: 100% !important;
+
+    min-width: 0 !important;
 
     border-radius: inherit !important;
 
     background:
         linear-gradient(
             90deg,
-            #4f46e5 0%,
+            #4f46e5,
             #6557ed 55%,
-            #7869ff 100%
+            #7869ff
         ) !important;
 
     box-shadow:
-        0 2px 8px rgba(79,70,229,.22) !important;
+        0 2px 8px rgba(79,70,229,.20) !important;
 
     transition: width .55s ease !important;
 }
 
 
-/* ---------------------------------------------------------
-   OVERVIEW METRIC CARDS
---------------------------------------------------------- */
+/* =========================================================
+   3. OVERVIEW STATS
+   These styles were missing from the current CSS, which
+   caused the values/labels to appear incorrectly.
+========================================================= */
 
 .professional-roadmap .overview-stats {
     width: 100% !important;
@@ -4370,33 +4378,37 @@
     display: grid !important;
 
     grid-template-columns:
-        repeat(2, minmax(0,1fr)) !important;
+        repeat(2, minmax(0, 1fr)) !important;
 
-    gap: 12px !important;
+    gap: 11px !important;
 
-    padding: 0 !important;
+    padding: 0 19px 19px !important;
 }
 
 .professional-roadmap .overview-stat {
     min-width: 0 !important;
 
-    min-height: 82px !important;
+    min-height: 78px !important;
 
     display: grid !important;
 
-    grid-template-columns: 40px minmax(0,1fr) !important;
+    grid-template-columns:
+        38px
+        minmax(0, 1fr) !important;
 
-    grid-template-rows: auto auto !important;
+    grid-template-rows:
+        auto
+        auto !important;
 
     align-items: center !important;
 
-    column-gap: 11px !important;
+    column-gap: 10px !important;
 
-    padding: 13px !important;
+    padding: 12px !important;
 
     border: 1px solid #e7eaf1 !important;
 
-    border-radius: 13px !important;
+    border-radius: 12px !important;
 
     background:
         linear-gradient(
@@ -4420,107 +4432,108 @@
     border-color: #d9d4fb !important;
 
     box-shadow:
-        0 8px 20px rgba(79,70,229,.065) !important;
+        0 8px 20px rgba(79,70,229,.07) !important;
 }
 
 .professional-roadmap .overview-stat-icon {
     grid-row: 1 / span 2 !important;
 
-    width: 40px !important;
-    height: 40px !important;
+    width: 38px !important;
+    height: 38px !important;
 
-    flex: 0 0 40px !important;
+    flex: 0 0 38px !important;
 
     display: flex !important;
 
     align-items: center !important;
+
     justify-content: center !important;
 
     border-radius: 10px !important;
 
-    font-size: 15px !important;
+    font-size: 14px !important;
 }
 
 .professional-roadmap .overview-stat-icon.blue {
     background: #edf4ff !important;
+
     color: #3977d7 !important;
 }
 
 .professional-roadmap .overview-stat-icon.green {
     background: #eaf8f0 !important;
+
     color: #238355 !important;
 }
 
 .professional-roadmap .overview-stat-icon.orange {
     background: #fff4df !important;
+
     color: #bd7805 !important;
 }
 
 .professional-roadmap .overview-stat-icon.purple {
     background: #f0edff !important;
+
     color: #6046e8 !important;
 }
 
 .professional-roadmap .overview-stat strong {
     display: block !important;
 
-    align-self: end !important;
-
     color: #172033 !important;
 
-    font-size: 21px !important;
+    font-size: 20px !important;
 
     line-height: 1 !important;
 
     font-weight: 850 !important;
 
-    letter-spacing: -.45px !important;
+    letter-spacing: -.35px !important;
 }
 
 .professional-roadmap .overview-stat span {
     display: block !important;
 
-    align-self: start !important;
-
     margin-top: 4px !important;
 
     color: #7d8698 !important;
 
-    font-size: 8.5px !important;
+    font-size: 8px !important;
 
-    line-height: 1.25 !important;
+    line-height: 1.2 !important;
 
     font-weight: 800 !important;
 
-    letter-spacing: .45px !important;
+    letter-spacing: .4px !important;
 
     text-transform: uppercase !important;
 }
 
 
-/* ---------------------------------------------------------
-   CURRENT LEVEL
---------------------------------------------------------- */
-
-.professional-roadmap .current-level-panel {
-    overflow: hidden !important;
-}
+/* =========================================================
+   4. CURRENT LEVEL
+========================================================= */
 
 .professional-roadmap .current-level-description {
-    max-width: 720px !important;
-
     margin: 0 !important;
 
     color: #697386 !important;
 
     font-size: 13px !important;
 
-    line-height: 1.72 !important;
+    line-height: 1.7 !important;
 
     font-weight: 500 !important;
 }
 
 .professional-roadmap .current-level-panel .level-badge {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
     padding: 6px 10px !important;
 
     border: 1px solid #ccebd8 !important;
@@ -4535,15 +4548,15 @@
 
     font-weight: 800 !important;
 
-    letter-spacing: .4px !important;
+    letter-spacing: .35px !important;
 
     text-transform: uppercase !important;
 }
 
 
-/* ---------------------------------------------------------
-   NEXT STEPS
---------------------------------------------------------- */
+/* =========================================================
+   5. RECOMMENDED NEXT STEPS
+========================================================= */
 
 .professional-roadmap .next-step-list {
     display: flex !important;
@@ -4551,23 +4564,21 @@
     flex-direction: column !important;
 
     gap: 8px !important;
-
-    padding: 0 !important;
 }
 
 .professional-roadmap .next-step {
-    min-height: 49px !important;
+    min-height: 48px !important;
 
     display: grid !important;
 
     grid-template-columns:
-        31px
-        minmax(0,1fr)
+        30px
+        minmax(0, 1fr)
         14px !important;
 
     align-items: center !important;
 
-    gap: 10px !important;
+    gap: 9px !important;
 
     padding: 8px 10px !important;
 
@@ -4592,13 +4603,15 @@
 }
 
 
-/* ---------------------------------------------------------
-   LEARNING PATH — NO CONNECTOR LINES
---------------------------------------------------------- */
+/* =========================================================
+   6. LEARNING PATH
+   REMOVE EVERY OLD CONNECTOR LINE.
+   Keep dots/cards/status/buttons untouched.
+========================================================= */
 
-.professional-roadmap .learning-step-side,
+.professional-roadmap .learning-timeline,
 .professional-roadmap .learning-step,
-.professional-roadmap .learning-timeline {
+.professional-roadmap .learning-step-side {
     position: relative !important;
 }
 
@@ -4616,6 +4629,7 @@
     display: none !important;
 
     width: 0 !important;
+
     height: 0 !important;
 
     border: 0 !important;
@@ -4627,27 +4641,27 @@
 
 .professional-roadmap .learning-step-side {
     border-left: 0 !important;
+
     border-right: 0 !important;
 }
 
 
-/* ---------------------------------------------------------
-   LEARNING PATH CARD VISIBILITY
---------------------------------------------------------- */
+/* =========================================================
+   7. LEARNING CARDS — KEEP CONTENT VISIBLE
+========================================================= */
 
 .professional-roadmap .learning-module-card {
     position: relative !important;
 
     z-index: 1 !important;
 
-    background: #ffffff !important;
-
     color: #202638 !important;
+
+    background: #ffffff !important;
 }
 
-.professional-roadmap .learning-module-card h3,
-.professional-roadmap .learning-module-card .learning-module-title {
-    color: #202638 !important;
+.professional-roadmap .learning-module-card h3 {
+    color: #1b1d2a !important;
 
     opacity: 1 !important;
 
@@ -4655,68 +4669,73 @@
 }
 
 .professional-roadmap .learning-module-card p {
-    color: #7b8495 !important;
+    color: #7f8799 !important;
 
     opacity: 1 !important;
 
     visibility: visible !important;
 }
 
-.professional-roadmap .learning-module-action > span {
-    color: #8a93a5 !important;
-}
 
+/* =========================================================
+   8. MOBILE — PRESERVE THE SAME UI
+========================================================= */
 
-/* ---------------------------------------------------------
-   MOBILE
---------------------------------------------------------- */
+@media (max-width: 767px) {
 
-@media (max-width: 700px) {
+    .professional-roadmap .roadmap-hero-side {
+        padding: 13px !important;
+
+        border: 1px solid #e3e6ee !important;
+
+        border-top: 1px solid #e3e6ee !important;
+
+        border-left: 1px solid #e3e6ee !important;
+
+        border-radius: 12px !important;
+
+        background: #ffffff !important;
+    }
 
     .professional-roadmap .overview-stats {
         grid-template-columns: 1fr !important;
+
+        padding: 0 18px 18px !important;
 
         gap: 9px !important;
     }
 
     .professional-roadmap .overview-stat {
-        min-height: 76px !important;
-    }
-
-    .professional-roadmap .roadmap-hero-side {
-        padding: 13px !important;
-
-        border-radius: 12px !important;
-    }
-
-    .professional-roadmap .current-level-description {
-        font-size: 12px !important;
-
-        line-height: 1.65 !important;
+        min-height: 72px !important;
     }
 }
 
 @media (max-width: 480px) {
 
-    .professional-roadmap .overview-stat {
-        min-height: 72px !important;
+    .professional-roadmap .overview-stats {
+        padding: 0 15px 15px !important;
+    }
 
-        padding: 11px !important;
+    .professional-roadmap .overview-stat {
+        min-height: 68px !important;
+
+        padding: 10px !important;
     }
 
     .professional-roadmap .overview-stat-icon {
-        width: 36px !important;
-        height: 36px !important;
+        width: 35px !important;
 
-        flex-basis: 36px !important;
+        height: 35px !important;
+
+        flex-basis: 35px !important;
     }
 
     .professional-roadmap .overview-stat strong {
-        font-size: 19px !important;
+        font-size: 18px !important;
     }
 
     .professional-roadmap .overview-stat span {
-        font-size: 8px !important;
+        font-size: 7.5px !important;
     }
 }
 
