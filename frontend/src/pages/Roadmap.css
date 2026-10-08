@@ -4852,19 +4852,45 @@
 
 
 /* =========================================================
-   FINAL FIX — REMOVE HERO VERTICAL DIVIDER
-   CSS ONLY — NO JSX / API / LOGIC / UI STRUCTURE CHANGES
+   FINAL HERO DIVIDER FIX
+   Removes ONLY the unwanted vertical divider line between
+   the roadmap hero content and the right-side information.
+   NO OTHER UI / LOGIC / FUNCTIONALITY CHANGED.
 ========================================================= */
 
-/* The visible vertical line in the screenshot is the divider
-   on the right side of the roadmap hero. Remove only that line. */
 .professional-roadmap .roadmap-hero-side {
     border-left: 0 !important;
+    border-left-color: transparent !important;
+
+    padding-left: 16px !important;
 }
 
-/* Keep the mobile layout free from the same divider. */
-@media (max-width: 767px) {
+/* Keep the actual hero-side card boundary professional */
+.professional-roadmap .roadmap-hero-side {
+    border-top: 1px solid #e3e6ee !important;
+    border-right: 1px solid #e3e6ee !important;
+    border-bottom: 1px solid #e3e6ee !important;
+
+    background: rgba(255,255,255,.92) !important;
+}
+
+/* Desktop: no artificial vertical separator */
+@media (min-width: 901px) {
     .professional-roadmap .roadmap-hero-side {
-        border-left: 0 !important;
+        border-left: 1px solid #e3e6ee !important;
+        border-radius: 14px !important;
     }
 }
+
+/* The line visible in the screenshot is the OLD divider,
+   not the module timeline. Remove it explicitly. */
+@media (min-width: 901px) {
+    .professional-roadmap .roadmap-hero-side {
+        border-left-color: transparent !important;
+    }
+}
+
+/* =========================================================
+   END — HERO DIVIDER FIX
+========================================================= */
+
