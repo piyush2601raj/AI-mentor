@@ -24,85 +24,85 @@ function Layout({ children }) {
         {
             title: "Dashboard",
             description: "Your learning dashboard",
-            icon: "▦",
+            icon: "bi bi-grid-1x2-fill",
             route: "/dashboard"
         },
         {
             title: "Roadmap",
             description: "View your personalized learning roadmap",
-            icon: "◇",
+            icon: "bi bi-map",
             route: "/roadmap"
         },
         {
             title: "AI Mentor",
             description: "Ask your AI Mentor anything",
-            icon: "✦",
+            icon: "bi bi-stars",
             route: "/ai-mentor"
         },
         {
             title: "AI Analysis",
             description: "View your AI learning analysis",
-            icon: "✦",
+            icon: "bi bi-stars",
             route: "/ai-analysis"
         },
         {
             title: "Assessments",
             description: "Check your skill assessments",
-            icon: "▣",
+            icon: "bi bi-clipboard-check",
             route: "/assessments"
         },
         {
             title: "DSA Practice",
             description: "Practice coding and DSA",
-            icon: "</>",
+            icon: "bi bi-code-slash",
             route: "/dsa-practice"
         },
         {
             title: "Interview Prep",
             description: "Prepare for technical interviews",
-            icon: "▤",
+            icon: "bi bi-briefcase",
             route: "/interview"
         },
         {
             title: "Progress",
             description: "Track your learning progress",
-            icon: "⌁",
+            icon: "bi bi-bar-chart-line",
             route: "/progress"
         },
         {
             title: "Projects",
             description: "Build and manage your projects",
-            icon: "▣",
+            icon: "bi bi-clipboard-check",
             route: "/projects"
         },
         {
             title: "Resources",
             description: "Explore your learning resources",
-            icon: "▤",
+            icon: "bi bi-briefcase",
             route: "/resources"
         },
         {
             title: "Code Editor",
             description: "Practice and write code",
-            icon: "</>",
+            icon: "bi bi-code-slash",
             route: "/code-editor"
         },
         {
             title: "Notes",
             description: "View and manage your notes",
-            icon: "▤",
+            icon: "bi bi-briefcase",
             route: "/notes"
         },
         {
             title: "Profile",
             description: "View and manage your profile",
-            icon: "♙",
+            icon: "bi bi-person-circle",
             route: "/profile"
         },
         {
             title: "Settings",
             description: "Manage your account settings",
-            icon: "⚙",
+            icon: "bi bi-gear",
             route: "/settings"
         }
     ];
@@ -309,7 +309,7 @@ function Layout({ children }) {
                                                     }
                                                 >
                                                     <span className="topbar-search-result-icon">
-                                                        {item.icon}
+                                                        <i className={item.icon}></i>
                                                     </span>
 
                                                     <span className="topbar-search-result-content">
