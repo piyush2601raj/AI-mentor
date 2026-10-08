@@ -4180,573 +4180,238 @@
 
 
 /* =========================================================
-   FINAL FIXES — ROADMAP VISIBILITY + PROGRESS
-   IMPORTANT:
+   AI MENTOR — FINAL PROFESSIONAL ROADMAP UPGRADE
    CSS ONLY
-   JSX / API / STATE / HANDLERS / FUNCTIONALITY UNCHANGED
+   Existing JSX / API / functionality preserved
 ========================================================= */
 
+/* ---------- Global visual system ---------- */
 
-/* =========================================================
-   1. HERO RIGHT SIDE
-   The current hero is LIGHT, therefore the old white
-   hero-side text/icons become invisible. Make this section
-   explicitly visible without changing its structure.
-========================================================= */
-
-.professional-roadmap .roadmap-hero-side {
-    padding: 16px !important;
-
-    border: 1px solid #e3e6ee !important;
-    border-left: 1px solid #e3e6ee !important;
-
-    border-radius: 14px !important;
-
-    background: rgba(255,255,255,.92) !important;
-
-    box-shadow:
-        0 7px 20px rgba(15,23,42,.045) !important;
-}
-
-.professional-roadmap .hero-info-item {
-    min-height: 48px !important;
-
-    padding: 6px 7px !important;
-
-    border-bottom: 1px solid #eef0f4 !important;
-}
-
-.professional-roadmap .hero-info-item:last-of-type {
-    border-bottom: 0 !important;
-}
-
-.professional-roadmap .hero-info-icon {
-    width: 34px !important;
-    height: 34px !important;
-
-    flex: 0 0 34px !important;
-
-    border-radius: 9px !important;
-
-    background: #efedff !important;
-
-    color: #5b42e7 !important;
-}
-
-.professional-roadmap .hero-info-item span {
-    display: block !important;
-
-    color: #8b93a5 !important;
-
-    font-size: 9px !important;
-
-    font-weight: 800 !important;
-
-    letter-spacing: .7px !important;
-
-    text-transform: uppercase !important;
-}
-
-.professional-roadmap .hero-info-item strong {
-    display: block !important;
-
-    margin-top: 3px !important;
-
-    color: #202638 !important;
-
-    font-size: 13px !important;
-
-    font-weight: 800 !important;
-}
-
-.professional-roadmap .hero-update-btn {
-    min-height: 40px !important;
-
-    margin-top: 5px !important;
-
-    border: 0 !important;
-
-    border-radius: 9px !important;
+.professional-roadmap {
+    --rm-primary: #4f46e5;
+    --rm-primary-dark: #4338ca;
+    --rm-primary-soft: #eef2ff;
+    --rm-text: #172033;
+    --rm-muted: #667085;
+    --rm-border: #e4e7ec;
+    --rm-surface: #ffffff;
+    --rm-page: #f6f7fb;
 
     background:
-        linear-gradient(
-            135deg,
-            #5544e8,
-            #6758f2
-        ) !important;
-
-    color: #ffffff !important;
-
-    box-shadow:
-        0 7px 16px rgba(85,68,232,.18) !important;
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(79, 70, 229, 0.07),
+            transparent 25%
+        ),
+        var(--rm-page) !important;
+    color: var(--rm-text) !important;
 }
 
-.professional-roadmap .hero-update-btn:hover {
-    background:
-        linear-gradient(
-            135deg,
-            #4d3bd8,
-            #5e50e8
-        ) !important;
+/* ---------- Top bar ---------- */
 
-    transform: translateY(-1px);
+.professional-roadmap .roadmap-topbar {
+    min-height: 72px !important;
+    padding: 0 28px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-bottom: 1px solid #e8ebf0 !important;
+    box-shadow: 0 1px 12px rgba(15, 23, 42, 0.035) !important;
+    backdrop-filter: blur(14px);
 }
 
-
-/* =========================================================
-   2. OVERVIEW PROGRESS
-========================================================= */
-
-.professional-roadmap .overview-progress {
-    padding: 18px 19px !important;
+.professional-roadmap .roadmap-topbar-title h2 {
+    color: #111827 !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.4px !important;
 }
 
-.professional-roadmap .overview-progress-top {
-    display: flex !important;
-
-    align-items: center !important;
-
-    justify-content: space-between !important;
-
-    gap: 15px !important;
-}
-
-.professional-roadmap .overview-progress-top strong {
-    color: #667085 !important;
-
+.professional-roadmap .roadmap-topbar-title span {
+    color: #98a2b3 !important;
     font-size: 11px !important;
-
-    font-weight: 700 !important;
 }
 
-.professional-roadmap .overview-progress-top span {
-    color: #5b42e7 !important;
-
-    font-size: 17px !important;
-
-    font-weight: 850 !important;
+.professional-roadmap .roadmap-search {
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: #f8fafc !important;
+    border-color: #e4e7ec !important;
 }
 
-.professional-roadmap .overview-progress-track {
-    width: 100% !important;
-
-    height: 10px !important;
-
-    margin-top: 10px !important;
-
-    overflow: hidden !important;
-
-    border-radius: 999px !important;
-
-    background: #e9ebf2 !important;
-
-    box-shadow:
-        inset 0 1px 2px rgba(15,23,42,.04) !important;
+.professional-roadmap .roadmap-search:focus-within {
+    background: #ffffff !important;
+    border-color: #a5b4fc !important;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.09) !important;
 }
 
-.professional-roadmap .overview-progress-fill {
-    height: 100% !important;
+.professional-roadmap .roadmap-notification,
+.professional-roadmap .roadmap-user {
+    border-color: #e4e7ec !important;
+}
 
-    min-width: 0 !important;
+/* ---------- Main content ---------- */
 
-    border-radius: inherit !important;
+.professional-roadmap .professional-roadmap-content {
+    max-width: 1420px !important;
+    padding: 26px 30px 48px !important;
+}
 
+/* ---------- Hero ---------- */
+
+.professional-roadmap .roadmap-hero {
+    min-height: 205px !important;
+    padding: 30px 32px !important;
+    border: 1px solid #e2e6ee !important;
+    border-radius: 20px !important;
     background:
-        linear-gradient(
-            90deg,
-            #4f46e5,
-            #6557ed 55%,
-            #7869ff
-        ) !important;
-
-    box-shadow:
-        0 2px 8px rgba(79,70,229,.20) !important;
-
-    transition: width .55s ease !important;
-}
-
-
-/* =========================================================
-   3. OVERVIEW STATS
-   These styles were missing from the current CSS, which
-   caused the values/labels to appear incorrectly.
-========================================================= */
-
-.professional-roadmap .overview-stats {
-    width: 100% !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr)) !important;
-
-    gap: 11px !important;
-
-    padding: 0 19px 19px !important;
-}
-
-.professional-roadmap .overview-stat {
-    min-width: 0 !important;
-
-    min-height: 78px !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        38px
-        minmax(0, 1fr) !important;
-
-    grid-template-rows:
-        auto
-        auto !important;
-
-    align-items: center !important;
-
-    column-gap: 10px !important;
-
-    padding: 12px !important;
-
-    border: 1px solid #e7eaf1 !important;
-
-    border-radius: 12px !important;
-
-    background:
+        radial-gradient(
+            circle at 82% 18%,
+            rgba(99, 102, 241, 0.07),
+            transparent 25%
+        ),
         linear-gradient(
             135deg,
-            #ffffff,
-            #fafbfc
+            #ffffff 0%,
+            #fbfcff 58%,
+            #f1f3ff 100%
         ) !important;
-
-    box-shadow:
-        0 3px 12px rgba(15,23,42,.025) !important;
-
-    transition:
-        transform .18s ease,
-        border-color .18s ease,
-        box-shadow .18s ease !important;
+    box-shadow: 0 10px 32px rgba(15, 23, 42, 0.055) !important;
 }
 
-.professional-roadmap .overview-stat:hover {
-    transform: translateY(-2px) !important;
-
-    border-color: #d9d4fb !important;
-
-    box-shadow:
-        0 8px 20px rgba(79,70,229,.07) !important;
+/* Keep the hero clean: no artificial center divider. */
+.professional-roadmap .roadmap-hero-side {
+    border-left: 0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
-.professional-roadmap .overview-stat-icon {
-    grid-row: 1 / span 2 !important;
+.professional-roadmap .roadmap-hero-side .hero-info-item {
+    min-height: 52px;
+    padding: 9px 12px !important;
+    border: 1px solid #e7eaf0 !important;
+    border-radius: 11px !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+}
 
-    width: 38px !important;
-    height: 38px !important;
+.professional-roadmap .roadmap-hero-side .hero-info-item + .hero-info-item {
+    margin-top: 8px;
+}
 
-    flex: 0 0 38px !important;
+.professional-roadmap .roadmap-hero-badge {
+    background: #eef2ff !important;
+    border-color: #c7d2fe !important;
+    color: #4338ca !important;
+}
 
-    display: flex !important;
+.professional-roadmap .roadmap-hero h1,
+.professional-roadmap .roadmap-hero-title {
+    color: #111827 !important;
+    font-size: clamp(29px, 2.8vw, 42px) !important;
+    letter-spacing: -1px !important;
+}
 
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    border-radius: 10px !important;
-
+.professional-roadmap .roadmap-hero p,
+.professional-roadmap .roadmap-hero-description {
+    color: #667085 !important;
     font-size: 14px !important;
+    line-height: 1.65 !important;
 }
 
-.professional-roadmap .overview-stat-icon.blue {
-    background: #edf4ff !important;
+/* ---------- Main two-column area ---------- */
 
-    color: #3977d7 !important;
+.professional-roadmap .roadmap-main-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 0.88fr) !important;
+    gap: 20px !important;
+    margin-top: 20px !important;
 }
 
-.professional-roadmap .overview-stat-icon.green {
-    background: #eaf8f0 !important;
-
-    color: #238355 !important;
+.professional-roadmap .roadmap-left-column {
+    gap: 18px !important;
 }
 
-.professional-roadmap .overview-stat-icon.orange {
-    background: #fff4df !important;
+/* ---------- Panels ---------- */
 
-    color: #bd7805 !important;
+.professional-roadmap .roadmap-panel {
+    border: 1px solid #e3e7ed !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    box-shadow: 0 7px 24px rgba(15, 23, 42, 0.045) !important;
 }
 
-.professional-roadmap .overview-stat-icon.purple {
-    background: #f0edff !important;
-
-    color: #6046e8 !important;
-}
-
-.professional-roadmap .overview-stat strong {
-    display: block !important;
-
-    color: #172033 !important;
-
-    font-size: 20px !important;
-
-    line-height: 1 !important;
-
-    font-weight: 850 !important;
-
-    letter-spacing: -.35px !important;
-}
-
-.professional-roadmap .overview-stat span {
-    display: block !important;
-
-    margin-top: 4px !important;
-
-    color: #7d8698 !important;
-
-    font-size: 8px !important;
-
-    line-height: 1.2 !important;
-
-    font-weight: 800 !important;
-
-    letter-spacing: .4px !important;
-
-    text-transform: uppercase !important;
-}
-
-
-/* =========================================================
-   4. CURRENT LEVEL
-========================================================= */
-
-.professional-roadmap .current-level-description {
+.professional-roadmap .panel-heading {
+    min-height: 60px !important;
+    padding: 15px 19px !important;
     margin: 0 !important;
-
-    color: #697386 !important;
-
-    font-size: 13px !important;
-
-    line-height: 1.7 !important;
-
-    font-weight: 500 !important;
+    border-bottom: 1px solid #edf0f4 !important;
 }
 
-.professional-roadmap .current-level-panel .level-badge {
-    display: inline-flex !important;
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    padding: 6px 10px !important;
-
-    border: 1px solid #ccebd8 !important;
-
-    border-radius: 999px !important;
-
-    background: #f0fbf4 !important;
-
-    color: #238355 !important;
-
-    font-size: 9px !important;
-
+.professional-roadmap .panel-heading h2,
+.professional-roadmap .panel-heading h3 {
+    color: #1f2937 !important;
+    font-size: 16px !important;
     font-weight: 800 !important;
-
-    letter-spacing: .35px !important;
-
-    text-transform: uppercase !important;
 }
 
+/* ---------- Current level ---------- */
 
-/* =========================================================
-   5. RECOMMENDED NEXT STEPS
-========================================================= */
+.professional-roadmap .level-card {
+    margin-top: 12px !important;
+    padding: 15px 16px !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    background: #fafbfc !important;
+}
+
+.professional-roadmap .level-card p {
+    color: #667085 !important;
+    line-height: 1.6 !important;
+}
+
+/* ---------- Recommended next steps ---------- */
 
 .professional-roadmap .next-step-list {
-    display: flex !important;
-
-    flex-direction: column !important;
-
     gap: 8px !important;
 }
 
 .professional-roadmap .next-step {
-    min-height: 48px !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        30px
-        minmax(0, 1fr)
-        14px !important;
-
-    align-items: center !important;
-
-    gap: 9px !important;
-
+    min-height: 50px !important;
     padding: 8px 10px !important;
-
     border: 1px solid #edf0f4 !important;
-
     border-radius: 10px !important;
-
     background: #fafbfc !important;
-
-    transition:
-        transform .18s ease,
-        border-color .18s ease,
-        background .18s ease !important;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
 }
 
 .professional-roadmap .next-step:hover {
-    transform: translateX(2px) !important;
-
-    border-color: #ddd8fb !important;
-
+    transform: translateX(2px);
     background: #ffffff !important;
+    border-color: #c7d2fe !important;
 }
 
+/* ---------- Learning workspace ---------- */
 
-/* =========================================================
-   6. LEARNING PATH
-   REMOVE EVERY OLD CONNECTOR LINE.
-   Keep dots/cards/status/buttons untouched.
-========================================================= */
-
-.professional-roadmap .learning-timeline,
-.professional-roadmap .learning-step,
-.professional-roadmap .learning-step-side {
-    position: relative !important;
+.professional-roadmap .learning-path-panel {
+    overflow: hidden !important;
 }
 
-.professional-roadmap .learning-step-side::before,
-.professional-roadmap .learning-step-side::after,
-.professional-roadmap .learning-step::before,
-.professional-roadmap .learning-step::after,
-.professional-roadmap .learning-timeline::before,
-.professional-roadmap .learning-timeline::after,
-.professional-roadmap .roadmap-timeline::before,
-.professional-roadmap .roadmap-timeline::after,
-.professional-roadmap .timeline-line {
-    content: none !important;
-
-    display: none !important;
-
-    width: 0 !important;
-
-    height: 0 !important;
-
-    border: 0 !important;
-
-    background: transparent !important;
-
-    box-shadow: none !important;
+.professional-roadmap .learning-path-panel .panel-heading {
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fbfcfe
+        ) !important;
 }
 
-.professional-roadmap .learning-step-side {
-    border-left: 0 !important;
-
-    border-right: 0 !important;
+.professional-roadmap .learning-timeline {
+    padding: 18px !important;
+    gap: 10px !important;
 }
 
-
-/* =========================================================
-   7. LEARNING CARDS — KEEP CONTENT VISIBLE
-========================================================= */
-
-.professional-roadmap .learning-module-card {
-    position: relative !important;
-
-    z-index: 1 !important;
-
-    color: #202638 !important;
-
-    background: #ffffff !important;
-}
-
-.professional-roadmap .learning-module-card h3 {
-    color: #1b1d2a !important;
-
-    opacity: 1 !important;
-
-    visibility: visible !important;
-}
-
-.professional-roadmap .learning-module-card p {
-    color: #7f8799 !important;
-
-    opacity: 1 !important;
-
-    visibility: visible !important;
-}
-
-
-/* =========================================================
-   8. MOBILE — PRESERVE THE SAME UI
-========================================================= */
-
-@media (max-width: 767px) {
-
-    .professional-roadmap .roadmap-hero-side {
-        padding: 13px !important;
-
-        border: 1px solid #e3e6ee !important;
-
-        border-top: 1px solid #e3e6ee !important;
-
-        border-left: 1px solid #e3e6ee !important;
-
-        border-radius: 12px !important;
-
-        background: #ffffff !important;
-    }
-
-    .professional-roadmap .overview-stats {
-        grid-template-columns: 1fr !important;
-
-        padding: 0 18px 18px !important;
-
-        gap: 9px !important;
-    }
-
-    .professional-roadmap .overview-stat {
-        min-height: 72px !important;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .professional-roadmap .overview-stats {
-        padding: 0 15px 15px !important;
-    }
-
-    .professional-roadmap .overview-stat {
-        min-height: 68px !important;
-
-        padding: 10px !important;
-    }
-
-    .professional-roadmap .overview-stat-icon {
-        width: 35px !important;
-
-        height: 35px !important;
-
-        flex-basis: 35px !important;
-    }
-
-    .professional-roadmap .overview-stat strong {
-        font-size: 18px !important;
-    }
-
-    .professional-roadmap .overview-stat span {
-        font-size: 7.5px !important;
-    }
-}
-
-
-/* =========================================================
-   FINAL AI ROADMAP CONNECTOR-LINE FIX
-   CSS ONLY
-   NO UI / API / LOGIC / FUNCTIONALITY CHANGES
-========================================================= */
-
-/* Remove every possible connector pseudo-element */
+/* Absolutely remove connector lines while retaining the numbered dots. */
 .professional-roadmap .learning-timeline::before,
 .professional-roadmap .learning-timeline::after,
 .professional-roadmap .learning-step::before,
@@ -4755,142 +4420,233 @@
 .professional-roadmap .learning-step-side::after,
 .professional-roadmap .learning-step-dot::before,
 .professional-roadmap .learning-step-dot::after,
-.professional-roadmap .learning-module-card::before,
-.professional-roadmap .learning-module-card::after,
 .professional-roadmap .roadmap-timeline::before,
 .professional-roadmap .roadmap-timeline::after,
-.professional-roadmap .roadmap-module::before,
-.professional-roadmap .roadmap-module::after,
-.professional-roadmap .timeline-side::before,
-.professional-roadmap .timeline-side::after,
 .professional-roadmap .timeline-line {
     content: none !important;
-
     display: none !important;
-
-    position: static !important;
-
     width: 0 !important;
     height: 0 !important;
-
-    min-width: 0 !important;
-    min-height: 0 !important;
-
     border: 0 !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-    border-top: 0 !important;
-    border-bottom: 0 !important;
-
-    outline: 0 !important;
-
     background: transparent !important;
-
     box-shadow: none !important;
 }
 
-/* Remove connector styling from the side column itself */
 .professional-roadmap .learning-step-side,
-.professional-roadmap .timeline-side {
-    border: 0 !important;
-
+.professional-roadmap .learning-timeline {
     border-left: 0 !important;
     border-right: 0 !important;
-    border-top: 0 !important;
-    border-bottom: 0 !important;
+}
 
-    background: transparent !important;
+/* ---------- Learning cards ---------- */
 
+.professional-roadmap .learning-step {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    gap: 12px !important;
+    padding: 0 0 10px !important;
+}
+
+.professional-roadmap .learning-step:last-child {
+    padding-bottom: 0 !important;
+}
+
+.professional-roadmap .learning-step-side {
+    padding-top: 17px !important;
+}
+
+.professional-roadmap .learning-step-dot {
+    width: 34px !important;
+    height: 34px !important;
+    border: 2px solid #d9def0 !important;
+    background: #ffffff !important;
+    color: #4f46e5 !important;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08) !important;
+}
+
+.professional-roadmap .learning-step.current .learning-step-dot {
+    border-color: #6366f1 !important;
+    background: #eef2ff !important;
+    color: #4338ca !important;
+    box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.08) !important;
+}
+
+.professional-roadmap .learning-step.completed .learning-step-dot {
+    border-color: #16a34a !important;
+    background: #ecfdf3 !important;
+    color: #15803d !important;
+}
+
+.professional-roadmap .learning-step.locked .learning-step-dot {
+    border-color: #e4e7ec !important;
+    background: #f5f6f8 !important;
+    color: #98a2b3 !important;
     box-shadow: none !important;
 }
 
-/* Keep the module circles exactly as they are */
-.professional-roadmap .learning-step-dot {
-    position: relative !important;
-
-    z-index: 3 !important;
-
-    background: #ffffff !important;
-}
-
-/* Preserve completed/current states */
-.professional-roadmap .learning-step.completed
-.learning-step-dot,
-.professional-roadmap .learning-step.is-completed
-.learning-step-dot {
-    background: #5b42e7 !important;
-
-    border-color: #5b42e7 !important;
-
-    color: #ffffff !important;
-}
-
-.professional-roadmap .learning-step.current
-.learning-step-dot {
-    background: #f0edff !important;
-
-    border-color: #5b42e7 !important;
-
-    color: #5b42e7 !important;
-}
-
-/* Absolutely no connector line between module cards */
-.professional-roadmap .learning-step + .learning-step {
-    border-top: 0 !important;
-}
-
-/* Preserve card appearance */
 .professional-roadmap .learning-module-card {
-    border-top: 1px solid #e5e8ee !important;
-
+    padding: 17px 18px !important;
+    border: 1px solid #e3e7ed !important;
+    border-radius: 13px !important;
     background: #ffffff !important;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035) !important;
 }
 
-/* =========================================================
-   END — CONNECTOR LINE FIX
-========================================================= */
-
-
-/* =========================================================
-   FINAL HERO DIVIDER FIX
-   Removes ONLY the unwanted vertical divider line between
-   the roadmap hero content and the right-side information.
-   NO OTHER UI / LOGIC / FUNCTIONALITY CHANGED.
-========================================================= */
-
-.professional-roadmap .roadmap-hero-side {
-    border-left: 0 !important;
-    border-left-color: transparent !important;
-
-    padding-left: 16px !important;
+.professional-roadmap .learning-module-card:hover {
+    transform: translateY(-2px);
+    border-color: #c7d2fe !important;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07) !important;
 }
 
-/* Keep the actual hero-side card boundary professional */
-.professional-roadmap .roadmap-hero-side {
-    border-top: 1px solid #e3e6ee !important;
-    border-right: 1px solid #e3e6ee !important;
-    border-bottom: 1px solid #e3e6ee !important;
-
-    background: rgba(255,255,255,.92) !important;
+.professional-roadmap .learning-module-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: #eef2ff !important;
+    color: #4f46e5 !important;
 }
 
-/* Desktop: no artificial vertical separator */
-@media (min-width: 901px) {
+.professional-roadmap .learning-module-title-row h3 {
+    color: #172033 !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+}
+
+.professional-roadmap .learning-module-title-row p {
+    color: #667085 !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+}
+
+.professional-roadmap .learning-status {
+    padding: 5px 9px !important;
+    font-size: 10px !important;
+    border-radius: 999px !important;
+}
+
+/* ---------- Better action area ---------- */
+
+.professional-roadmap .learning-module-action {
+    margin-top: 12px !important;
+    padding-top: 11px !important;
+    border-top: 1px solid #eef0f4 !important;
+}
+
+.professional-roadmap .learning-module-action button {
+    min-height: 34px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    background: #4f46e5 !important;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.16);
+    transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.professional-roadmap .learning-module-action button:hover:not(:disabled) {
+    background: #4338ca !important;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 15px rgba(79, 70, 229, 0.22);
+}
+
+/* ---------- Empty / loading states ---------- */
+
+.professional-roadmap .modules-loading,
+.professional-roadmap .no-modules {
+    padding: 44px 20px !important;
+    border: 1px dashed #d8dce5 !important;
+    border-radius: 14px !important;
+    background: #fafbfc !important;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 1100px) {
+    .professional-roadmap .roadmap-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .professional-roadmap .roadmap-hero {
+        grid-template-columns: 1fr !important;
+    }
+
     .professional-roadmap .roadmap-hero-side {
-        border-left: 1px solid #e3e6ee !important;
-        border-radius: 14px !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+    }
+
+    .professional-roadmap .roadmap-hero-side .hero-info-item + .hero-info-item {
+        margin-top: 0;
+    }
+
+    .professional-roadmap .hero-update-btn {
+        grid-column: 1 / -1;
     }
 }
 
-/* The line visible in the screenshot is the OLD divider,
-   not the module timeline. Remove it explicitly. */
-@media (min-width: 901px) {
+@media (max-width: 700px) {
+    .professional-roadmap .professional-roadmap-content {
+        padding: 16px !important;
+    }
+
+    .professional-roadmap .roadmap-topbar {
+        padding: 0 16px !important;
+    }
+
+    .professional-roadmap .roadmap-search {
+        display: none !important;
+    }
+
+    .professional-roadmap .roadmap-hero {
+        padding: 22px !important;
+        border-radius: 16px !important;
+    }
+
+    .professional-roadmap .roadmap-hero h1,
+    .professional-roadmap .roadmap-hero-title {
+        font-size: 28px !important;
+    }
+
     .professional-roadmap .roadmap-hero-side {
-        border-left-color: transparent !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .professional-roadmap .learning-timeline {
+        padding: 13px !important;
+    }
+
+    .professional-roadmap .learning-step {
+        grid-template-columns: 32px minmax(0, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .professional-roadmap .learning-step-dot {
+        width: 29px !important;
+        height: 29px !important;
+    }
+
+    .professional-roadmap .learning-module-card {
+        padding: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .professional-roadmap .professional-roadmap-content {
+        padding: 11px !important;
+    }
+
+    .professional-roadmap .roadmap-hero {
+        padding: 18px !important;
+    }
+
+    .professional-roadmap .roadmap-panel {
+        border-radius: 13px !important;
+    }
+
+    .professional-roadmap .learning-module-title-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
     }
 }
 
 /* =========================================================
-   END — HERO DIVIDER FIX
+   END — FINAL PROFESSIONAL ROADMAP UPGRADE
 ========================================================= */
-
