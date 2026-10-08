@@ -4739,3 +4739,114 @@
     }
 }
 
+
+/* =========================================================
+   FINAL AI ROADMAP CONNECTOR-LINE FIX
+   CSS ONLY
+   NO UI / API / LOGIC / FUNCTIONALITY CHANGES
+========================================================= */
+
+/* Remove every possible connector pseudo-element */
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after,
+.professional-roadmap .learning-module-card::before,
+.professional-roadmap .learning-module-card::after,
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after,
+.professional-roadmap .roadmap-module::before,
+.professional-roadmap .roadmap-module::after,
+.professional-roadmap .timeline-side::before,
+.professional-roadmap .timeline-side::after,
+.professional-roadmap .timeline-line {
+    content: none !important;
+
+    display: none !important;
+
+    position: static !important;
+
+    width: 0 !important;
+    height: 0 !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+
+    outline: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+}
+
+/* Remove connector styling from the side column itself */
+.professional-roadmap .learning-step-side,
+.professional-roadmap .timeline-side {
+    border: 0 !important;
+
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+}
+
+/* Keep the module circles exactly as they are */
+.professional-roadmap .learning-step-dot {
+    position: relative !important;
+
+    z-index: 3 !important;
+
+    background: #ffffff !important;
+}
+
+/* Preserve completed/current states */
+.professional-roadmap .learning-step.completed
+.learning-step-dot,
+.professional-roadmap .learning-step.is-completed
+.learning-step-dot {
+    background: #5b42e7 !important;
+
+    border-color: #5b42e7 !important;
+
+    color: #ffffff !important;
+}
+
+.professional-roadmap .learning-step.current
+.learning-step-dot {
+    background: #f0edff !important;
+
+    border-color: #5b42e7 !important;
+
+    color: #5b42e7 !important;
+}
+
+/* Absolutely no connector line between module cards */
+.professional-roadmap .learning-step + .learning-step {
+    border-top: 0 !important;
+}
+
+/* Preserve card appearance */
+.professional-roadmap .learning-module-card {
+    border-top: 1px solid #e5e8ee !important;
+
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   END — CONNECTOR LINE FIX
+========================================================= */
+
