@@ -70,7 +70,6 @@ import OAuthCallback from "./pages/OAuthCallback";
 // =====================================================
 
 function ProtectedRoute({ children }) {
-
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -90,10 +89,8 @@ function ProtectedRoute({ children }) {
 // =====================================================
 
 function App() {
-
     return (
         <BrowserRouter>
-
             <Routes>
 
                 {/* =================================================
@@ -109,7 +106,6 @@ function App() {
                     path="/register"
                     element={<Register />}
                 />
-
 
                 {/* =================================================
                     PROFILE
@@ -137,22 +133,22 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     DASHBOARD
+
+                    LOCAL DEVELOPMENT:
+                    Dashboard is intentionally PUBLIC so it can
+                    open without backend/token.
                 ================================================= */}
 
                 <Route
                     path="/dashboard"
                     element={
-                        <ProtectedRoute>
-                            <Layout>
-                                <Dashboard />
-                            </Layout>
-                        </ProtectedRoute>
+                        <Layout>
+                            <Dashboard />
+                        </Layout>
                     }
                 />
-
 
                 {/* =================================================
                     STUDENT SKILLS / ASSESSMENTS
@@ -190,11 +186,15 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-                <Route
-  path="/oauth2/callback"
-  element={<OAuthCallback />}
-/>
 
+                {/* =================================================
+                    OAUTH CALLBACK
+                ================================================= */}
+
+                <Route
+                    path="/oauth2/callback"
+                    element={<OAuthCallback />}
+                />
 
                 {/* =================================================
                     AI ANALYSIS
@@ -211,7 +211,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     AI MENTOR
                 ================================================= */}
@@ -226,7 +225,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
 
                 {/* =================================================
                     DSA PRACTICE
@@ -243,7 +241,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     INTERVIEW PREPARATION
                 ================================================= */}
@@ -258,7 +255,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
 
                 {/* =================================================
                     ROADMAP
@@ -275,7 +271,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     MODULE
                 ================================================= */}
@@ -290,7 +285,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
 
                 {/* =================================================
                     MODULE DETAILS
@@ -307,7 +301,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     PROGRESS
                 ================================================= */}
@@ -322,7 +315,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
 
                 {/* =================================================
                     PROJECTS
@@ -339,7 +331,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     RESOURCES
                 ================================================= */}
@@ -354,7 +345,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
 
                 {/* =================================================
                     CODE EDITOR
@@ -371,7 +361,6 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
                     NOTES
                 ================================================= */}
@@ -387,20 +376,9 @@ function App() {
                     }
                 />
 
-
                 {/* =================================================
-                    DEFAULT
+                    SETTINGS
                 ================================================= */}
-
-                <Route
-                    path="/"
-                    element={
-                        <Navigate
-                            to="/dashboard"
-                            replace
-                        />
-                    }
-                />
 
                 <Route
                     path="/settings"
@@ -413,10 +391,24 @@ function App() {
                     }
                 />
 
+                {/* =================================================
+                    DEFAULT ROUTE
+                    localhost:5173 → Dashboard
+                ================================================= */}
+
+                <Route
+                    path="/"
+                    element={
+                        <Navigate
+                            to="/dashboard"
+                            replace
+                        />
+                    }
+                />
 
                 {/* =================================================
                     UNKNOWN ROUTE
-                ================================================= */}
+                    ================================================= */}
 
                 <Route
                     path="*"
@@ -429,7 +421,6 @@ function App() {
                 />
 
             </Routes>
-
         </BrowserRouter>
     );
 }
