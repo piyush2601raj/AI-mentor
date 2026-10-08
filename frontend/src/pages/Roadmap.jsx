@@ -2318,11 +2318,11 @@ function Roadmap() {
                 <div className="roadmap-topbar-title">
 
                     <h2>
-                        Learning Roadmap
+                        AI Learning Roadmap
                     </h2>
 
                     <span>
-                        Continue your personalized learning journey
+                        Your personalized path to skill mastery
                     </span>
 
                 </div>
@@ -2360,11 +2360,11 @@ function Roadmap() {
 
                         <div>
                             <strong>
-                                Student
+                                Student Workspace
                             </strong>
 
                             <span>
-                                Learning Workspace
+                                Personalized Learning
                             </span>
                         </div>
 
@@ -2555,7 +2555,7 @@ function Roadmap() {
                                     </strong>
 
                                     <span>
-                                        Total Modules
+                                        Modules in Roadmap
                                     </span>
 
                                 </div>
@@ -2572,7 +2572,7 @@ function Roadmap() {
                                     </strong>
 
                                     <span>
-                                        Completed
+                                        Completed Modules
                                     </span>
 
                                 </div>
@@ -2594,7 +2594,7 @@ function Roadmap() {
                                     </strong>
 
                                     <span>
-                                        In Progress
+                                        Active Module
                                     </span>
 
                                 </div>
@@ -2611,7 +2611,7 @@ function Roadmap() {
                                     </strong>
 
                                     <span>
-                                        Remaining
+                                        Modules Remaining
                                     </span>
 
                                 </div>
@@ -2647,10 +2647,10 @@ function Roadmap() {
                             </div>
 
 
-                            <p>
-                                You have good fundamentals. This roadmap
-                                will help you build practical skills
-                                through structured learning and
+                            <p className="current-level-description">
+                                Your current skill level is aligned with this learning path.
+                                This roadmap is designed to strengthen your fundamentals,
+                                build practical skills, and guide you through hands-on,
                                 real-world projects.
                             </p>
 
