@@ -2623,7 +2623,7 @@ function Roadmap() {
 
                         <section className="roadmap-panel current-level-panel">
 
-                            <div className="panel-heading">
+                            <div className="panel-heading current-level-heading">
 
                                 <div className="panel-heading-left">
 
@@ -2631,12 +2631,12 @@ function Roadmap() {
                                         <i className="bi bi-person-fill"></i>
                                     </div>
 
-                                    <h2>
-                                        Your Current Level
-                                    </h2>
+                                    <div className="current-level-heading-copy">
+                                        <h2>Your Current Level</h2>
+                                        <span>Assessment-aligned learning position</span>
+                                    </div>
 
                                 </div>
-
 
                                 <span className="level-badge">
                                     {roadmap.level ||
@@ -2646,13 +2646,45 @@ function Roadmap() {
 
                             </div>
 
+                            <div className="current-level-body">
 
-                            <p className="current-level-description">
-                                Your current skill level is aligned with this learning path.
-                                This roadmap is designed to strengthen your fundamentals,
-                                build practical skills, and guide you through hands-on,
-                                real-world projects.
-                            </p>
+                                <div className="current-level-intro">
+                                    <div className="current-level-intro-icon">
+                                        <i className="bi bi-stars"></i>
+                                    </div>
+                                    <div>
+                                        <strong>You're starting at the right level</strong>
+                                        <p className="current-level-description">
+                                            Your current skill level is aligned with this learning path.
+                                            The roadmap will progressively strengthen your fundamentals,
+                                            practical skills, and hands-on problem solving.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="current-level-insights">
+                                    <div className="current-level-insight">
+                                        <span>Learning Path</span>
+                                        <strong>Personalized</strong>
+                                    </div>
+
+                                    <div className="current-level-insight">
+                                        <span>Focus Skill</span>
+                                        <strong>
+                                            {roadmap.skillName ||
+                                                roadmap.focusSkill ||
+                                                roadmap.skill ||
+                                                "Selected Skill"}
+                                        </strong>
+                                    </div>
+
+                                    <div className="current-level-insight">
+                                        <span>Roadmap Modules</span>
+                                        <strong>{totalModules}</strong>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </section>
 
