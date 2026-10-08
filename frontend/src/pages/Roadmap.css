@@ -1,565 +1,1282 @@
-/* =========================================================
-   AI MENTOR — PERSONALIZED ROADMAP
-   PREMIUM PROFESSIONAL SAAS UI
+/* ============================================================
+   AI MENTOR — ROADMAP
+   PREMIUM BOOTSTRAP-INSPIRED PROFESSIONAL UI
    CSS ONLY
-   ========================================================= */
+   ============================================================ */
 
 
-/* =========================================================
-   1. ROOT / PAGE
-   ========================================================= */
+/* ============================================================
+   01. DESIGN TOKENS
+   ============================================================ */
 
-.professional-roadmap {
-    --rm-bg: #f6f7fb;
-    --rm-surface: #ffffff;
-    --rm-surface-soft: #fafbff;
+.professional-roadmap,
+.roadmap-page {
 
-    --rm-text: #111827;
-    --rm-text-2: #374151;
-    --rm-muted: #6b7280;
-    --rm-muted-2: #9ca3af;
+    --bs-primary: #635bff;
+    --bs-primary-dark: #5148e5;
+    --bs-primary-light: #f1efff;
 
-    --rm-border: #e8eaf0;
-    --rm-border-soft: #f0f1f5;
+    --rm-success: #198754;
+    --rm-success-light: #eaf8f0;
 
-    --rm-primary: #6d5dfc;
-    --rm-primary-dark: #5848e8;
-    --rm-primary-soft: #f0edff;
+    --rm-warning: #f59e0b;
+    --rm-warning-light: #fff7e6;
 
-    --rm-green: #16a36a;
-    --rm-green-soft: #eaf9f2;
+    --rm-danger: #dc3545;
+    --rm-danger-light: #fff0f1;
 
-    --rm-blue: #3978f6;
-    --rm-blue-soft: #edf4ff;
+    --rm-info: #0d6efd;
+    --rm-info-light: #edf5ff;
 
-    --rm-orange: #f59e0b;
-    --rm-orange-soft: #fff7e6;
+    --rm-dark: #172033;
+    --rm-text: #293042;
+    --rm-muted: #6c757d;
+    --rm-light-text: #8b93a3;
 
-    --rm-red: #ef4444;
-    --rm-red-soft: #fff0f0;
+    --rm-bg: #f5f7fb;
+    --rm-card: #ffffff;
 
-    --rm-radius-lg: 22px;
-    --rm-radius-md: 16px;
-    --rm-radius-sm: 12px;
+    --rm-border: #e7eaf0;
+    --rm-border-light: #eef0f4;
+
+    --rm-radius: 16px;
+    --rm-radius-lg: 20px;
+    --rm-radius-xl: 24px;
 
     --rm-shadow:
-        0 1px 2px rgba(16, 24, 40, 0.02),
-        0 8px 30px rgba(16, 24, 40, 0.04);
+        0 2px 4px rgba(16, 24, 40, 0.025),
+        0 8px 24px rgba(16, 24, 40, 0.035);
 
     --rm-shadow-hover:
-        0 14px 40px rgba(16, 24, 40, 0.08);
+        0 8px 28px rgba(16, 24, 40, 0.08);
 
     width: 100%;
     min-height: 100%;
-    background: var(--rm-bg);
+
+    box-sizing: border-box;
+
     color: var(--rm-text);
+
     font-family:
         Inter,
-        -apple-system,
-        BlinkMacSystemFont,
         "Segoe UI",
         Roboto,
         Helvetica,
         Arial,
         sans-serif;
-    box-sizing: border-box;
 }
 
 .professional-roadmap *,
 .professional-roadmap *::before,
-.professional-roadmap *::after {
+.professional-roadmap *::after,
+.roadmap-page *,
+.roadmap-page *::before,
+.roadmap-page *::after {
     box-sizing: border-box;
 }
 
 
-/* =========================================================
-   2. TOP BAR
-   ========================================================= */
+/* ============================================================
+   02. PAGE BACKGROUND
+   ============================================================ */
+
+.professional-roadmap,
+.roadmap-page {
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8f9fc 0%,
+            #f5f7fb 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   03. MAIN CONTAINER
+   ============================================================ */
+
+.professional-roadmap .professional-roadmap-content,
+.roadmap-container {
+
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding:
+        28px
+        32px
+        60px;
+}
+
+
+/* ============================================================
+   04. TOP NAVBAR
+   ============================================================ */
 
 .professional-roadmap .roadmap-topbar {
-    min-height: 72px;
-    width: 100%;
+
+    min-height: 68px;
+
+    padding:
+        0
+        30px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 0 34px;
 
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--rm-border);
+    gap: 20px;
+
+    background: rgba(255,255,255,0.97);
+
+    border-bottom:
+        1px solid
+        var(--rm-border);
+
     position: relative;
-    z-index: 10;
+    z-index: 20;
 }
 
 .professional-roadmap .roadmap-topbar-title {
+
     display: flex;
     align-items: center;
-    gap: 13px;
+
+    gap: 12px;
+
     min-width: 0;
 }
 
 .professional-roadmap .roadmap-topbar-title h1,
 .professional-roadmap .roadmap-topbar-title h2 {
+
     margin: 0;
-    font-size: 20px;
+
+    color: var(--rm-dark);
+
+    font-size: 19px;
     line-height: 1.2;
+
     font-weight: 750;
-    letter-spacing: -0.025em;
-    color: var(--rm-text);
+
+    letter-spacing: -0.35px;
 }
 
 .professional-roadmap .roadmap-topbar-title p {
-    margin: 4px 0 0;
+
+    margin: 3px 0 0;
+
     color: var(--rm-muted);
-    font-size: 12px;
+
+    font-size: 11px;
+
     font-weight: 500;
 }
 
 .professional-roadmap .roadmap-topbar-right {
+
     display: flex;
     align-items: center;
-    gap: 12px;
+
+    gap: 10px;
 }
 
 
-/* =========================================================
-   3. SEARCH
-   ========================================================= */
+/* ============================================================
+   05. SEARCH
+   ============================================================ */
 
 .professional-roadmap .roadmap-search {
-    width: 230px;
-    height: 40px;
+
+    width: 235px;
+    height: 39px;
 
     display: flex;
     align-items: center;
-    gap: 9px;
 
-    padding: 0 13px;
+    gap: 8px;
 
-    border: 1px solid var(--rm-border);
-    border-radius: 11px;
-    background: #fff;
+    padding:
+        0
+        12px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 9px;
 
     color: var(--rm-muted);
+
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+        border-color .2s ease,
+        box-shadow .2s ease;
 }
 
 .professional-roadmap .roadmap-search:focus-within {
-    border-color: rgba(109, 93, 252, 0.45);
-    box-shadow: 0 0 0 4px rgba(109, 93, 252, 0.08);
+
+    border-color:
+        rgba(99,91,255,.45);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(99,91,255,.08);
 }
 
 .professional-roadmap .roadmap-search input {
+
     width: 100%;
-    min-width: 0;
+
     border: 0;
     outline: 0;
+
     background: transparent;
-    color: var(--rm-text);
-    font-size: 13px;
-    font-weight: 500;
+
+    color: var(--rm-dark);
+
+    font-size: 12px;
 }
 
 .professional-roadmap .roadmap-search input::placeholder {
-    color: #a1a6b2;
+    color: #a2a8b5;
 }
 
 
-/* =========================================================
-   4. TOPBAR ACTIONS
-   ========================================================= */
-
-.professional-roadmap .roadmap-notification,
-.professional-roadmap .roadmap-user {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* ============================================================
+   06. NOTIFICATION
+   ============================================================ */
 
 .professional-roadmap .roadmap-notification {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
-    border: 1px solid var(--rm-border);
-    background: #fff;
-    color: #596174;
+
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #60697a;
+
     cursor: pointer;
-    transition: 0.2s ease;
+
+    transition: .2s ease;
 }
 
 .professional-roadmap .roadmap-notification:hover {
-    color: var(--rm-primary);
-    border-color: #dcd8ff;
-    background: var(--rm-primary-soft);
+
+    color: var(--bs-primary);
+
+    border-color:
+        #d9d6ff;
+
+    background:
+        var(--bs-primary-light);
 }
 
+
+/* ============================================================
+   07. USER
+   ============================================================ */
+
 .professional-roadmap .roadmap-user {
+
+    display: flex;
+    align-items: center;
+
     gap: 9px;
-    padding-left: 4px;
 }
 
 .professional-roadmap .roadmap-user-avatar {
+
     width: 38px;
     height: 38px;
-    border-radius: 12px;
+
     display: grid;
     place-items: center;
-    flex-shrink: 0;
 
-    background: linear-gradient(
-        145deg,
-        #7566ff,
-        #5b4be8
-    );
+    border-radius: 10px;
 
-    color: #fff;
-    font-size: 13px;
-    font-weight: 750;
-
-    box-shadow:
-        0 5px 15px rgba(109, 93, 252, 0.22);
-}
-
-
-/* =========================================================
-   5. MAIN CONTENT
-   ========================================================= */
-
-.professional-roadmap .professional-roadmap-content {
-    width: min(100%, 1480px);
-    margin: 0 auto;
-    padding: 30px 34px 48px;
-}
-
-
-/* =========================================================
-   6. HERO
-   ========================================================= */
-
-.professional-roadmap .roadmap-hero {
-    position: relative;
-    overflow: hidden;
-
-    min-height: 205px;
-    padding: 30px 32px;
-
-    border: 1px solid #e6e4f6;
-    border-radius: 24px;
+    color: #ffffff;
 
     background:
-        radial-gradient(
-            circle at 92% 15%,
-            rgba(109, 93, 252, 0.12),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 75% 100%,
-            rgba(80, 130, 246, 0.08),
-            transparent 32%
-        ),
-        #ffffff;
+        linear-gradient(
+            135deg,
+            #7168ff,
+            #5148e5
+        );
 
-    box-shadow: var(--rm-shadow);
+    font-size: 12px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 4px 12px
+        rgba(99,91,255,.2);
+}
+
+
+/* ============================================================
+   08. HERO
+   ============================================================ */
+
+.professional-roadmap .roadmap-hero,
+.roadmap-header {
+
+    position: relative;
+
+    width: 100%;
+
+    padding:
+        34px
+        38px;
+
+    border-radius:
+        var(--rm-radius-xl);
+
+    overflow: hidden;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #282174 0%,
+            #5145d6 52%,
+            #6d5cff 100%
+        );
+
+    box-shadow:
+        0 16px 38px
+        rgba(69,55,190,.17);
+}
+
+.professional-roadmap .roadmap-hero::before,
+.roadmap-header::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 310px;
+    height: 310px;
+
+    right: -110px;
+    top: -160px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.08);
+
+    pointer-events: none;
+}
+
+.professional-roadmap .roadmap-hero::after,
+.roadmap-header::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    right: 210px;
+    bottom: -135px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.055);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   09. HERO CONTENT
+   ============================================================ */
+
+.professional-roadmap .roadmap-hero-content,
+.roadmap-header-left {
+
+    position: relative;
+    z-index: 2;
+
+    max-width: 850px;
+}
+
+.professional-roadmap .roadmap-hero-badge,
+.roadmap-label {
+
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 27px;
+
+    padding:
+        0
+        11px;
+
+    margin-bottom: 12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color: rgba(255,255,255,.95);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.1px;
+
+    text-transform: uppercase;
+}
+
+.professional-roadmap .roadmap-hero h1,
+.roadmap-header h1 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(27px, 3vw, 43px);
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.professional-roadmap .roadmap-hero p,
+.roadmap-header p {
+
+    max-width: 720px;
+
+    margin:
+        11px
+        0
+        0;
+
+    color:
+        rgba(255,255,255,.78);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   10. HERO SIDE
+   ============================================================ */
+
+.professional-roadmap .roadmap-hero-side {
+
+    position: relative;
+    z-index: 2;
+
+    min-width: 240px;
+
+    padding: 16px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,.10);
+
+    backdrop-filter:
+        blur(12px);
+}
+
+.professional-roadmap .hero-info-item {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.professional-roadmap .hero-info-item + .hero-info-item {
+
+    margin-top: 11px;
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.12);
+}
+
+.professional-roadmap .hero-info-icon {
+
+    width: 31px;
+    height: 31px;
+
+    flex: 0 0 31px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.13);
+
+    color: #ffffff;
+}
+
+.professional-roadmap .hero-info-item strong {
+
+    display: block;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.professional-roadmap .hero-info-item span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color:
+        rgba(255,255,255,.63);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   11. HERO UPDATE BUTTON
+   ============================================================ */
+
+.professional-roadmap .hero-update-btn {
+
+    width: 100%;
+
+    height: 36px;
+
+    margin-top: 13px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #5145d6;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.professional-roadmap .hero-update-btn:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,.12);
+}
+
+
+/* ============================================================
+   12. AI GENERATED BANNER
+   ============================================================ */
+
+.ai-generated-banner {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    padding:
+        15px
+        18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 14px;
+
+    box-shadow:
+        var(--rm-shadow);
+}
+
+.ai-banner-icon {
+
+    width: 37px;
+    height: 37px;
+
+    flex: 0 0 37px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
+}
+
+.ai-generated-banner strong {
+
+    display: block;
+
+    color: var(--rm-dark);
+
+    font-size: 12px;
+
+    font-weight: 750;
+}
+
+.ai-generated-banner p {
+
+    margin: 3px 0 0;
+
+    color: var(--rm-muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   13. OVERVIEW SECTION
+   ============================================================ */
+
+.professional-roadmap .roadmap-overview,
+.professional-roadmap .roadmap-stat-grid,
+.professional-roadmap .roadmap-stats {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+    gap: 14px;
+
+    margin-top: 18px;
+}
+
+
+/* ============================================================
+   14. STAT CARD
+   ============================================================ */
+
+.professional-roadmap .roadmap-stat-card {
+
+    min-width: 0;
+
+    padding: 17px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius:
+        var(--rm-radius);
+
+    box-shadow:
+        var(--rm-shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.professional-roadmap .roadmap-stat-card:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #dad7ff;
+
+    box-shadow:
+        var(--rm-shadow-hover);
+}
+
+.professional-roadmap .roadmap-stat-card .stat-icon,
+.stat-icon {
+
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
+
+    font-size: 17px;
+}
+
+.professional-roadmap .roadmap-stat-card span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .8px;
+
+    text-transform: uppercase;
+}
+
+.professional-roadmap .roadmap-stat-card strong {
+
+    color:
+        var(--rm-dark);
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    font-weight: 800;
+}
+
+.professional-roadmap .roadmap-stat-card small {
+
+    margin-left: 3px;
+
+    color:
+        var(--rm-muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   15. PROGRESS PANEL
+   ============================================================ */
+
+.professional-roadmap .roadmap-progress-card {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    padding:
+        20px
+        22px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius:
+        var(--rm-radius-lg);
+
+    box-shadow:
+        var(--rm-shadow);
+}
+
+.professional-roadmap .roadmap-progress-header {
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 35px;
+
+    gap: 15px;
 }
 
-.professional-roadmap .roadmap-hero::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
+.professional-roadmap .roadmap-progress-header span {
 
-    background: linear-gradient(
-        180deg,
-        #7566ff,
-        #5b4be8
-    );
-}
+    display: block;
 
-.professional-roadmap .roadmap-hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
-}
+    margin-bottom: 5px;
 
-.professional-roadmap .roadmap-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+    color:
+        var(--rm-light-text);
 
-    padding: 7px 11px;
-    margin-bottom: 13px;
+    font-size: 9px;
 
-    border: 1px solid #e1ddff;
-    border-radius: 999px;
+    font-weight: 800;
 
-    background: var(--rm-primary-soft);
-    color: var(--rm-primary-dark);
+    letter-spacing: 1px;
 
-    font-size: 11px;
-    line-height: 1;
-    font-weight: 750;
-    letter-spacing: 0.035em;
     text-transform: uppercase;
 }
 
-.professional-roadmap .roadmap-hero h1 {
+.professional-roadmap .roadmap-progress-header h2 {
+
     margin: 0;
 
-    font-size: clamp(26px, 3vw, 38px);
-    line-height: 1.1;
-    letter-spacing: -0.045em;
+    color:
+        var(--rm-dark);
+
+    font-size: 22px;
+
+    line-height: 1.2;
+
     font-weight: 800;
 
-    color: #111321;
+    letter-spacing: -.35px;
 }
 
-.professional-roadmap .roadmap-hero p {
-    max-width: 650px;
-    margin: 12px 0 0;
+.professional-roadmap .roadmap-progress-header > strong {
 
-    color: #687084;
+    color:
+        var(--bs-primary);
+
     font-size: 14px;
-    line-height: 1.7;
-    font-weight: 450;
+
+    font-weight: 800;
 }
 
-.professional-roadmap .roadmap-hero-side {
+.professional-roadmap .roadmap-progress-track {
+
+    width: 100%;
+
+    height: 8px;
+
+    margin-top: 16px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background:
+        #e9ebf1;
+}
+
+.professional-roadmap .roadmap-progress-fill {
+
+    height: 100%;
+
+    min-width: 0;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5148e5,
+            #7168ff
+        );
+
+    transition:
+        width .5s ease;
+}
+
+.professional-roadmap .roadmap-progress-card > p {
+
+    margin: 8px 0 0;
+
+    color:
+        var(--rm-muted);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   16. PROFESSIONAL MAIN GRID
+   ============================================================ */
+
+.professional-roadmap .roadmap-main-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0,1.06fr)
+        minmax(350px,.94fr);
+
+    gap: 18px;
+
+    margin-top: 18px;
+
+    align-items: start;
+}
+
+.professional-roadmap .roadmap-left-column {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* ============================================================
+   17. PANEL SYSTEM
+   ============================================================ */
+
+.professional-roadmap .roadmap-panel {
+
     position: relative;
-    z-index: 1;
 
-    min-width: 250px;
-    padding: 18px;
+    min-width: 0;
 
-    border: 1px solid #ececf4;
-    border-radius: 17px;
+    padding:
+        20px;
 
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(10px);
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius:
+        var(--rm-radius-lg);
+
+    box-shadow:
+        var(--rm-shadow);
+
+    transition:
+        box-shadow .2s ease,
+        border-color .2s ease;
 }
 
+.professional-roadmap .roadmap-panel:hover {
 
-/* =========================================================
-   7. HERO INFO ITEMS
-   ========================================================= */
+    border-color:
+        #dedfe7;
 
-.professional-roadmap .hero-info-item {
+    box-shadow:
+        var(--rm-shadow-hover);
+}
+
+.professional-roadmap .panel-heading {
+
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
     gap: 12px;
+
+    margin-bottom: 16px;
 }
 
-.professional-roadmap .hero-info-item + .hero-info-item {
-    margin-top: 13px;
-    padding-top: 13px;
-    border-top: 1px solid var(--rm-border-soft);
+.professional-roadmap .panel-heading-left {
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
 }
 
-.professional-roadmap .hero-info-icon {
+.professional-roadmap .panel-icon {
+
     width: 34px;
     height: 34px;
+
     flex: 0 0 34px;
 
     display: grid;
     place-items: center;
 
-    border-radius: 10px;
-    background: #f3f1ff;
-    color: var(--rm-primary);
-}
+    border-radius: 9px;
 
-.professional-roadmap .hero-info-item strong {
-    display: block;
-    color: #252938;
-    font-size: 12px;
-    font-weight: 700;
-}
+    background:
+        var(--bs-primary-light);
 
-.professional-roadmap .hero-info-item span {
-    display: block;
-    margin-top: 2px;
-    color: var(--rm-muted);
-    font-size: 11px;
-    font-weight: 500;
-}
+    border:
+        1px solid
+        #e3e0ff;
 
-.professional-roadmap .hero-update-btn {
-    width: 100%;
-    margin-top: 15px;
-    height: 39px;
+    color:
+        var(--bs-primary);
 
-    border: 0;
-    border-radius: 10px;
-
-    background: #151827;
-    color: #fff;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.professional-roadmap .hero-update-btn:hover {
-    background: var(--rm-primary);
-    transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   8. MAIN GRID
-   ========================================================= */
-
-.professional-roadmap .roadmap-main-grid {
-    display: grid;
-    grid-template-columns:
-        minmax(0, 1.04fr)
-        minmax(390px, 0.96fr);
-
-    gap: 22px;
-    margin-top: 22px;
-    align-items: start;
-}
-
-.professional-roadmap .roadmap-left-column {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-
-/* =========================================================
-   9. PANELS — CORE CARD SYSTEM
-   ========================================================= */
-
-.professional-roadmap .roadmap-panel {
-    position: relative;
-
-    min-width: 0;
-    padding: 23px;
-
-    background: var(--rm-surface);
-    border: 1px solid var(--rm-border);
-    border-radius: var(--rm-radius-lg);
-
-    box-shadow: var(--rm-shadow);
-
-    transition:
-        border-color 0.22s ease,
-        box-shadow 0.22s ease,
-        transform 0.22s ease;
-}
-
-.professional-roadmap .roadmap-panel:hover {
-    border-color: #dedee9;
-    box-shadow: var(--rm-shadow-hover);
-}
-
-.professional-roadmap .panel-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-
-    margin-bottom: 20px;
-}
-
-.professional-roadmap .panel-heading-left {
-    min-width: 0;
-
-    display: flex;
-    align-items: center;
-    gap: 11px;
-}
-
-.professional-roadmap .panel-icon {
-    width: 38px;
-    height: 38px;
-    flex: 0 0 38px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 11px;
-
-    background: var(--rm-primary-soft);
-    color: var(--rm-primary);
-
-    border: 1px solid #e5e1ff;
+    font-size: 14px;
 }
 
 .professional-roadmap .panel-heading h2,
 .professional-roadmap .panel-heading h3 {
+
     margin: 0;
 
-    color: #171a27;
-    font-size: 15px;
+    color:
+        var(--rm-dark);
+
+    font-size: 14px;
+
     line-height: 1.25;
-    font-weight: 780;
-    letter-spacing: -0.018em;
+
+    font-weight: 800;
 }
 
 .professional-roadmap .panel-heading p {
-    margin: 4px 0 0;
 
-    color: #8a90a0;
-    font-size: 11px;
+    margin: 3px 0 0;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 9px;
+
     line-height: 1.45;
-    font-weight: 500;
 }
 
 
-/* =========================================================
-   10. ROADMAP OVERVIEW — PREMIUM PROGRESS HEADER
-   ========================================================= */
-
-.professional-roadmap .roadmap-overview-panel {
-    overflow: hidden;
-}
-
-.professional-roadmap .roadmap-overview-panel::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 210px;
-    height: 150px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(109, 93, 252, 0.07),
-            transparent 68%
-        );
-
-    pointer-events: none;
-}
+/* ============================================================
+   18. ROADMAP OVERVIEW PROGRESS
+   ============================================================ */
 
 .professional-roadmap .overview-progress-top {
-    position: relative;
 
     display: grid;
-    grid-template-columns: minmax(180px, 0.9fr) minmax(260px, 1.4fr) auto;
+
+    grid-template-columns:
+        150px
+        minmax(180px,1fr)
+        auto;
 
     align-items: center;
-    gap: 20px;
 
-    padding: 17px;
+    gap: 18px;
 
-    border: 1px solid #ececf4;
-    border-radius: 16px;
+    padding:
+        15px;
+
+    border:
+        1px solid
+        var(--rm-border-light);
+
+    border-radius: 13px;
+
+    background:
+        #fafbfe;
+}
+
+.professional-roadmap .overview-progress-label {
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: .9px;
+
+    text-transform: uppercase;
+}
+
+.professional-roadmap .overview-progress-value {
+
+    margin-top: 4px;
+
+    color:
+        var(--rm-dark);
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: -.5px;
+}
+
+.professional-roadmap .overview-progress-value span {
+
+    margin-left: 3px;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.professional-roadmap .overview-progress-track {
+
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background:
+        #e7e9f0;
+}
+
+.professional-roadmap .overview-progress-fill {
+
+    height: 100%;
+
+    min-width: 4px;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5d54eb,
+            #796fff
+        );
+
+    transition:
+        width .5s ease;
+}
+
+.professional-roadmap .overview-progress-caption {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-top: 5px;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.professional-roadmap .on-track-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    min-height: 27px;
+
+    padding:
+        0
+        9px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid
+        #d4eddf;
+
+    background:
+        var(--rm-success-light);
+
+    color:
+        var(--rm-success);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+.professional-roadmap .on-track-badge::before {
+
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        #20a76a;
+}
+
+
+/* ============================================================
+   19. CURRENT LEVEL CARD
+   ============================================================ */
+
+.professional-roadmap .level-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        17px;
+
+    border:
+        1px solid
+        #e1defa;
+
+    border-radius:
+        14px;
 
     background:
         linear-gradient(
@@ -569,1452 +1286,1483 @@
         );
 }
 
-.professional-roadmap .overview-progress-top > * {
-    min-width: 0;
+.professional-roadmap .level-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    right: -75px;
+    top: -75px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(99,91,255,.055);
+
+    pointer-events: none;
 }
 
-.professional-roadmap .overview-progress-label {
-    color: #8a90a0;
-    font-size: 10px;
-    font-weight: 750;
-    letter-spacing: 0.08em;
+.professional-roadmap .level-card-header {
+
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.professional-roadmap .level-card-title {
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
     text-transform: uppercase;
 }
 
-.professional-roadmap .overview-progress-value {
-    margin-top: 4px;
+.professional-roadmap .level-card h3 {
 
-    color: #171a27;
-    font-size: 24px;
-    line-height: 1;
+    margin:
+        5px
+        0
+        0;
+
+    color:
+        var(--rm-dark);
+
+    font-size: 22px;
+
+    line-height: 1.1;
+
     font-weight: 800;
-    letter-spacing: -0.04em;
+
+    letter-spacing: -.4px;
 }
 
-.professional-roadmap .overview-progress-value span {
-    margin-left: 3px;
+.professional-roadmap .level-badge,
+.professional-roadmap .level-card-badge {
 
-    color: #8b90a0;
-    font-size: 12px;
-    font-weight: 650;
-    letter-spacing: 0;
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 27px;
+
+    padding:
+        0
+        9px;
+
+    border:
+        1px solid
+        #ddd8ff;
+
+    border-radius: 999px;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary-dark);
+
+    font-size: 8px;
+
+    font-weight: 800;
 }
 
-.professional-roadmap .overview-progress-track {
+.professional-roadmap .level-card-progress {
+
     position: relative;
+    z-index: 1;
 
-    width: 100%;
-    height: 9px;
+    margin-top: 16px;
+}
+
+.professional-roadmap .level-card-progress-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 6px;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+.professional-roadmap .level-card-progress-track {
+
+    height: 7px;
 
     overflow: hidden;
 
     border-radius: 999px;
-    background: #ececf3;
+
+    background:
+        #e7e7ef;
 }
 
-.professional-roadmap .overview-progress-fill {
+.professional-roadmap .level-card-progress-fill {
+
     height: 100%;
-    min-width: 6px;
 
     border-radius: inherit;
 
     background:
         linear-gradient(
             90deg,
-            #7768ff,
-            #5e4de9
+            #635bff,
+            #786fff
         );
-
-    box-shadow:
-        0 2px 7px rgba(109, 93, 252, 0.22);
-
-    transition: width 0.5s ease;
 }
 
-.professional-roadmap .overview-progress-caption {
-    margin-top: 7px;
+.professional-roadmap .level-card-footer {
+
+    position: relative;
+    z-index: 1;
 
     display: flex;
+
+    align-items: center;
     justify-content: space-between;
+
     gap: 10px;
 
-    color: #969baa;
-    font-size: 10px;
-    font-weight: 600;
+    margin-top: 11px;
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid
+        #ecebf3;
 }
 
-.professional-roadmap .on-track-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+.professional-roadmap .level-card-footer span {
 
-    min-height: 30px;
-    padding: 0 10px;
+    color:
+        var(--rm-light-text);
 
-    border: 1px solid #d8f1e5;
-    border-radius: 999px;
-
-    background: var(--rm-green-soft);
-    color: #168356;
-
-    white-space: nowrap;
-
-    font-size: 10px;
-    font-weight: 750;
+    font-size: 8px;
 }
 
-.professional-roadmap .on-track-badge::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #20b878;
-    box-shadow: 0 0 0 3px rgba(32, 184, 120, 0.1);
+.professional-roadmap .level-card-footer strong {
+
+    color:
+        var(--rm-text);
+
+    font-size: 9px;
 }
 
 
-/* =========================================================
-   11. OVERVIEW STATS
-   ========================================================= */
+/* ============================================================
+   20. NEXT STEPS
+   ============================================================ */
 
-.professional-roadmap .roadmap-overview,
-.professional-roadmap .roadmap-stat-grid,
-.professional-roadmap .roadmap-stats {
+.professional-roadmap .next-step-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.professional-roadmap .next-step {
+
+    min-height: 58px;
+
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 11px;
-    margin-top: 13px;
-}
 
-.professional-roadmap .roadmap-stat-card {
-    min-width: 0;
-    padding: 14px;
+    grid-template-columns:
+        29px
+        minmax(0,1fr)
+        auto;
 
-    border: 1px solid var(--rm-border);
-    border-radius: 14px;
+    align-items: center;
 
-    background: #fff;
+    gap: 10px;
+
+    padding:
+        9px
+        10px;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 11px;
+
+    background:
+        #ffffff;
 
     transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease;
 }
 
-.professional-roadmap .roadmap-stat-card:hover {
-    transform: translateY(-2px);
-    border-color: #dcd9f8;
-    background: #fcfbff;
+.professional-roadmap .next-step:hover {
+
+    transform:
+        translateX(2px);
+
+    border-color:
+        #dad7ff;
+
+    background:
+        #fcfbff;
 }
 
-.professional-roadmap .roadmap-stat-card .stat-icon {
+.professional-roadmap .step-number {
+
     width: 29px;
     height: 29px;
 
     display: grid;
     place-items: center;
 
-    border-radius: 9px;
-    background: #f4f2ff;
-    color: var(--rm-primary);
-}
-
-.professional-roadmap .roadmap-stat-card .stat-value {
-    margin-top: 10px;
-
-    color: #171a27;
-    font-size: 19px;
-    line-height: 1;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.professional-roadmap .roadmap-stat-card .stat-label {
-    margin-top: 5px;
-
-    color: #8a90a0;
-    font-size: 10px;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   12. CURRENT LEVEL — PREMIUM ASSESSMENT CARD
-   ========================================================= */
-
-.professional-roadmap .level-card {
-    position: relative;
-    overflow: hidden;
-
-    padding: 19px;
-
-    border: 1px solid #e8e5ff;
-    border-radius: 17px;
+    border-radius: 8px;
 
     background:
-        radial-gradient(
-            circle at 92% 12%,
-            rgba(109, 93, 252, 0.09),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #faf9ff 0%,
-            #ffffff 65%
-        );
-}
+        var(--bs-primary-light);
 
-.professional-roadmap .level-card::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    color:
+        var(--bs-primary);
 
-    width: 3px;
-
-    background: linear-gradient(
-        180deg,
-        #7869ff,
-        #5d4de7
-    );
-}
-
-.professional-roadmap .level-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.professional-roadmap .level-card-title {
-    color: #979baa;
     font-size: 9px;
-    line-height: 1;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
 
-.professional-roadmap .level-card h3 {
-    margin: 7px 0 0;
-
-    color: #141722;
-    font-size: 24px;
-    line-height: 1.1;
-    font-weight: 820;
-    letter-spacing: -0.04em;
-}
-
-.professional-roadmap .level-badge,
-.professional-roadmap .level-card-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 31px;
-    padding: 0 11px;
-
-    border-radius: 999px;
-
-    background: #eeeaff;
-    border: 1px solid #ded8ff;
-
-    color: #5d4ce6;
-
-    font-size: 10px;
-    font-weight: 800;
-}
-
-.professional-roadmap .level-card-progress {
-    margin-top: 19px;
-}
-
-.professional-roadmap .level-card-progress-label {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-
-    margin-bottom: 7px;
-
-    color: #747b8c;
-    font-size: 10px;
-    font-weight: 650;
-}
-
-.professional-roadmap .level-card-progress-track {
-    height: 8px;
-    overflow: hidden;
-
-    border-radius: 999px;
-    background: #e9e8f1;
-}
-
-.professional-roadmap .level-card-progress-fill {
-    height: 100%;
-    border-radius: inherit;
-
-    background:
-        linear-gradient(
-            90deg,
-            #7869ff,
-            #5d4de7
-        );
-}
-
-.professional-roadmap .level-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-
-    margin-top: 13px;
-    padding-top: 13px;
-
-    border-top: 1px solid #eeedf5;
-}
-
-.professional-roadmap .level-card-footer span {
-    color: #8c92a1;
-    font-size: 10px;
-    font-weight: 550;
-}
-
-.professional-roadmap .level-card-footer strong {
-    color: #3c4050;
-    font-size: 11px;
-    font-weight: 750;
-}
-
-
-/* =========================================================
-   13. NEXT STEPS
-   ========================================================= */
-
-.professional-roadmap .next-step-list {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.professional-roadmap .next-step {
-    position: relative;
-
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-
-    min-height: 66px;
-    padding: 10px 12px;
-
-    border: 1px solid var(--rm-border);
-    border-radius: 14px;
-
-    background: #fff;
-
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-}
-
-.professional-roadmap .next-step:hover {
-    transform: translateX(2px);
-    border-color: #dedaf9;
-    background: #fcfbff;
-    box-shadow: 0 7px 20px rgba(18, 24, 40, 0.045);
-}
-
-.professional-roadmap .step-number {
-    width: 31px;
-    height: 31px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 10px;
-
-    background: #f2efff;
-    color: #6251e8;
-
-    font-size: 11px;
     font-weight: 800;
 }
 
 .professional-roadmap .next-step-content {
+
     min-width: 0;
 }
 
 .professional-roadmap .next-step-title {
+
     overflow: hidden;
 
-    color: #252936;
-    font-size: 12px;
-    line-height: 1.35;
-    font-weight: 730;
+    color:
+        var(--rm-text);
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    white-space: nowrap;
 
     text-overflow: ellipsis;
 }
 
 .professional-roadmap .next-step-description {
-    margin-top: 3px;
+
+    margin-top: 2px;
 
     overflow: hidden;
 
-    color: #9297a5;
-    font-size: 10px;
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
     line-height: 1.4;
+
+    white-space: nowrap;
 
     text-overflow: ellipsis;
 }
 
 .professional-roadmap .next-step-status {
+
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
 
-    min-height: 25px;
-    padding: 0 8px;
-
-    border-radius: 999px;
-
-    background: #f5f5f8;
-    color: #767c8c;
-
-    font-size: 9px;
-    font-weight: 750;
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   14. LEARNING PATH — IMPORTANT
-   NO VERTICAL CONNECTOR LINE
-   ========================================================= */
-
-.professional-roadmap .learning-path-panel {
-    overflow: visible;
-}
-
-.professional-roadmap .learning-path-panel .panel-heading {
-    margin-bottom: 18px;
-}
-
-.professional-roadmap .learning-timeline {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-
-    padding: 0;
-    margin: 0;
-}
-
-/*
-   DO NOT ADD CONNECTOR LINE.
-   Explicitly disabled.
-*/
-
-.professional-roadmap .learning-timeline::before,
-.professional-roadmap .learning-timeline::after,
-.professional-roadmap .learning-step::before,
-.professional-roadmap .learning-step::after,
-.professional-roadmap .learning-step-side::before,
-.professional-roadmap .learning-step-side::after,
-.professional-roadmap .learning-step-dot::before,
-.professional-roadmap .learning-step-dot::after,
-.professional-roadmap .roadmap-timeline::before,
-.professional-roadmap .roadmap-timeline::after,
-.professional-roadmap .timeline-line {
-    content: none !important;
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-.professional-roadmap .learning-timeline,
-.professional-roadmap .learning-step,
-.professional-roadmap .learning-step-side {
-    border-left: 0 !important;
-    border-right: 0 !important;
-}
-
-
-/* =========================================================
-   15. LEARNING STEP
-   ========================================================= */
-
-.professional-roadmap .learning-step {
-    position: relative;
-
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 12px;
-
-    padding: 11px;
-
-    border: 1px solid var(--rm-border);
-    border-radius: 16px;
-
-    background: #fff;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-}
-
-.professional-roadmap .learning-step:hover {
-    border-color: #ddd9f8;
-    box-shadow: 0 9px 25px rgba(17, 24, 39, 0.05);
-    transform: translateY(-1px);
-}
-
-.professional-roadmap .learning-step-side {
-    position: relative;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-
-    padding-top: 4px;
-}
-
-.professional-roadmap .learning-step-dot {
-    position: relative;
-    z-index: 2;
-
-    width: 34px;
-    height: 34px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1px solid #e0dcff;
-    border-radius: 11px;
-
-    background: #f1efff;
-    color: #5f4ee8;
-
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.professional-roadmap .learning-step.completed .learning-step-dot {
-    border-color: #d5f0e2;
-    background: #eaf9f2;
-    color: #159264;
-}
-
-.professional-roadmap .learning-step.active .learning-step-dot {
-    border-color: #dcd7ff;
-    background: #6757ef;
-    color: #fff;
-
-    box-shadow:
-        0 5px 13px rgba(103, 87, 239, 0.24);
-}
-
-.professional-roadmap .learning-module-card {
-    min-width: 0;
-
-    padding: 2px 2px 2px 0;
-
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-}
-
-.professional-roadmap .learning-module-icon {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 12px;
-
-    background: #f7f7fa;
-    border: 1px solid #ececf1;
-
-    color: #565d6f;
-}
-
-.professional-roadmap .learning-step.active .learning-module-icon {
-    background: #f1efff;
-    border-color: #e1ddff;
-    color: #6554eb;
-}
-
-.professional-roadmap .learning-step.completed .learning-module-icon {
-    background: #edf9f3;
-    border-color: #dcefe5;
-    color: #1a9866;
-}
-
-.professional-roadmap .learning-module-content {
-    min-width: 0;
-}
-
-.professional-roadmap .learning-module-title-row {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    min-width: 0;
-}
-
-.professional-roadmap .learning-module-title {
-    min-width: 0;
-
-    overflow: hidden;
-
-    color: #202431;
-    font-size: 12px;
-    line-height: 1.35;
-    font-weight: 760;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.professional-roadmap .learning-module-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 7px;
-
-    margin-top: 4px;
-
-    color: #9298a6;
-    font-size: 9px;
-    font-weight: 600;
-}
-
-.professional-roadmap .learning-status {
-    display: inline-flex;
     align-items: center;
     justify-content: center;
 
     min-height: 22px;
-    padding: 0 7px;
+
+    padding:
+        0
+        7px;
 
     border-radius: 999px;
 
-    background: #f4f4f7;
-    color: #777d8c;
+    background:
+        #f3f4f7;
+
+    color:
+        #737b8b;
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   21. LEARNING PATH
+   ============================================================ */
+
+.professional-roadmap .learning-path-panel {
+
+    overflow: visible;
+}
+
+.professional-roadmap .learning-timeline {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ============================================================
+   !!! IMPORTANT !!!
+   VERTICAL LINE COMPLETELY DISABLED
+   ============================================================ */
+
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after,
+
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after,
+
+.professional-roadmap .timeline-line,
+.professional-roadmap .timeline-line::before,
+.professional-roadmap .timeline-line::after {
+
+    display: none !important;
+
+    visibility: hidden !important;
+
+    content: none !important;
+
+    width: 0 !important;
+    height: 0 !important;
+
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+}
+
+
+/* ============================================================
+   22. LEARNING STEP
+   ============================================================ */
+
+.professional-roadmap .learning-step {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        35px
+        minmax(0,1fr);
+
+    gap: 10px;
+
+    padding:
+        9px;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 13px;
+
+    background:
+        #ffffff;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+}
+
+.professional-roadmap .learning-step:hover {
+
+    transform:
+        translateY(-1px);
+
+    border-color:
+        #dad7ff;
+
+    box-shadow:
+        0 8px 22px
+        rgba(17,24,39,.05);
+}
+
+
+/* ============================================================
+   23. LEARNING STEP SIDE
+   ============================================================ */
+
+.professional-roadmap .learning-step-side {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    padding-top: 2px;
+
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.professional-roadmap .learning-step-dot {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid
+        #ddd9ff;
+
+    border-radius: 9px;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+.professional-roadmap .learning-step.completed .learning-step-dot {
+
+    background:
+        var(--rm-success-light);
+
+    border-color:
+        #d6eddf;
+
+    color:
+        var(--rm-success);
+}
+
+.professional-roadmap .learning-step.active .learning-step-dot {
+
+    background:
+        var(--bs-primary);
+
+    border-color:
+        var(--bs-primary);
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 4px 12px
+        rgba(99,91,255,.22);
+}
+
+
+/* ============================================================
+   24. LEARNING MODULE CARD
+   ============================================================ */
+
+.professional-roadmap .learning-module-card {
+
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        37px
+        minmax(0,1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.professional-roadmap .learning-module-icon {
+
+    width: 37px;
+    height: 37px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    border:
+        1px solid
+        #e8e9ee;
+
+    background:
+        #f8f9fb;
+
+    color:
+        #5e6675;
+
+    font-size: 13px;
+}
+
+.professional-roadmap .learning-step.active .learning-module-icon {
+
+    background:
+        var(--bs-primary-light);
+
+    border-color:
+        #e0dcff;
+
+    color:
+        var(--bs-primary);
+}
+
+.professional-roadmap .learning-step.completed .learning-module-icon {
+
+    background:
+        var(--rm-success-light);
+
+    border-color:
+        #d8eee2;
+
+    color:
+        var(--rm-success);
+}
+
+.professional-roadmap .learning-module-content {
+
+    min-width: 0;
+}
+
+.professional-roadmap .learning-module-title-row {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.professional-roadmap .learning-module-title {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color:
+        var(--rm-text);
+
+    font-size: 10px;
+
+    line-height: 1.3;
+
+    font-weight: 750;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.professional-roadmap .learning-module-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 3px;
+
+    color:
+        var(--rm-light-text);
 
     font-size: 8px;
+
+    font-weight: 600;
+}
+
+.professional-roadmap .learning-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 20px;
+
+    padding:
+        0
+        7px;
+
+    border-radius: 999px;
+
+    background:
+        #f1f2f5;
+
+    color:
+        #737b89;
+
+    font-size: 7px;
+
     font-weight: 800;
+
     text-transform: uppercase;
-    letter-spacing: 0.04em;
 }
 
 .professional-roadmap .learning-step.active .learning-status {
-    background: #eeeaff;
-    color: #604fe7;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
 }
 
 .professional-roadmap .learning-step.completed .learning-status {
-    background: #eaf9f2;
-    color: #178c5d;
+
+    background:
+        var(--rm-success-light);
+
+    color:
+        var(--rm-success);
 }
 
-.professional-roadmap .learning-module-action {
-    min-width: 76px;
-    height: 32px;
 
-    padding: 0 10px;
+/* ============================================================
+   25. LEARNING ACTION
+   ============================================================ */
+
+.professional-roadmap .learning-module-action {
+
+    min-width: 69px;
+
+    height: 29px;
 
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #e3e4e9;
-    border-radius: 9px;
+    padding:
+        0
+        9px;
 
-    background: #fff;
-    color: #454b5a;
+    border:
+        1px solid
+        #dfe1e7;
 
-    font-size: 9px;
+    border-radius: 8px;
+
+    background:
+        #ffffff;
+
+    color:
+        #505867;
+
+    font-size: 8px;
+
     font-weight: 750;
 
     cursor: pointer;
 
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    transition: .18s ease;
 }
 
 .professional-roadmap .learning-module-action:hover {
-    transform: translateY(-1px);
 
-    border-color: #d8d2ff;
-    background: #f4f1ff;
-    color: #5c4ae4;
+    border-color:
+        #d8d4ff;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
 }
 
 .professional-roadmap .learning-step.active .learning-module-action {
-    border-color: #6554eb;
-    background: #6554eb;
-    color: #fff;
-}
 
-.professional-roadmap .learning-step.active .learning-module-action:hover {
-    background: #5645dc;
-}
+    border-color:
+        var(--bs-primary);
 
+    background:
+        var(--bs-primary);
 
-/* =========================================================
-   16. OLD TIMELINE CLASSES — CONNECTORS DISABLED
-   ========================================================= */
+    color:
+        #ffffff;
 
-.professional-roadmap .roadmap-timeline {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.professional-roadmap .roadmap-timeline .timeline-side,
-.professional-roadmap .roadmap-timeline .timeline-dot {
-    position: relative;
-}
-
-.professional-roadmap .roadmap-timeline .timeline-dot {
-    z-index: 2;
-}
-
-.professional-roadmap .roadmap-timeline .timeline-line {
-    display: none !important;
-    visibility: hidden !important;
+    box-shadow:
+        0 4px 10px
+        rgba(99,91,255,.16);
 }
 
 
-/* =========================================================
-   17. CAREER ALIGNMENT
-   ========================================================= */
+/* ============================================================
+   26. CAREER ALIGNMENT
+   ============================================================ */
 
 .professional-roadmap .career-card,
 .professional-roadmap .roadmap-career-card {
+
     position: relative;
+
     overflow: hidden;
 
-    padding: 20px;
+    padding:
+        18px;
 
-    border: 1px solid #e5e2fb;
-    border-radius: 18px;
+    border:
+        1px solid
+        #e5e3f7;
+
+    border-radius:
+        var(--rm-radius-lg);
 
     background:
-        radial-gradient(
-            circle at 95% 5%,
-            rgba(109, 93, 252, 0.1),
-            transparent 34%
-        ),
-        #ffffff;
+        linear-gradient(
+            135deg,
+            #fbfaff,
+            #ffffff
+        );
 
-    box-shadow: var(--rm-shadow);
+    box-shadow:
+        var(--rm-shadow);
 }
 
 .professional-roadmap .career-card::after,
 .professional-roadmap .roadmap-career-card::after {
+
     content: "";
+
     position: absolute;
 
-    width: 100px;
-    height: 100px;
+    right: -55px;
+    bottom: -55px;
 
-    right: -45px;
-    bottom: -45px;
+    width: 130px;
+    height: 130px;
 
     border-radius: 50%;
 
-    border: 20px solid rgba(109, 93, 252, 0.035);
+    border:
+        20px solid
+        rgba(99,91,255,.035);
 }
 
 .professional-roadmap .career-card-header {
+
     display: flex;
+
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
+
+    gap: 12px;
 }
 
 .professional-roadmap .career-card-title {
+
     display: flex;
+
     align-items: center;
-    gap: 10px;
+
+    gap: 9px;
 }
 
 .professional-roadmap .career-card-title h3 {
+
     margin: 0;
 
-    color: #171a27;
-    font-size: 15px;
-    font-weight: 780;
+    color:
+        var(--rm-dark);
+
+    font-size: 14px;
+
+    font-weight: 800;
 }
 
 .professional-roadmap .career-card-title p {
-    margin: 4px 0 0;
 
-    color: #8d92a1;
-    font-size: 10px;
-    font-weight: 550;
+    margin: 3px 0 0;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
 }
 
 .professional-roadmap .career-readiness {
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
-    min-height: 30px;
-    padding: 0 10px;
+    min-height: 25px;
+
+    padding:
+        0
+        8px;
 
     border-radius: 999px;
 
-    background: #eef8f3;
-    color: #168a5b;
+    background:
+        var(--rm-success-light);
 
-    font-size: 9px;
+    color:
+        var(--rm-success);
+
+    font-size: 8px;
+
     font-weight: 800;
 }
 
 .professional-roadmap .career-role {
-    margin-top: 18px;
-    padding: 15px;
 
-    border: 1px solid #ececf3;
-    border-radius: 14px;
+    margin-top: 14px;
 
-    background: #fbfbfd;
+    padding:
+        13px;
+
+    border:
+        1px solid
+        var(--rm-border-light);
+
+    border-radius: 11px;
+
+    background:
+        #fafbfc;
 }
 
 .professional-roadmap .career-role-label {
-    color: #989daa;
-    font-size: 9px;
-    font-weight: 750;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: .7px;
+
     text-transform: uppercase;
-    letter-spacing: 0.08em;
 }
 
 .professional-roadmap .career-role h4 {
-    margin: 5px 0 0;
 
-    color: #232734;
-    font-size: 16px;
-    font-weight: 780;
+    margin:
+        4px
+        0
+        0;
+
+    color:
+        var(--rm-text);
+
+    font-size: 14px;
+
+    font-weight: 800;
 }
 
 .professional-roadmap .career-role p {
-    margin: 6px 0 0;
 
-    color: #858b9a;
-    font-size: 10px;
+    margin:
+        4px
+        0
+        0;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 9px;
+
     line-height: 1.55;
 }
 
 
-/* =========================================================
-   18. INFO / STRENGTH / SKILL GAP CARDS
-   ========================================================= */
+/* ============================================================
+   27. INFO / STRENGTH / SKILL GAPS
+   ============================================================ */
 
 .professional-roadmap .info-card,
 .professional-roadmap .strengths-card,
 .professional-roadmap .skill-gaps-card {
-    padding: 18px;
 
-    border: 1px solid var(--rm-border);
-    border-radius: 16px;
+    padding:
+        16px;
 
-    background: #fff;
-    box-shadow: var(--rm-shadow);
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius:
+        var(--rm-radius);
+
+    box-shadow:
+        var(--rm-shadow);
 }
 
 .professional-roadmap .strengths-card {
-    border-color: #dfeee6;
+
+    border-color:
+        #dceee4;
 }
 
 .professional-roadmap .skill-gaps-card {
-    border-color: #eee5d5;
+
+    border-color:
+        #f0e5ce;
 }
 
 .professional-roadmap .info-card h3,
 .professional-roadmap .strengths-card h3,
 .professional-roadmap .skill-gaps-card h3 {
+
     margin: 0;
 
-    color: #202430;
-    font-size: 13px;
-    font-weight: 760;
+    color:
+        var(--rm-text);
+
+    font-size: 12px;
+
+    font-weight: 800;
 }
 
 .professional-roadmap .info-card p,
 .professional-roadmap .strengths-card p,
 .professional-roadmap .skill-gaps-card p {
-    margin: 7px 0 0;
 
-    color: #858b9a;
-    font-size: 10px;
-    line-height: 1.6;
+    margin:
+        5px
+        0
+        0;
+
+    color:
+        var(--rm-light-text);
+
+    font-size: 9px;
+
+    line-height: 1.55;
 }
 
 .professional-roadmap .strengths-card .tag,
 .professional-roadmap .skill-gaps-card .tag {
+
     display: inline-flex;
+
     align-items: center;
 
-    min-height: 26px;
-    padding: 0 9px;
-    margin: 8px 5px 0 0;
+    min-height: 23px;
 
-    border-radius: 8px;
+    padding:
+        0
+        7px;
 
-    font-size: 9px;
-    font-weight: 700;
+    margin:
+        7px
+        4px
+        0
+        0;
+
+    border-radius: 7px;
+
+    font-size: 7px;
+
+    font-weight: 750;
 }
 
 .professional-roadmap .strengths-card .tag {
-    background: var(--rm-green-soft);
-    color: #16865a;
+
+    background:
+        var(--rm-success-light);
+
+    color:
+        var(--rm-success);
 }
 
 .professional-roadmap .skill-gaps-card .tag {
-    background: var(--rm-orange-soft);
-    color: #b8780a;
+
+    background:
+        var(--rm-warning-light);
+
+    color:
+        #b77908;
 }
 
 
-/* =========================================================
-   19. AI INSIGHT
-   ========================================================= */
+/* ============================================================
+   28. AI INSIGHT
+   ============================================================ */
 
 .professional-roadmap .ai-insight {
-    position: relative;
-
-    margin-top: 13px;
-    padding: 15px 16px;
 
     display: flex;
-    align-items: flex-start;
-    gap: 11px;
 
-    border: 1px solid #e4e0ff;
-    border-radius: 14px;
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin-top: 10px;
+
+    padding:
+        12px;
+
+    border:
+        1px solid
+        #e3dfff;
+
+    border-radius: 11px;
 
     background:
-        linear-gradient(
-            135deg,
-            #f8f6ff,
-            #fcfbff
-        );
+        #faf9ff;
 }
 
 .professional-roadmap .ai-insight-icon {
-    width: 31px;
-    height: 31px;
-    flex: 0 0 31px;
+
+    width: 27px;
+    height: 27px;
+
+    flex: 0 0 27px;
 
     display: grid;
     place-items: center;
 
-    border-radius: 9px;
+    border-radius: 8px;
 
-    background: #ece9ff;
-    color: #6251e9;
+    background:
+        #ece9ff;
+
+    color:
+        var(--bs-primary);
+
+    font-size: 11px;
 }
 
 .professional-roadmap .ai-insight strong {
+
     display: block;
 
-    color: #4036a5;
-    font-size: 10px;
+    color:
+        #5145c8;
+
+    font-size: 8px;
+
     font-weight: 800;
 }
 
 .professional-roadmap .ai-insight p {
-    margin: 4px 0 0;
 
-    color: #747992;
-    font-size: 10px;
-    line-height: 1.55;
+    margin:
+        3px
+        0
+        0;
+
+    color:
+        #777e91;
+
+    font-size: 8px;
+
+    line-height: 1.5;
 }
 
 
-/* =========================================================
-   20. BUTTONS
-   ========================================================= */
+/* ============================================================
+   29. MODAL
+   ============================================================ */
 
-.professional-roadmap button {
-    font-family: inherit;
+.professional-roadmap .module-modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(20,24,35,.48);
+
+    backdrop-filter:
+        blur(6px);
 }
+
+.professional-roadmap .module-modal {
+
+    position: relative;
+
+    width:
+        min(100%, 620px);
+
+    max-height:
+        90vh;
+
+    overflow-y: auto;
+
+    padding:
+        24px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.7);
+
+    border-radius:
+        20px;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 30px 80px
+        rgba(16,24,40,.2);
+}
+
+.professional-roadmap .module-modal-close {
+
+    position: absolute;
+
+    top: 14px;
+    right: 14px;
+
+    width: 32px;
+    height: 32px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius: 8px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--rm-muted);
+
+    cursor: pointer;
+}
+
+.professional-roadmap .module-modal-close:hover {
+
+    color:
+        var(--bs-primary);
+
+    background:
+        var(--bs-primary-light);
+}
+
+.professional-roadmap .module-modal h2 {
+
+    margin: 0;
+
+    padding-right: 40px;
+
+    color:
+        var(--rm-dark);
+
+    font-size: 21px;
+
+    font-weight: 800;
+}
+
+.professional-roadmap .module-modal p {
+
+    color:
+        var(--rm-muted);
+
+    font-size: 11px;
+
+    line-height: 1.65;
+}
+
+.professional-roadmap .modal-week {
+
+    display: inline-flex;
+
+    min-height: 23px;
+
+    align-items: center;
+
+    padding:
+        0
+        8px;
+
+    margin-bottom: 9px;
+
+    border-radius: 999px;
+
+    background:
+        var(--bs-primary-light);
+
+    color:
+        var(--bs-primary);
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.professional-roadmap .modal-ai-note {
+
+    margin-top: 14px;
+
+    padding:
+        12px;
+
+    border:
+        1px solid
+        #e3dfff;
+
+    border-radius: 10px;
+
+    background:
+        #faf9ff;
+}
+
+.professional-roadmap .modal-ai-note strong {
+
+    color:
+        #5145c8;
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   30. START MODULE BUTTON
+   ============================================================ */
 
 .professional-roadmap .start-module-btn {
-    min-height: 38px;
-    padding: 0 14px;
+
+    min-height: 36px;
+
+    padding:
+        0
+        13px;
 
     border: 0;
-    border-radius: 10px;
+
+    border-radius: 9px;
 
     background:
         linear-gradient(
             135deg,
-            #7161fa,
-            #5a49df
+            #635bff,
+            #5148e5
         );
 
-    color: #fff;
+    color:
+        #ffffff;
 
-    font-size: 10px;
+    font-size: 9px;
+
     font-weight: 750;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 14px rgba(100, 82, 232, 0.18);
+        0 4px 12px
+        rgba(99,91,255,.18);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        transform .18s ease,
+        box-shadow .18s ease;
 }
 
 .professional-roadmap .start-module-btn:hover {
-    transform: translateY(-1px);
+
+    transform:
+        translateY(-1px);
 
     box-shadow:
-        0 8px 18px rgba(100, 82, 232, 0.24);
+        0 7px 17px
+        rgba(99,91,255,.24);
 }
 
 
-/* =========================================================
-   21. MODULE MODAL
-   ========================================================= */
-
-.professional-roadmap .module-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 24px;
-
-    background: rgba(17, 20, 32, 0.48);
-    backdrop-filter: blur(7px);
-}
-
-.professional-roadmap .module-modal {
-    position: relative;
-
-    width: min(100%, 600px);
-    max-height: min(720px, 90vh);
-
-    overflow-y: auto;
-
-    padding: 25px;
-
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 22px;
-
-    background: #fff;
-
-    box-shadow:
-        0 28px 80px rgba(12, 16, 30, 0.2);
-}
-
-.professional-roadmap .module-modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-
-    width: 34px;
-    height: 34px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1px solid #e7e7ed;
-    border-radius: 10px;
-
-    background: #fff;
-    color: #626879;
-
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.professional-roadmap .module-modal-close:hover {
-    border-color: #ddd8ff;
-    background: #f3f1ff;
-    color: #5f4ee8;
-}
-
-.professional-roadmap .module-modal h2 {
-    margin: 0;
-    padding-right: 45px;
-
-    color: #171a27;
-    font-size: 21px;
-    line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.professional-roadmap .module-modal p {
-    color: #777d8d;
-    font-size: 12px;
-    line-height: 1.65;
-}
-
-.professional-roadmap .modal-week {
-    display: inline-flex;
-    align-items: center;
-
-    min-height: 25px;
-    padding: 0 9px;
-
-    margin-bottom: 10px;
-
-    border-radius: 999px;
-
-    background: #f0edff;
-    color: #604fe6;
-
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-
-.professional-roadmap .modal-ai-note {
-    margin-top: 16px;
-    padding: 14px;
-
-    border: 1px solid #e4e0ff;
-    border-radius: 13px;
-
-    background: #faf9ff;
-}
-
-.professional-roadmap .modal-ai-note strong {
-    color: #5041ca;
-    font-size: 10px;
-}
-
-.professional-roadmap .modal-ai-note p {
-    margin-bottom: 0;
-}
-
-
-/* =========================================================
-   22. LOADING / ERROR / EMPTY
-   ========================================================= */
+/* ============================================================
+   31. LOADING / EMPTY / ERROR
+   ============================================================ */
 
 .professional-roadmap .roadmap-loading,
 .professional-roadmap .roadmap-error,
 .professional-roadmap .roadmap-empty {
-    min-height: 350px;
+
+    min-height: 280px;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
 
-    padding: 40px;
+    padding:
+        35px;
 
     text-align: center;
 
-    border: 1px solid var(--rm-border);
-    border-radius: 20px;
+    background:
+        #ffffff;
 
-    background: #fff;
+    border:
+        1px solid
+        var(--rm-border);
+
+    border-radius:
+        var(--rm-radius-lg);
+
+    box-shadow:
+        var(--rm-shadow);
 }
 
 .professional-roadmap .roadmap-loading p,
 .professional-roadmap .roadmap-error p,
 .professional-roadmap .roadmap-empty p {
-    margin: 10px 0 0;
 
-    color: var(--rm-muted);
-    font-size: 12px;
+    margin:
+        8px
+        0
+        0;
+
+    color:
+        var(--rm-muted);
+
+    font-size: 11px;
+
     line-height: 1.6;
 }
 
 .professional-roadmap .roadmap-error {
-    border-color: #f0dddd;
-    background: #fffafa;
-}
 
-.professional-roadmap .roadmap-error h3 {
-    color: #bd3e3e;
-}
+    background:
+        #fffafa;
 
-
-/* =========================================================
-   23. SCROLLBAR
-   ========================================================= */
-
-.professional-roadmap ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-}
-
-.professional-roadmap ::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.professional-roadmap ::-webkit-scrollbar-thumb {
-    background: #d8d9e1;
-    border-radius: 999px;
-}
-
-.professional-roadmap ::-webkit-scrollbar-thumb:hover {
-    background: #b9bbc6;
+    border-color:
+        #f0dada;
 }
 
 
-/* =========================================================
-   24. RESPONSIVE — TABLET
-   ========================================================= */
+/* ============================================================
+   32. OLD TIMELINE SYSTEM
+   IMPORTANT:
+   NO VERTICAL LINE
+   ============================================================ */
 
-@media (max-width: 1180px) {
+.professional-roadmap .roadmap-timeline {
 
-    .professional-roadmap .professional-roadmap-content {
-        padding-left: 24px;
-        padding-right: 24px;
-    }
+    position: relative;
 
-    .professional-roadmap .roadmap-main-grid {
-        grid-template-columns: 1fr;
-    }
+    display: flex;
 
-    .professional-roadmap .roadmap-left-column {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: start;
-    }
+    flex-direction: column;
 
-    .professional-roadmap .roadmap-left-column > .learning-path-panel {
-        grid-column: 1 / -1;
-    }
+    gap: 12px;
 
-    .professional-roadmap .overview-progress-top {
-        grid-template-columns: 160px minmax(220px, 1fr) auto;
-    }
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.professional-roadmap .timeline-side {
+
+    position: relative;
+
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.professional-roadmap .timeline-dot {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.professional-roadmap .roadmap-timeline .timeline-line {
+
+    display: none !important;
+
+    visibility: hidden !important;
+
+    width: 0 !important;
+    height: 0 !important;
+
+    border: 0 !important;
+
+    background: none !important;
+
+    box-shadow: none !important;
 }
 
 
-/* =========================================================
-   25. RESPONSIVE — SMALL TABLET
-   ========================================================= */
-
-@media (max-width: 850px) {
-
-    .professional-roadmap .roadmap-topbar {
-        padding: 0 20px;
-    }
-
-    .professional-roadmap .roadmap-search {
-        display: none;
-    }
-
-    .professional-roadmap .roadmap-hero {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .professional-roadmap .roadmap-hero-side {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .professional-roadmap .roadmap-left-column {
-        display: flex;
-    }
-
-    .professional-roadmap .overview-progress-top {
-        grid-template-columns: 1fr;
-    }
-
-    .professional-roadmap .on-track-badge {
-        justify-self: start;
-    }
-
-    .professional-roadmap .roadmap-overview,
-    .professional-roadmap .roadmap-stat-grid,
-    .professional-roadmap .roadmap-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-
-/* =========================================================
-   26. RESPONSIVE — MOBILE
-   ========================================================= */
-
-@media (max-width: 620px) {
-
-    .professional-roadmap .roadmap-topbar {
-        min-height: 62px;
-        padding: 0 14px;
-    }
-
-    .professional-roadmap .roadmap-topbar-title h1,
-    .professional-roadmap .roadmap-topbar-title h2 {
-        font-size: 17px;
-    }
-
-    .professional-roadmap .roadmap-user-avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 10px;
-    }
-
-    .professional-roadmap .roadmap-notification {
-        width: 36px;
-        height: 36px;
-    }
-
-    .professional-roadmap .professional-roadmap-content {
-        padding: 16px 14px 30px;
-    }
-
-    .professional-roadmap .roadmap-hero {
-        padding: 22px 20px;
-        border-radius: 18px;
-    }
-
-    .professional-roadmap .roadmap-hero h1 {
-        font-size: 27px;
-    }
-
-    .professional-roadmap .roadmap-hero p {
-        font-size: 12px;
-    }
-
-    .professional-roadmap .roadmap-main-grid {
-        gap: 15px;
-        margin-top: 15px;
-    }
-
-    .professional-roadmap .roadmap-panel {
-        padding: 17px;
-        border-radius: 17px;
-    }
-
-    .professional-roadmap .roadmap-overview,
-    .professional-roadmap .roadmap-stat-grid,
-    .professional-roadmap .roadmap-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .professional-roadmap .roadmap-stat-card {
-        padding: 12px;
-    }
-
-    .professional-roadmap .overview-progress-value {
-        font-size: 21px;
-    }
-
-    .professional-roadmap .next-step {
-        grid-template-columns: 30px minmax(0, 1fr);
-    }
-
-    .professional-roadmap .next-step-status {
-        display: none;
-    }
-
-    .professional-roadmap .learning-step {
-        grid-template-columns: 36px minmax(0, 1fr);
-        gap: 9px;
-        padding: 9px;
-    }
-
-    .professional-roadmap .learning-step-dot {
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
-    }
-
-    .professional-roadmap .learning-module-card {
-        grid-template-columns: 36px minmax(0, 1fr);
-        gap: 9px;
-    }
-
-    .professional-roadmap .learning-module-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-    }
-
-    .professional-roadmap .learning-module-action {
-        grid-column: 2;
-        width: fit-content;
-        min-width: 75px;
-    }
-
-    .professional-roadmap .career-card,
-    .professional-roadmap .roadmap-career-card {
-        padding: 17px;
-    }
-}
-
-
-/* =========================================================
-   27. VERY SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 420px) {
-
-    .professional-roadmap .roadmap-overview,
-    .professional-roadmap .roadmap-stat-grid,
-    .professional-roadmap .roadmap-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .professional-roadmap .roadmap-hero {
-        padding: 20px 17px;
-    }
-
-    .professional-roadmap .roadmap-hero h1 {
-        font-size: 24px;
-    }
-
-    .professional-roadmap .panel-heading h2,
-    .professional-roadmap .panel-heading h3 {
-        font-size: 14px;
-    }
-
-    .professional-roadmap .level-card h3 {
-        font-size: 21px;
-    }
-}
-
-
-/* =========================================================
-   28. ACCESSIBILITY
-   ========================================================= */
-
-.professional-roadmap button:focus-visible,
-.professional-roadmap input:focus-visible {
-    outline: 3px solid rgba(109, 93, 252, 0.18);
-    outline-offset: 2px;
-}
-
-
-/* =========================================================
-   29. FINAL CONNECTOR SAFETY OVERRIDES
-   KEEP THIS AT THE VERY END.
-   VERTICAL LINE MUST NEVER APPEAR.
-   ========================================================= */
+/* ============================================================
+   33. GLOBAL CONNECTOR KILL SWITCH
+   THIS MUST REMAIN AT THE VERY END
+   ============================================================ */
 
 .professional-roadmap .learning-timeline::before,
 .professional-roadmap .learning-timeline::after,
@@ -2028,10 +2776,15 @@
 .professional-roadmap .roadmap-timeline::after,
 .professional-roadmap .timeline-line,
 .professional-roadmap .timeline-line::before,
-.professional-roadmap .timeline-line::after {
-    display: none !important;
-    visibility: hidden !important;
+.professional-roadmap .timeline-line::after,
+.professional-roadmap .roadmap-module::before,
+.professional-roadmap .roadmap-module::after {
+
     content: none !important;
+
+    display: none !important;
+
+    visibility: hidden !important;
 
     width: 0 !important;
     height: 0 !important;
@@ -2043,21 +2796,365 @@
     border-left: 0 !important;
     border-right: 0 !important;
 
-    background: none !important;
+    background: transparent !important;
+
     box-shadow: none !important;
 }
+
+
+/* ============================================================
+   34. NO CONNECTOR BORDERS
+   ============================================================ */
 
 .professional-roadmap .learning-timeline,
 .professional-roadmap .learning-step,
 .professional-roadmap .learning-step-side,
 .professional-roadmap .learning-step-dot,
 .professional-roadmap .roadmap-timeline,
+.professional-roadmap .roadmap-module,
 .professional-roadmap .timeline-side {
+
     border-left: none !important;
+
     border-right: none !important;
 }
 
 
-/* =========================================================
-   END — AI MENTOR PREMIUM ROADMAP
-   ========================================================= */
+/* ============================================================
+   35. RESPONSIVE — 1200px
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+    .professional-roadmap .professional-roadmap-content,
+    .roadmap-container {
+
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+    .professional-roadmap .roadmap-main-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .professional-roadmap .roadmap-left-column {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .professional-roadmap
+    .roadmap-left-column
+    .learning-path-panel {
+
+        grid-column:
+            1 / -1;
+    }
+}
+
+
+/* ============================================================
+   36. RESPONSIVE — 900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .professional-roadmap .roadmap-topbar {
+
+        padding:
+            0
+            20px;
+    }
+
+    .professional-roadmap .roadmap-search {
+
+        width: 190px;
+    }
+
+    .professional-roadmap .roadmap-hero,
+    .roadmap-header {
+
+        padding:
+            28px;
+    }
+
+    .professional-roadmap .roadmap-overview,
+    .professional-roadmap .roadmap-stat-grid,
+    .professional-roadmap .roadmap-stats {
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .professional-roadmap .roadmap-left-column {
+
+        display: flex;
+    }
+
+    .professional-roadmap .overview-progress-top {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .professional-roadmap .on-track-badge {
+
+        justify-self: flex-start;
+    }
+}
+
+
+/* ============================================================
+   37. RESPONSIVE — 700px
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .professional-roadmap .roadmap-topbar {
+
+        min-height: 62px;
+
+        padding:
+            0
+            14px;
+    }
+
+    .professional-roadmap .roadmap-search {
+
+        display: none;
+    }
+
+    .professional-roadmap
+    .professional-roadmap-content,
+    .roadmap-container {
+
+        padding:
+            16px
+            14px
+            35px;
+    }
+
+    .professional-roadmap .roadmap-hero,
+    .roadmap-header {
+
+        padding:
+            24px
+            20px;
+
+        border-radius:
+            18px;
+    }
+
+    .professional-roadmap .roadmap-hero h1,
+    .roadmap-header h1 {
+
+        font-size:
+            27px;
+    }
+
+    .professional-roadmap .roadmap-hero p,
+    .roadmap-header p {
+
+        font-size:
+            11px;
+    }
+
+    .professional-roadmap .roadmap-hero-side {
+
+        width: 100%;
+        min-width: 0;
+
+        margin-top: 12px;
+    }
+
+    .professional-roadmap .roadmap-overview,
+    .professional-roadmap .roadmap-stat-grid,
+    .professional-roadmap .roadmap-stats {
+
+        gap: 9px;
+    }
+
+    .professional-roadmap .roadmap-stat-card {
+
+        padding:
+            13px;
+
+        gap: 9px;
+    }
+
+    .professional-roadmap .roadmap-stat-card .stat-icon,
+    .stat-icon {
+
+        width: 35px;
+        height: 35px;
+
+        flex-basis: 35px;
+
+        border-radius: 9px;
+    }
+
+    .professional-roadmap .roadmap-stat-card strong {
+
+        font-size:
+            17px;
+    }
+
+    .professional-roadmap .roadmap-panel {
+
+        padding:
+            15px;
+
+        border-radius:
+            16px;
+    }
+
+    .professional-roadmap .learning-module-card {
+
+        grid-template-columns:
+            34px
+            minmax(0,1fr);
+    }
+
+    .professional-roadmap .learning-module-action {
+
+        grid-column:
+            2;
+
+        width:
+            fit-content;
+    }
+}
+
+
+/* ============================================================
+   38. RESPONSIVE — 480px
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+    .professional-roadmap .roadmap-overview,
+    .professional-roadmap .roadmap-stat-grid,
+    .professional-roadmap .roadmap-stats {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .professional-roadmap .roadmap-topbar-title h1,
+    .professional-roadmap .roadmap-topbar-title h2 {
+
+        font-size:
+            16px;
+    }
+
+    .professional-roadmap .roadmap-hero h1,
+    .roadmap-header h1 {
+
+        font-size:
+            24px;
+    }
+
+    .professional-roadmap .roadmap-progress-header h2 {
+
+        font-size:
+            19px;
+    }
+
+    .professional-roadmap .next-step {
+
+        grid-template-columns:
+            29px
+            minmax(0,1fr);
+    }
+
+    .professional-roadmap .next-step-status {
+
+        display:
+            none;
+    }
+
+    .professional-roadmap .learning-step {
+
+        grid-template-columns:
+            32px
+            minmax(0,1fr);
+
+        gap:
+            8px;
+    }
+
+    .professional-roadmap .learning-step-dot {
+
+        width:
+            28px;
+
+        height:
+            28px;
+    }
+
+    .professional-roadmap .learning-module-icon {
+
+        width:
+            34px;
+
+        height:
+            34px;
+    }
+}
+
+
+/* ============================================================
+   39. SCROLLBAR
+   ============================================================ */
+
+.professional-roadmap ::-webkit-scrollbar {
+
+    width: 6px;
+    height: 6px;
+}
+
+.professional-roadmap ::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+}
+
+.professional-roadmap ::-webkit-scrollbar-thumb {
+
+    background:
+        #d5d8e0;
+
+    border-radius:
+        999px;
+}
+
+.professional-roadmap ::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #b9bec9;
+}
+
+
+/* ============================================================
+   40. ACCESSIBILITY
+   ============================================================ */
+
+.professional-roadmap button:focus-visible,
+.professional-roadmap input:focus-visible {
+
+    outline:
+        3px solid
+        rgba(99,91,255,.18);
+
+    outline-offset:
+        2px;
+}
+
+
+/* ============================================================
+   END — PREMIUM ROADMAP
+   ============================================================ */
