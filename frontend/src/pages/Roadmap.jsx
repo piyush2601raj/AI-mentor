@@ -2354,8 +2354,8 @@ function Roadmap() {
 
                     <div className="roadmap-user">
 
-                        <div className="roadmap-user-avatar">
-                            S
+                        <div className="roadmap-user-avatar" aria-label="Student profile">
+                            <i className="bi bi-person-fill" aria-hidden="true"></i>
                         </div>
 
                         <div>
