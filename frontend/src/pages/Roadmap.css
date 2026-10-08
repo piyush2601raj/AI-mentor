@@ -4850,3 +4850,21 @@
    END — CONNECTOR LINE FIX
 ========================================================= */
 
+
+/* =========================================================
+   FINAL FIX — REMOVE HERO VERTICAL DIVIDER
+   CSS ONLY — NO JSX / API / LOGIC / UI STRUCTURE CHANGES
+========================================================= */
+
+/* The visible vertical line in the screenshot is the divider
+   on the right side of the roadmap hero. Remove only that line. */
+.professional-roadmap .roadmap-hero-side {
+    border-left: 0 !important;
+}
+
+/* Keep the mobile layout free from the same divider. */
+@media (max-width: 767px) {
+    .professional-roadmap .roadmap-hero-side {
+        border-left: 0 !important;
+    }
+}
