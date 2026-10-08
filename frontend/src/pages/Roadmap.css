@@ -5332,3 +5332,121 @@
         padding: 5px 12px 12px !important;
     }
 }
+
+
+/* =========================================================
+   FINAL LEARNING PATH CLEANUP
+   NO VERTICAL CONNECTOR / TIMELINE LINE
+   CARD BORDERS REMAIN INTACT
+========================================================= */
+
+/* Kill the actual connector element and every pseudo-element */
+.professional-roadmap .timeline-line,
+.professional-roadmap .timeline-line *,
+.professional-roadmap .roadmap-timeline::before,
+.professional-roadmap .roadmap-timeline::after,
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after {
+    display: none !important;
+    content: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: none !important;
+    background-image: none !important;
+}
+
+/* The numbered-dot column must be completely clean */
+.professional-roadmap .learning-step-side,
+.professional-roadmap .timeline-side {
+    position: relative !important;
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* No timeline background or separator */
+.professional-roadmap .learning-timeline,
+.professional-roadmap .roadmap-timeline {
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background-image: none !important;
+}
+
+/* Learning steps themselves have no vertical separators */
+.professional-roadmap .learning-step {
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background-image: none !important;
+}
+
+/* Keep the numbered dots premium */
+.professional-roadmap .learning-step-dot {
+    position: relative !important;
+    z-index: 2 !important;
+    border: 2px solid #dfe2e9 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 4px 12px rgba(15,23,42,.06) !important;
+}
+
+/* Current / completed dots */
+.professional-roadmap .learning-step.current .learning-step-dot {
+    border-color: #5b4ce2 !important;
+    background: #f1efff !important;
+    color: #4938c7 !important;
+    box-shadow:
+        0 0 0 5px rgba(91,76,226,.07),
+        0 6px 15px rgba(91,76,226,.13) !important;
+}
+
+.professional-roadmap .learning-step.completed .learning-step-dot {
+    border-color: #5b4ce2 !important;
+    background: #5b4ce2 !important;
+    color: #fff !important;
+}
+
+/* Premium spacing after removing connector */
+.professional-roadmap .learning-step {
+    padding-bottom: 14px !important;
+}
+
+.professional-roadmap .learning-module-card {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* =========================================================
+   FINAL SAFETY NET — NO ROADMAP CONNECTOR
+========================================================= */
+
+.professional-roadmap [class*="timeline-line"],
+.professional-roadmap [class*="connector"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+}
