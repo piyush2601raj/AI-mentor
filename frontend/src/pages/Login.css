@@ -1168,3 +1168,76 @@
   height: 20px;
   fill: currentColor;
 }
+
+
+
+/* =====================================================
+   LOGIN PAGE SCROLL FIX
+   Keeps the full login card and footer reachable on
+   shorter screens; does not hide the page overflow.
+===================================================== */
+
+html,
+body,
+#root {
+  min-height: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+.login-page {
+  min-height: 100vh;
+  height: auto !important;
+  overflow: visible !important;
+  align-items: stretch;
+}
+
+.login-form-section {
+  min-height: 100vh;
+  height: auto !important;
+  overflow: visible !important;
+  justify-content: center;
+}
+
+.login-card {
+  flex-shrink: 0;
+}
+
+.login-footer {
+  flex-shrink: 0;
+}
+
+@media (max-height: 850px) and (min-width: 901px) {
+  .login-form-section {
+    justify-content: flex-start;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .login-card {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-form-section {
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .login-form-section {
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+}
