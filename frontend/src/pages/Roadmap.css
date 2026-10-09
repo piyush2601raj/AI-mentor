@@ -6367,37 +6367,38 @@
 
 
 /* =========================================================
-   FINAL FIX — REMOVE ROADMAP TIMELINE VERTICAL CONNECTORS
-   Keeps module cards, numbered dots, spacing and interactions.
-   This must remain at the VERY END of Roadmap.css.
+   MERGED ROADMAP CSS — FINAL TIMELINE CONTROL
+   1) Legacy .roadmap-page: vertical timeline line remains ON.
+   2) .professional-roadmap: vertical timeline line is OFF.
+   Keep this block at the very end so it overrides earlier rules.
 ========================================================= */
 
-/* Legacy roadmap module timeline */
-.roadmap-page .roadmap-timeline::before,
-.roadmap-page .roadmap-timeline::after,
-.roadmap-page .roadmap-module::before,
-.roadmap-page .roadmap-module::after,
-.roadmap-page .timeline-side::before,
-.roadmap-page .timeline-side::after,
-.roadmap-page .timeline-line,
-.roadmap-page .timeline-line::before,
-.roadmap-page .timeline-line::after,
+/* FIRST / TOP ROADMAP CODE: preserve its vertical connector */
+.roadmap-page .roadmap-timeline .timeline-line {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 2px !important;
+    background: linear-gradient(
+        180deg,
+        rgba(98, 72, 233, 0.24),
+        rgba(98, 72, 233, 0.08)
+    ) !important;
+}
 
-/* Personalized learning path timeline */
+/* PERSONALIZED / PROFESSIONAL ROADMAP: remove its vertical connector */
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
 .professional-roadmap .learning-timeline::before,
 .professional-roadmap .learning-timeline::after,
 .professional-roadmap .learning-step::before,
 .professional-roadmap .learning-step::after,
-.professional-roadmap .learning-step-side::before,
-.professional-roadmap .learning-step-side::after,
 .professional-roadmap .learning-step-dot::before,
-.professional-roadmap .learning-step-dot::after,
-.professional-roadmap .timeline-line,
-.professional-roadmap .timeline-line::before,
-.professional-roadmap .timeline-line::after {
+.professional-roadmap .learning-step-dot::after {
     content: none !important;
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
     width: 0 !important;
     height: 0 !important;
     min-width: 0 !important;
@@ -6407,17 +6408,26 @@
     box-shadow: none !important;
 }
 
-/* Remove connector styling on the timeline columns only. */
-.roadmap-page .timeline-side,
+.professional-roadmap .learning-timeline {
+    background-image: none !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
 .professional-roadmap .learning-step-side {
-    border: 0 !important;
-    background: transparent !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background: none !important;
     box-shadow: none !important;
 }
 
-.roadmap-page .roadmap-timeline,
-.professional-roadmap .learning-timeline {
-    border-left: 0 !important;
-    border-right: 0 !important;
-    background-image: none !important;
+/* If an actual line element exists in the personalized roadmap, hide only it */
+.professional-roadmap .timeline-line {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: none !important;
+    border: 0 !important;
 }
