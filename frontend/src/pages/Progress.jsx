@@ -80,11 +80,10 @@ function Progress() {
 
                 setError("");
 
-                const token = localStorage.getItem("token");
-                const studentId = getStudentId();
-
-                console.log("Progress Student ID:", studentId);
-                console.log("Token exists:", Boolean(token));
+                const token =
+                    localStorage.getItem("token") ||
+                    localStorage.getItem("jwtToken") ||
+                    localStorage.getItem("accessToken");
 
                 if (!token) {
                     setError(
@@ -93,38 +92,165 @@ function Progress() {
                     return;
                 }
 
-                if (!studentId) {
-                    setError(
-                        "Student profile could not be identified. Please login again."
-                    );
+                const studentId = getStudentId();
+                console.log("Progress Student ID:", studentId);
+                console.log("Token exists:", Boolean(token));
+
+                // Fetch dashboard analytics separately. Roadmap progress below
+                // is calculated from the actual module list, like Dashboard.jsx.
+                let dashboardData = {};
+
+                if (studentId) {
+                    try {
+                        const dashboardResponse = await api.get(
+                            `/api/dashboard/student/${studentId}`
+                        );
+                        dashboardData = dashboardResponse?.data || {};
+                    } catch (dashboardError) {
+                        console.warn(
+                            "Dashboard analytics endpoint unavailable; using roadmap data.",
+                            dashboardError
+                        );
+                    }
+                }
+
+                // Same roadmap endpoint used by Dashboard.jsx.
+                const roadmapResponse = await api.get(
+                    "/api/roadmaps/student"
+                );
+                const roadmapData = roadmapResponse?.data;
+
+                let roadmaps = [];
+                if (Array.isArray(roadmapData)) {
+                    roadmaps = roadmapData;
+                } else if (Array.isArray(roadmapData?.roadmaps)) {
+                    roadmaps = roadmapData.roadmaps;
+                } else if (roadmapData?.id) {
+                    roadmaps = [roadmapData];
+                }
+
+                // Prefer the roadmap saved by the roadmap/dashboard flow.
+                const savedRoadmapId = localStorage.getItem(
+                    "generatedRoadmapId"
+                );
+
+                let activeRoadmap = savedRoadmapId
+                    ? roadmaps.find(
+                          (roadmap) =>
+                              String(roadmap?.id) === String(savedRoadmapId)
+                      )
+                    : null;
+
+                if (!activeRoadmap && roadmaps.length > 0) {
+                    activeRoadmap = roadmaps[roadmaps.length - 1];
+                }
+
+                if (!activeRoadmap?.id) {
+                    console.warn("No active roadmap found for this student.");
+                    setDashboard({
+                        ...dashboardData,
+                        overallProgress: 0,
+                        modulesCompleted: 0,
+                        completedModules: 0,
+                        totalModules: 0,
+                        remainingModules: 0,
+                    });
                     return;
                 }
 
-                const response = await api.get(
-    `/api/dashboard/student/${studentId}`
-);
+                const roadmapId = activeRoadmap.id;
+                localStorage.setItem(
+                    "generatedRoadmapId",
+                    String(roadmapId)
+                );
 
-               if (response.status === 401) {
-    localStorage.removeItem("token");
+                // Load the actual modules for the selected roadmap.
+                const modulesResponse = await api.get(
+                    `/api/roadmaps/${roadmapId}/modules`
+                );
+                const moduleData = modulesResponse?.data;
 
-    setError(
-        "Your login session has expired. Please login again."
-    );
+                let modules = [];
+                if (Array.isArray(moduleData)) {
+                    modules = moduleData;
+                } else if (Array.isArray(moduleData?.modules)) {
+                    modules = moduleData.modules;
+                }
 
-    return;
-}
+                const isCompleted = (module) => {
+                    const status = String(
+                        module?.status ?? module?.completionStatus ?? ""
+                    ).trim().toUpperCase();
 
-const data = response.data;
+                    if (["COMPLETED", "DONE"].includes(status)) {
+                        return true;
+                    }
 
-console.log("Dashboard data:", data);
+                    const moduleProgress = Number(
+                        module?.progress ??
+                            module?.progressPercentage ??
+                            module?.completionPercentage ??
+                            module?.completion ??
+                            0
+                    );
 
-setDashboard(data);
+                    return Number.isFinite(moduleProgress) && moduleProgress >= 100;
+                };
+
+                const totalModules = modules.length;
+                const completedModules = modules.filter(isCompleted).length;
+                const remainingModules = Math.max(
+                    totalModules - completedModules,
+                    0
+                );
+                const overallProgress =
+                    totalModules > 0
+                        ? Number(
+                              ((completedModules / totalModules) * 100).toFixed(2)
+                          )
+                        : 0;
+
+                // Keep all supported field aliases aligned for the existing UI.
+                const finalDashboard = {
+                    ...dashboardData,
+                    overallProgress,
+                    overallCompletion: overallProgress,
+                    progress: overallProgress,
+                    completionPercentage: overallProgress,
+                    modulesCompleted: completedModules,
+                    completedModules,
+                    completedRoadmapModules: completedModules,
+                    totalModules,
+                    totalRoadmapModules: totalModules,
+                    roadmapModules: totalModules,
+                    remainingModules,
+                };
+
+                console.log("PROGRESS PAGE SYNC COMPLETE:", {
+                    roadmapId,
+                    totalModules,
+                    completedModules,
+                    remainingModules,
+                    overallProgress,
+                    modules,
+                });
+
+                setDashboard(finalDashboard);
             } catch (err) {
                 console.error("Progress loading error:", err);
 
-                setError(
-                    "Unable to load your progress. Please make sure the backend is running."
-                );
+                if (err?.response?.status === 401) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("jwtToken");
+                    localStorage.removeItem("accessToken");
+                    setError(
+                        "Your login session has expired. Please login again."
+                    );
+                } else {
+                    setError(
+                        "Unable to load your progress. Please try again. Check the browser console for the failed API request."
+                    );
+                }
             } finally {
                 setLoading(false);
                 setRefreshing(false);
