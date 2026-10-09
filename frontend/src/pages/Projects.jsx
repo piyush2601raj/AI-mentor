@@ -465,6 +465,11 @@ function Projects() {
             return;
         }
 
+        if (!form.category || !form.category.trim()) {
+            setError("Project category is required. Please enter a category such as Web Development.");
+            return;
+        }
+
         try {
             setSaving(true);
             setError("");
@@ -472,11 +477,9 @@ function Projects() {
             const payload = {
                 ...form,
                 title: form.title.trim(),
-                description:
-                    form.description.trim(),
-                progress: Number(
-                    form.progress || 0
-                ),
+                description: form.description.trim(),
+                category: form.category.trim(),
+                progress: Number(form.progress || 0),
             };
 
             if (editingProject) {
@@ -1567,11 +1570,11 @@ function ProjectModal({
 
                         <input
                             name="category"
-                            value={
-                                form.category
-                            }
+                            value={form.category}
                             onChange={onChange}
                             placeholder="e.g. Web Development"
+                            required
+                            maxLength={80}
                         />
 
                     </div>
