@@ -2310,3 +2310,115 @@
         padding: 9px 10px;
     }
 }
+
+
+/* =========================================================
+   TARGETED FIX: OVERALL PROGRESS / STAT CARDS
+   Appended overrides only; existing JSX and functionality stay unchanged.
+========================================================= */
+
+.stats-grid {
+    width: 100%;
+    min-width: 0;
+    align-items: stretch;
+}
+
+.stats-grid > .stat-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 18px 14px;
+    gap: 12px;
+}
+
+.stats-grid > .stat-card .stat-info {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.stats-grid > .stat-card .stat-label {
+    max-width: 100%;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.stats-grid > .stat-card .stat-info strong {
+    max-width: 100%;
+    font-size: clamp(18px, 1.45vw, 23px);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.stats-grid > .stat-card .stat-info small {
+    max-width: 100%;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.stats-grid > .stat-card .progress-circle {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+}
+
+/* Keep the first card's progress percentage fully visible. */
+.stats-grid > .stat-card:first-child .progress-circle span {
+    padding: 2px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .stats-grid > .stat-card {
+        padding: 18px 14px;
+    }
+}
+
+@media (max-width: 800px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stats-grid > .stat-card {
+        padding: 18px 14px;
+        gap: 12px;
+    }
+
+    .stats-grid > .stat-card .progress-circle {
+        width: 64px;
+        height: 64px;
+        flex-basis: 64px;
+    }
+}
+
+@media (max-width: 520px) {
+    .stats-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stats-grid > .stat-card {
+        width: 100%;
+        min-height: 110px;
+        padding: 18px;
+        gap: 16px;
+    }
+
+    .stats-grid > .stat-card .progress-circle {
+        width: 72px;
+        height: 72px;
+        flex-basis: 72px;
+    }
+
+    .stats-grid > .stat-card:first-child .progress-circle span {
+        font-size: 12px;
+    }
+
+    .stats-grid > .stat-card .stat-info strong {
+        font-size: 22px;
+    }
+}
