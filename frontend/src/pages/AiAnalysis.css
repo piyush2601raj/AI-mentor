@@ -1602,3 +1602,44 @@ AIAnalysis-responsive.css
         padding-right: 16px;
     }
 }
+
+
+/* =========================================================
+   FINAL FIX — UNWANTED VERTICAL LINE ON AI ANALYSIS PAGE
+   Scoped to AI Analysis only; cards and roadmap timeline
+   styling remain unchanged.
+========================================================= */
+
+.ai-analysis-page,
+.ai-analysis-page .analysis-container {
+    position: relative;
+    isolation: isolate;
+}
+
+.ai-analysis-page::before,
+.ai-analysis-page::after,
+.ai-analysis-page .analysis-container::before,
+.ai-analysis-page .analysis-container::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* The Strengths / Skill Gaps grid must not draw a divider */
+.ai-analysis-page .analysis-grid {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background-image: none !important;
+    box-shadow: none;
+}
+
+.ai-analysis-page .analysis-grid::before,
+.ai-analysis-page .analysis-grid::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
