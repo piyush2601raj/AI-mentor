@@ -289,96 +289,77 @@ const [
 /* =====================================================
    STUDY TIME TRACKER
    -----------------------------------------------------
-   Counts only the time while this module page is visible.
-   Total seconds are stored locally so the Dashboard can
-   display the accumulated study time.
+   Counts time only while this module page is visible.
+   Persists accumulated seconds for the Dashboard.
    ===================================================== */
 
 const studyStartRef = useRef(null);
 
 const saveStudyTime = () => {
+    const startedAt = studyStartRef.current;
 
-    if (!studyStartRef.current) {
+    if (startedAt === null || document.hidden) {
         return;
     }
 
-    const elapsedSeconds =
-        Math.floor(
-            (Date.now() -
-                studyStartRef.current) / 1000
-        );
+    const now = Date.now();
+    const elapsedSeconds = Math.floor((now - startedAt) / 1000);
 
     if (elapsedSeconds <= 0) {
         return;
     }
 
-    const previousSeconds =
-        Number(
-            window.localStorage.getItem(
-                "aiMentorStudySeconds"
-            ) || 0
+    try {
+        const storedSeconds = Number(
+            window.localStorage.getItem("aiMentorStudySeconds") || 0
         );
 
-    window.localStorage.setItem(
-        "aiMentorStudySeconds",
-        String(
-            previousSeconds +
-            elapsedSeconds
-        )
-    );
+        const previousSeconds = Number.isFinite(storedSeconds)
+            ? Math.max(0, storedSeconds)
+            : 0;
 
-    studyStartRef.current =
-        Date.now();
+        window.localStorage.setItem(
+            "aiMentorStudySeconds",
+            String(previousSeconds + elapsedSeconds)
+        );
 
-    window.dispatchEvent(
-        new Event(
-            "study-time-updated"
-        )
-    );
+        // Reset the interval start only after the elapsed time is saved.
+        studyStartRef.current = now;
+
+        window.dispatchEvent(new Event("study-time-updated"));
+    } catch (error) {
+        console.warn("STUDY TIME SAVE ERROR:", error);
+    }
 };
 
 useEffect(() => {
-
     if (!moduleId) {
-        return;
+        return undefined;
     }
 
-    studyStartRef.current =
-        Date.now();
+    // Do not count time while the tab is already hidden.
+    studyStartRef.current = document.hidden ? null : Date.now();
 
-    const timer =
-        window.setInterval(
-            saveStudyTime,
-            15000
-        );
+    const timer = window.setInterval(() => {
+        saveStudyTime();
+    }, 15000);
 
-    const handleVisibilityChange =
-        () => {
+    const handleVisibilityChange = () => {
+        if (document.hidden) {
+            saveStudyTime();
+            studyStartRef.current = null;
+        } else {
+            // Start a fresh visible-time interval; do not count hidden time.
+            studyStartRef.current = Date.now();
+        }
+    };
 
-            if (document.hidden) {
-
-                saveStudyTime();
-
-                studyStartRef.current =
-                    null;
-
-            } else {
-
-                studyStartRef.current =
-                    Date.now();
-
-            }
-        };
-
-    document.addEventListener(
-        "visibilitychange",
-        handleVisibilityChange
-    );
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-
         window.clearInterval(timer);
 
+        // Save the final visible interval before leaving the module.
         saveStudyTime();
 
         document.removeEventListener(
@@ -386,12 +367,9 @@ useEffect(() => {
             handleVisibilityChange
         );
 
-        studyStartRef.current =
-            null;
+        studyStartRef.current = null;
     };
-
 }, [moduleId]);
-
 
 
 /* =====================================================
