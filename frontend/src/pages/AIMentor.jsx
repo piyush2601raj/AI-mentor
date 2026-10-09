@@ -7,7 +7,7 @@
  * Chat endpoint uses the controller /api/ai base path.
  * Existing mentor tools and AI functionality are preserved.
  * Recent Chat sessions are persisted in localStorage on the frontend.
- * New Chat clears only the active view; saved conversations remain.
+ * Deleted/cleared local sessions are not restored from legacy backend history.
  * Recent Chats can be deleted individually or cleared together.
  * Full-viewport responsive layout overrides are scoped to this page.
  * Existing chat behavior and backend contracts remain unchanged.
@@ -294,6 +294,17 @@ function AIMentor() {
 
                 setRecentChats(storedRecentChats);
 
+                /*
+                 * A deleted/cleared local history must not be rebuilt
+                 * from the backend's legacy full-history endpoint.
+                 * That endpoint has no conversation/session ID and
+                 * therefore cannot distinguish deleted UI sessions.
+                 */
+                const historyWasCleared =
+                    localStorage.getItem(
+                        `aiMentorHistoryCleared:${id}`
+                    ) === "true";
+
                 const response =
                     await api.get(
                         `/api/ai/chat/history/${id}`
@@ -308,7 +319,6 @@ function AIMentor() {
                  * Backend returns latest first.
                  * Chat UI needs oldest first.
                  */
-
                 const formattedMessages = [];
 
                 [...history]
@@ -316,52 +326,46 @@ function AIMentor() {
                     .forEach((chat) => {
 
                         if (chat.userMessage) {
-
                             formattedMessages.push({
-                                id:
-                                    `user-${chat.id}`,
+                                id: `user-${chat.id}`,
                                 role: "user",
-                                content:
-                                    chat.userMessage,
-                                createdAt:
-                                    chat.createdAt
+                                content: chat.userMessage,
+                                createdAt: chat.createdAt
                             });
-
                         }
 
                         if (chat.aiResponse) {
-
                             formattedMessages.push({
-                                id:
-                                    `ai-${chat.id}`,
+                                id: `ai-${chat.id}`,
                                 role: "assistant",
-                                content:
-                                    chat.aiResponse,
-                                createdAt:
-                                    chat.createdAt
+                                content: chat.aiResponse,
+                                createdAt: chat.createdAt
                             });
-
                         }
 
                     });
 
-                setMessages(
-                    formattedMessages
-                );
+                /*
+                 * Prefer the saved local session over the backend's
+                 * combined history. Otherwise old messages from
+                 * deleted sessions appear inside the current chat.
+                 */
+                const currentConversation =
+                    storedRecentChats[0] || null;
 
-                /*
-                 * The server currently returns the complete chat
-                 * history without a conversation/session id.
-                 * Keep it as the currently open conversation while
-                 * the frontend maintains separate recent sessions.
-                 */
-                /*
-                 * Reuse the most recent local session when one
-                 * already exists. This prevents duplicate Recent
-                 * Chat entries every time the page is refreshed.
-                 */
+                const initialMessages = currentConversation?.messages?.length
+                    ? currentConversation.messages
+                    : (
+                        storedRecentChats.length === 0 &&
+                        !historyWasCleared
+                            ? formattedMessages
+                            : []
+                    );
+
+                setMessages(initialMessages);
+
                 const currentConversationId =
-                    storedRecentChats[0]?.id ||
+                    currentConversation?.id ||
                     createConversationId();
 
                 setActiveConversationId(
@@ -369,12 +373,12 @@ function AIMentor() {
                 );
 
                 /*
-                 * If there is no locally stored session yet but the
-                 * server already has messages, preserve those messages
-                 * as a first Recent Chat entry.
+                 * Import legacy backend history only when the user
+                 * has not previously deleted/cleared local history.
                  */
                 if (
                     storedRecentChats.length === 0 &&
+                    !historyWasCleared &&
                     formattedMessages.length > 0
                 ) {
 
@@ -697,6 +701,18 @@ function AIMentor() {
                     studentId,
                     next
                 );
+
+                /*
+                 * If the last local conversation was deleted, remember
+                 * that choice so the legacy backend history cannot
+                 * recreate it when AI Mentor is reopened.
+                 */
+                if (next.length === 0) {
+                    localStorage.setItem(
+                        `aiMentorHistoryCleared:${studentId}`,
+                        "true"
+                    );
+                }
             }
 
             return next;
