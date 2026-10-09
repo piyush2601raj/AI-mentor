@@ -1307,10 +1307,7 @@ function Roadmap() {
 
 
         const moduleCompleted =
-            String(
-                module.status || ""
-            ).toUpperCase() ===
-            "COMPLETED";
+            isCompletedModule(module);
 
 
         const moduleUnlocked =
@@ -2222,51 +2219,41 @@ function Roadmap() {
     // PROGRESS CALCULATION
     // =====================================================
 
-    const totalModules =
-        progress?.totalModules ??
-        modules.length;
+    // Prefer actual module completion states over stale aggregate progress.
+    const hasModuleRecords = Array.isArray(modules) && modules.length > 0;
 
-
-    const completedModules =
-        progress?.completedModules ??
-        modules.filter(
-            module =>
-                module.status ===
-                "COMPLETED"
-        ).length;
-
-
-    const remainingModules =
-        progress?.remainingModules ??
-        Math.max(
-            totalModules -
-            completedModules,
+    const isCompletedModule = (module) => {
+        const status = String(module?.status || "").trim().toUpperCase();
+        const percentage = Number(
+            module?.progress ??
+            module?.progressPercentage ??
+            module?.completionPercentage ??
             0
         );
 
+        return status === "COMPLETED" ||
+            status === "DONE" ||
+            (Number.isFinite(percentage) && percentage >= 100);
+    };
 
-    const progressPercentage =
-        progress?.progressPercentage ??
-        (
-            totalModules > 0
-                ? Math.round(
-                    (
-                        completedModules /
-                        totalModules
-                    ) * 100
-                )
-                : 0
+    const totalModules = hasModuleRecords
+        ? modules.length
+        : Math.max(0, Number(progress?.totalModules) || 0);
+
+    const completedModules = hasModuleRecords
+        ? modules.filter(isCompletedModule).length
+        : Math.min(
+            totalModules,
+            Math.max(0, Number(progress?.completedModules) || 0)
         );
 
+    const remainingModules = Math.max(0, totalModules - completedModules);
 
-    const safeProgress =
-        Math.min(
-            Math.max(
-                Number(progressPercentage) || 0,
-                0
-            ),
-            100
-        );
+    const progressPercentage = totalModules > 0
+        ? Math.round((completedModules / totalModules) * 100)
+        : 0;
+
+    const safeProgress = Math.min(100, Math.max(0, progressPercentage));
 
 
     // =====================================================
@@ -2291,11 +2278,7 @@ function Roadmap() {
 
     const firstIncompleteModuleIndex =
         sortedModules.findIndex(
-            module =>
-                String(
-                    module.status || ""
-                ).toUpperCase() !==
-                "COMPLETED"
+            module => !isCompletedModule(module)
         );
 
 

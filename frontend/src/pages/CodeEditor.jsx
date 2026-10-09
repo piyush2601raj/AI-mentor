@@ -303,44 +303,129 @@ export default function CodeEditor() {
     const handleRunCode = async () => {
 
         if (!code.trim()) {
-
-            setOutput(
-                "Please write some code before running the program."
-            );
-
+            setOutput("Please write some code before running the program.");
             setStatus("No code");
-
             setActivePanel("output");
+            return;
+        }
 
+        if (language === "SQL") {
+            setOutput(
+                "SQL execution is not available in this code runner yet. " +
+                "A database connection and SQL execution endpoint are required."
+            );
+            setStatus("Unsupported language");
+            setActivePanel("output");
+            return;
+        }
+
+        const pistonLanguageMap = {
+            Java: "java",
+            Python: "python",
+            JavaScript: "javascript",
+            "C++": "c++",
+            C: "c"
+        };
+        const runtimeLanguage = pistonLanguageMap[language];
+
+        if (!runtimeLanguage) {
+            setOutput(`Execution is not configured for ${language}.`);
+            setStatus("Unsupported language");
+            setActivePanel("output");
             return;
         }
 
         setIsRunning(true);
-
         setStatus("Running...");
-
         setActivePanel("output");
+        setOutput(`Submitting ${language} program to the execution service...`);
 
-        setOutput(
-            `Preparing ${language} execution...\n\n` +
-            `Workspace ready.\n` +
-            `Code execution API is not connected yet.\n\n` +
-            `Your ${language} code has been validated locally and is ready to be connected to the backend execution service.`
-        );
+        try {
+            const runtimesResponse = await fetch(
+                "https://emkc.org/api/v2/piston/runtimes"
+            );
 
-        /*
-         * IMPORTANT:
-         * Actual execution should be connected here
-         * when the backend code-execution API exists.
-         */
+            if (!runtimesResponse.ok) {
+                throw new Error(`Runtime service returned HTTP ${runtimesResponse.status}.`);
+            }
 
-        setTimeout(() => {
+            const runtimes = await runtimesResponse.json();
+            const runtime = runtimes
+                .filter(item => item.language === runtimeLanguage)
+                .sort((a, b) =>
+                    String(b.version || "").localeCompare(String(a.version || ""), undefined, {
+                        numeric: true
+                    })
+                )[0];
 
+            if (!runtime) {
+                throw new Error(`No runtime is currently available for ${language}.`);
+            }
+
+            const payload = {
+                language: runtime.language,
+                version: runtime.version,
+                files: [{ name: `main.${meta.extension}`, content: code }],
+                stdin: "",
+                args: [],
+                compile_timeout: 10000,
+                run_timeout: 5000,
+                compile_memory_limit: -1,
+                run_memory_limit: -1
+            };
+
+            const executionResponse = await fetch(
+                "https://emkc.org/api/v2/piston/execute",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }
+            );
+
+            const result = await executionResponse.json().catch(() => ({}));
+
+            if (!executionResponse.ok) {
+                throw new Error(
+                    result.message || `Execution service returned HTTP ${executionResponse.status}.`
+                );
+            }
+
+            const compileOutput = result.compile?.output || "";
+            const runOutput = result.run?.output || "";
+            const compileError = result.compile?.stderr || "";
+            const runError = result.run?.stderr || "";
+            const exitCode = result.run?.code;
+
+            const combinedOutput = [
+                compileOutput.trim(),
+                compileError.trim(),
+                runOutput.trim(),
+                runError.trim(),
+                Number.isInteger(exitCode) && exitCode !== 0
+                    ? `Program exited with code ${exitCode}.`
+                    : ""
+            ].filter(Boolean).join("\\n");
+
+            setOutput(
+                combinedOutput ||
+                (exitCode === 0
+                    ? "Program executed successfully with no output."
+                    : "Execution finished, but the service returned no output.")
+            );
+            setStatus(exitCode === 0 ? "Executed successfully" : "Execution finished");
+        } catch (error) {
+            console.error("Code execution failed:", error);
+            setOutput(
+                "Could not execute the program. " +
+                (error?.message || "The execution service may be unavailable.") +
+                "\\n\\nCheck your internet connection and try again. " +
+                "If this persists in production, connect a server-side execution endpoint."
+            );
+            setStatus("Execution failed");
+        } finally {
             setIsRunning(false);
-
-            setStatus("Ready");
-
-        }, 700);
+        }
     };
 
     /* =====================================================

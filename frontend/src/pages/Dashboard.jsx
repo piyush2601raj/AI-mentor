@@ -1457,9 +1457,16 @@ function Dashboard() {
                                 summary.totalModules > 0 &&
                                 summary.completedModules ===
                                     summary.totalModules
-                            )
-                                ? "Roadmap completed"
-                                : previous.continueModule,
+                                    ? "Roadmap completed"
+                                    : ""
+                            ) ||
+                            (
+                                summary.totalModules > 0 &&
+                                summary.completedModules <
+                                    summary.totalModules
+                                    ? "Continue learning"
+                                    : previous.continueModule
+                            ),
 
                         continueDescription:
                             currentModuleDescription ||
