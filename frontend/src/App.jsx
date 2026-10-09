@@ -56,6 +56,7 @@ import Projects from "./pages/Projects";
 import Resources from "./pages/Resources";
 import CodeEditor from "./pages/CodeEditor";
 import Notes from "./pages/Notes";
+import Flashcards from "./pages/Flashcards";
 
 // =====================================================
 // LAYOUT
@@ -371,6 +372,21 @@ function App() {
                         <ProtectedRoute>
                             <Layout>
                                 <Notes />
+                            </Layout>
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* =================================================
+                    FLASHCARDS
+                ================================================= */}
+
+                <Route
+                    path="/flashcards"
+                    element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <Flashcards />
                             </Layout>
                         </ProtectedRoute>
                     }
