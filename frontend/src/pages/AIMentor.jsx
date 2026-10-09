@@ -350,37 +350,18 @@ function AIMentor() {
                  * combined history. Otherwise old messages from
                  * deleted sessions appear inside the current chat.
                  */
-                const currentConversation =
-                    storedRecentChats[0] || null;
-
-                const initialMessages = currentConversation?.messages?.length
-                    ? currentConversation.messages
-                    : (
-                        storedRecentChats.length === 0 &&
-                        !historyWasCleared
-                            ? formattedMessages
-                            : []
-                    );
-
-                setMessages(initialMessages);
-
-                const currentConversationId =
-                    currentConversation?.id ||
-                    createConversationId();
-
-                setActiveConversationId(
-                    currentConversationId
-                );
-
                 /*
-                 * Import legacy backend history only when the user
-                 * has not previously deleted/cleared local history.
+                 * Import legacy backend history into Recent Chats when
+                 * no local sessions exist. Do not load that history into
+                 * the active chat: opening AI Mentor should start blank.
                  */
                 if (
                     storedRecentChats.length === 0 &&
                     !historyWasCleared &&
                     formattedMessages.length > 0
                 ) {
+                    const legacyConversationId =
+                        createConversationId();
 
                     const preview =
                         buildConversationPreview(
@@ -388,7 +369,7 @@ function AIMentor() {
                         );
 
                     const serverConversation = {
-                        id: currentConversationId,
+                        id: legacyConversationId,
                         title: preview.title,
                         preview: preview.preview,
                         messageCount: preview.messageCount,
@@ -396,15 +377,20 @@ function AIMentor() {
                         messages: formattedMessages
                     };
 
-                    setRecentChats([
-                        serverConversation
-                    ]);
+                    setRecentChats([serverConversation]);
 
                     persistRecentChats(
                         id,
                         [serverConversation]
                     );
                 }
+
+                // Always start with a clean active conversation.
+                setMessages([]);
+                setInput("");
+                setError("");
+                setSelectedTool(null);
+                setActiveConversationId(createConversationId());
 
                 setHistoryReady(true);
 
@@ -644,6 +630,28 @@ function AIMentor() {
         setSelectedTool(null);
 
     };
+
+    /*
+     * Sidebar can dispatch this event when AI Mentor is clicked,
+     * including when the user is already on the AI Mentor route.
+     */
+    useEffect(() => {
+        const startFreshChat = () => {
+            handleNewChat();
+        };
+
+        window.addEventListener(
+            "ai-mentor-start-fresh-chat",
+            startFreshChat
+        );
+
+        return () => {
+            window.removeEventListener(
+                "ai-mentor-start-fresh-chat",
+                startFreshChat
+            );
+        };
+    }, []);
 
 
     /* =====================================================
