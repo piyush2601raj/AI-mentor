@@ -59,8 +59,8 @@ function StudentSkill() {
                 skillsResponse,
                 selectedSkillsResponse
             ] = await Promise.all([
-                api.get("/api/skills"),
-                api.get("/api/students/me/skills")
+                api.get("/skills"),
+                api.get("/students/me/skills")
             ]);
 
             setSkills(
@@ -195,7 +195,7 @@ function StudentSkill() {
             setSuccess("");
 
             const response = await api.post(
-                "/api/students/me/skills",
+                "/students/me/skills",
                 null,
                 {
                     params: {
@@ -284,7 +284,7 @@ function StudentSkill() {
             setSuccess("");
 
             const response = await api.put(
-                `/api/students/me/skills/${skillId}`,
+                `/students/me/skills/${skillId}`,
                 null,
                 {
                     params: {
@@ -366,7 +366,7 @@ function StudentSkill() {
             setSuccess("");
 
             await api.delete(
-                `/api/students/me/skills/${skillId}`
+                `/students/me/skills/${skillId}`
             );
 
             setSelectedSkills((previous) =>
