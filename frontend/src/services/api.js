@@ -8,7 +8,9 @@ const configuredBaseURL =
     import.meta.env.VITE_API_URL ||
     "https://ai-mentor-production-debb.up.railway.app";
 
-const normalizedBaseURL = configuredBaseURL.replace(/\/+$/, "");
+const normalizedBaseURL = configuredBaseURL
+    .trim()
+    .replace(/\/+$/, "");
 
 const apiBaseURL = normalizedBaseURL.endsWith("/api")
     ? normalizedBaseURL
@@ -28,33 +30,48 @@ const api = axios.create({
 console.log("🌐 API Base URL:", apiBaseURL);
 
 // =====================================================
-// PUBLIC AUTH ENDPOINTS
-// =====================================================
-
-const PUBLIC_AUTH_ENDPOINTS = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/reset-password",
-];
-
-const isPublicAuthEndpoint = (url = "") => {
-    const cleanUrl = url.split("?")[0];
-
-    return PUBLIC_AUTH_ENDPOINTS.some((endpoint) =>
-        cleanUrl.endsWith(endpoint)
-    );
-};
-
-// =====================================================
-// ATTACH JWT TOKEN
+// NORMALIZE API PATH
+// Removes duplicate /api prefix from request paths.
+// Example: /api/skills -> /skills
 // =====================================================
 
 api.interceptors.request.use(
     (config) => {
-        const url = config.url || "";
+        let url = config.url || "";
 
-        // Public authentication requests do not require JWT.
-        if (isPublicAuthEndpoint(url)) {
+        // Keep absolute URLs unchanged.
+        if (/^https?:\/\//i.test(url)) {
+            return config;
+        }
+
+        // Remove duplicate /api prefixes from relative paths.
+        url = url.replace(/^(?:\/api)+(?=\/|$)/, "");
+
+        // Ensure the URL starts with a slash.
+        if (url && !url.startsWith("/")) {
+            url = `/${url}`;
+        }
+
+        config.url = url;
+
+        // =================================================
+        // PUBLIC AUTH ENDPOINTS
+        // =================================================
+
+        const PUBLIC_AUTH_ENDPOINTS = [
+            "/auth/login",
+            "/auth/register",
+            "/auth/reset-password",
+        ];
+
+        const cleanUrl = url.split("?")[0];
+
+        const isPublicAuthEndpoint =
+            PUBLIC_AUTH_ENDPOINTS.some((endpoint) =>
+                cleanUrl.endsWith(endpoint)
+            );
+
+        if (isPublicAuthEndpoint) {
             if (config.headers?.Authorization) {
                 delete config.headers.Authorization;
             }
@@ -64,7 +81,10 @@ api.interceptors.request.use(
             return config;
         }
 
-        // Read JWT from available localStorage keys.
+        // =================================================
+        // ATTACH JWT TOKEN
+        // =================================================
+
         let token =
             localStorage.getItem("token") ||
             localStorage.getItem("jwtToken") ||
@@ -72,11 +92,10 @@ api.interceptors.request.use(
 
         if (!token) {
             console.warn("⚠️ No JWT token found for:", url);
-
             return config;
         }
 
-        // Support both plain JWT strings and JSON-stored tokens.
+        // Support plain JWT strings and JSON-stored tokens.
         try {
             const parsedToken = JSON.parse(token);
 
@@ -106,6 +125,11 @@ api.interceptors.request.use(
             console.log("🔐 JWT attached:", url);
         }
 
+        console.log(
+            "🌐 Final API request:",
+            `${config.baseURL}${url}`
+        );
+
         return config;
     },
     (error) => Promise.reject(error)
@@ -118,10 +142,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const status = error.response?.status;
+        const url = error.config?.url;
+
+        if (status === 401) {
             console.error(
                 "❌ 401 UNAUTHORIZED:",
-                error.config?.url
+                url
             );
 
             console.error(
@@ -129,21 +156,23 @@ api.interceptors.response.use(
             );
         }
 
-        if (error.response?.status === 403) {
+        if (status === 403) {
             console.error(
                 "❌ 403 FORBIDDEN:",
-                error.config?.url
+                url
             );
         }
 
-        if (error.response?.status === 404) {
+        if (status === 404) {
             console.error(
                 "❌ 404 ENDPOINT NOT FOUND:",
-                error.config?.url
+                error.config?.baseURL
+                    ? `${error.config.baseURL}${url || ""}`
+                    : url
             );
 
             console.error(
-                "Check the API URL and backend controller mapping."
+                "Check the backend controller mapping."
             );
         }
 
