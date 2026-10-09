@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import api from "../services/api";
 import "./CodeEditor.css";
 
 /* =====================================================
@@ -301,7 +302,6 @@ export default function CodeEditor() {
     ===================================================== */
 
     const handleRunCode = async () => {
-
         if (!code.trim()) {
             setOutput("Please write some code before running the program.");
             setStatus("No code");
@@ -312,23 +312,24 @@ export default function CodeEditor() {
         if (language === "SQL") {
             setOutput(
                 "SQL execution is not available in this code runner yet. " +
-                "A database connection and SQL execution endpoint are required."
+                "A separate, safely configured SQL execution service is required."
             );
             setStatus("Unsupported language");
             setActivePanel("output");
             return;
         }
 
-        const pistonLanguageMap = {
-            Java: "java",
-            Python: "python",
-            JavaScript: "javascript",
-            "C++": "c++",
-            C: "c"
+        const languageIdMap = {
+            Java: 62,
+            Python: 71,
+            JavaScript: 63,
+            "C++": 54,
+            C: 50
         };
-        const runtimeLanguage = pistonLanguageMap[language];
 
-        if (!runtimeLanguage) {
+        const languageId = languageIdMap[language];
+
+        if (!languageId) {
             setOutput(`Execution is not configured for ${language}.`);
             setStatus("Unsupported language");
             setActivePanel("output");
@@ -336,91 +337,106 @@ export default function CodeEditor() {
         }
 
         setIsRunning(true);
-        setStatus("Running...");
+        setStatus("Submitting...");
         setActivePanel("output");
         setOutput(`Submitting ${language} program to the execution service...`);
 
         try {
-            const runtimesResponse = await fetch(
-                "https://emkc.org/api/v2/piston/runtimes"
-            );
+            const submissionResponse = await api.post("/api/code/execute", {
+                source_code: code,
+                language_id: languageId,
+                stdin: ""
+            });
 
-            if (!runtimesResponse.ok) {
-                throw new Error(`Runtime service returned HTTP ${runtimesResponse.status}.`);
-            }
+            const token = submissionResponse.data?.token;
 
-            const runtimes = await runtimesResponse.json();
-            const runtime = runtimes
-                .filter(item => item.language === runtimeLanguage)
-                .sort((a, b) =>
-                    String(b.version || "").localeCompare(String(a.version || ""), undefined, {
-                        numeric: true
-                    })
-                )[0];
-
-            if (!runtime) {
-                throw new Error(`No runtime is currently available for ${language}.`);
-            }
-
-            const payload = {
-                language: runtime.language,
-                version: runtime.version,
-                files: [{ name: `main.${meta.extension}`, content: code }],
-                stdin: "",
-                args: [],
-                compile_timeout: 10000,
-                run_timeout: 5000,
-                compile_memory_limit: -1,
-                run_memory_limit: -1
-            };
-
-            const executionResponse = await fetch(
-                "https://emkc.org/api/v2/piston/execute",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                }
-            );
-
-            const result = await executionResponse.json().catch(() => ({}));
-
-            if (!executionResponse.ok) {
+            if (!token) {
                 throw new Error(
-                    result.message || `Execution service returned HTTP ${executionResponse.status}.`
+                    submissionResponse.data?.message ||
+                    "The backend did not return a submission token. Verify the execution endpoint."
                 );
             }
 
-            const compileOutput = result.compile?.output || "";
-            const runOutput = result.run?.output || "";
-            const compileError = result.compile?.stderr || "";
-            const runError = result.run?.stderr || "";
-            const exitCode = result.run?.code;
+            let result = null;
+            const maxAttempts = 25;
 
-            const combinedOutput = [
-                compileOutput.trim(),
-                compileError.trim(),
-                runOutput.trim(),
-                runError.trim(),
-                Number.isInteger(exitCode) && exitCode !== 0
-                    ? `Program exited with code ${exitCode}.`
-                    : ""
-            ].filter(Boolean).join("\\n");
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                setStatus("Running...");
+                setOutput(`Running ${language} program...`);
+
+                await new Promise(resolve => setTimeout(resolve, 1200));
+
+                const resultResponse = await api.get(
+                    `/api/code/result/${encodeURIComponent(token)}`
+                );
+
+                result = resultResponse.data;
+
+                const statusId = result?.status?.id;
+
+                if (statusId !== 1 && statusId !== 2) {
+                    break;
+                }
+            }
+
+            if (
+                !result ||
+                result.status?.id === 1 ||
+                result.status?.id === 2
+            ) {
+                setStatus("Still processing");
+                setOutput(
+                    "The program is still processing. Please run it again shortly to check the result."
+                );
+                return;
+            }
+
+            const sections = [];
+
+            if (result.stdout?.trim()) {
+                sections.push(result.stdout.trim());
+            }
+
+            if (result.compile_output?.trim()) {
+                sections.push(`Compilation output:\n${result.compile_output.trim()}`);
+            }
+
+            if (result.stderr?.trim()) {
+                sections.push(`Error output:\n${result.stderr.trim()}`);
+            }
+
+            if (result.message?.trim()) {
+                sections.push(result.message.trim());
+            }
+
+            const description =
+                result.status?.description || "Execution finished";
 
             setOutput(
-                combinedOutput ||
-                (exitCode === 0
+                sections.join("\n\n") ||
+                (description === "Accepted"
                     ? "Program executed successfully with no output."
-                    : "Execution finished, but the service returned no output.")
+                    : `Execution finished: ${description}`)
             );
-            setStatus(exitCode === 0 ? "Executed successfully" : "Execution finished");
+
+            setStatus(
+                description === "Accepted"
+                    ? "Executed successfully"
+                    : description
+            );
         } catch (error) {
             console.error("Code execution failed:", error);
+
+            const message =
+                error.response?.data?.details ||
+                error.response?.data?.message ||
+                error.response?.data?.error ||
+                error.message ||
+                "The execution service is unavailable.";
+
             setOutput(
-                "Could not execute the program. " +
-                (error?.message || "The execution service may be unavailable.") +
-                "\\n\\nCheck your internet connection and try again. " +
-                "If this persists in production, connect a server-side execution endpoint."
+                `Could not execute the program.\n\n${message}\n\n` +
+                "Check the backend endpoint, Judge0 configuration, and server logs."
             );
             setStatus("Execution failed");
         } finally {
