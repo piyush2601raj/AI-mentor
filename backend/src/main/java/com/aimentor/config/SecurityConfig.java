@@ -250,6 +250,22 @@ public class SecurityConfig {
                         ).authenticated()
 
                         // -------------------------------------------------
+                        // CODE EXECUTION
+                        // Public endpoints used by the Code Editor.
+                        // Keep these before .anyRequest().authenticated().
+                        // -------------------------------------------------
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/code/execute"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/code/result/**"
+                        ).permitAll()
+
+                        // -------------------------------------------------
                         // EVERYTHING ELSE
                         // -------------------------------------------------
 
