@@ -1148,3 +1148,23 @@
 .login-page .login-error{display:flex;align-items:flex-start;gap:10px}
 @media (max-width:900px){.login-page .login-brand-panel{display:none}.login-page .login-form-section{width:100%;min-height:100vh}.login-page .login-card{width:min(100%,520px)}}
 @media (max-width:520px){.login-page .social-buttons{grid-template-columns:1fr}.login-page .login-card{border-radius:20px}}
+
+
+/* GitHub logo: use the actual mark instead of the placeholder dot */
+.login-page .github-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 20px;
+  color: #111827;
+  line-height: 0;
+}
+
+.login-page .github-icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
