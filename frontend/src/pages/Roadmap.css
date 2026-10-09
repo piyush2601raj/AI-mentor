@@ -6364,3 +6364,60 @@
     align-items: flex-start !important;
   }
 }
+
+
+/* =========================================================
+   FINAL FIX — REMOVE ROADMAP TIMELINE VERTICAL CONNECTORS
+   Keeps module cards, numbered dots, spacing and interactions.
+   This must remain at the VERY END of Roadmap.css.
+========================================================= */
+
+/* Legacy roadmap module timeline */
+.roadmap-page .roadmap-timeline::before,
+.roadmap-page .roadmap-timeline::after,
+.roadmap-page .roadmap-module::before,
+.roadmap-page .roadmap-module::after,
+.roadmap-page .timeline-side::before,
+.roadmap-page .timeline-side::after,
+.roadmap-page .timeline-line,
+.roadmap-page .timeline-line::before,
+.roadmap-page .timeline-line::after,
+
+/* Personalized learning path timeline */
+.professional-roadmap .learning-timeline::before,
+.professional-roadmap .learning-timeline::after,
+.professional-roadmap .learning-step::before,
+.professional-roadmap .learning-step::after,
+.professional-roadmap .learning-step-side::before,
+.professional-roadmap .learning-step-side::after,
+.professional-roadmap .learning-step-dot::before,
+.professional-roadmap .learning-step-dot::after,
+.professional-roadmap .timeline-line,
+.professional-roadmap .timeline-line::before,
+.professional-roadmap .timeline-line::after {
+    content: none !important;
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove connector styling on the timeline columns only. */
+.roadmap-page .timeline-side,
+.professional-roadmap .learning-step-side {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.roadmap-page .roadmap-timeline,
+.professional-roadmap .learning-timeline {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background-image: none !important;
+}
